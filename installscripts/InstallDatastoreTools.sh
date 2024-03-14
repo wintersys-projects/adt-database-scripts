@@ -20,12 +20,7 @@
 #######################################################################################################
 #set -x
 
-if ( [ "${1}" != "" ] )
-then
-    BUILDOS="${1}"
-else 
-    BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
-fi
+BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
