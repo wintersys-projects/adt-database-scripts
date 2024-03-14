@@ -33,32 +33,36 @@ else
     BUILDOS="${buildos}"
 fi
 
-if ( [ "${BUILDOS}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-    /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=60  -qq -y install mariadb-client 
-    
-    if ( [ -f /usr/bin/mysql ] )
+    if ( [ "${BUILDOS}" = "ubuntu" ] )
     then
-        /bin/rm /usr/bin/mysql
-    fi
+        version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+        /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=60  -qq -y install mariadb-client 
     
-    /bin/ln -s /usr/bin/mariadb /usr/bin/mysql
-fi
+        if ( [ -f /usr/bin/mysql ] )
+        then
+            /bin/rm /usr/bin/mysql
+        fi
+    
+        /bin/ln -s /usr/bin/mariadb /usr/bin/mysql
+    fi
 
-if ( [ "${BUILDOS}" = "debian" ] )
-then
-    version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-    /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=60  -qq -y install mariadb-client 
-    
-    if ( [ -f /usr/bin/mysql ] )
+    if ( [ "${BUILDOS}" = "debian" ] )
     then
+        version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+        /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=60  -qq -y install mariadb-client 
+    
+        if ( [ -f /usr/bin/mysql ] )
+        then
+            /bin/rm /usr/bin/mysql
+        fi
+        
         /bin/rm /usr/bin/mysql
+        /bin/rm /usr/bin/mysqldump
+        /bin/ln -s /usr/bin/mariadb /usr/bin/mysql
+        /bin/ln -s /usr/bin/mariadb-dump /usr/bin/mysqldump
     fi
-    /bin/rm /usr/bin/mysql
-    /bin/rm /usr/bin/mysqldump
-    /bin/ln -s /usr/bin/mariadb /usr/bin/mysql
-    /bin/ln -s /usr/bin/mariadb-dump /usr/bin/mysqldump
 fi
