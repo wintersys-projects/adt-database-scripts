@@ -35,24 +35,27 @@ fi
 
 BUILDOSVERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOSVERSION'`"
 
-if ( [ "${BUILDOS}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
-    mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
-    /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
-    DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
-    /bin/rm ${mysql_apt_config}
-    ${HOME}/installscripts/Update.sh ${BUILDOS}
-    DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=-1 -qq -y install mysql-server
-fi
+    if ( [ "${BUILDOS}" = "ubuntu" ] )
+    then
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
+        mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
+        /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
+        DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
+        /bin/rm ${mysql_apt_config}
+        ${HOME}/installscripts/Update.sh ${BUILDOS}
+        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=-1 -qq -y install mysql-server
+    fi
 
-if ( [ "${BUILDOS}" = "debian" ] )
-then    
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
-    mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
-    /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
-    DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
-    /bin/rm ${mysql_apt_config}
-    ${HOME}/installscripts/Update.sh ${BUILDOS}
-    DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=-1 -qq -y install mysql-server
+    if ( [ "${BUILDOS}" = "debian" ] )
+    then    
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
+        mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
+        /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
+        DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
+        /bin/rm ${mysql_apt_config}
+        ${HOME}/installscripts/Update.sh ${BUILDOS}
+        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=-1 -qq -y install mysql-server
+    fi
 fi
