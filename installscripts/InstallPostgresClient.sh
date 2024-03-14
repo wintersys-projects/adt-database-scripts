@@ -25,10 +25,10 @@ then
     buildos="${1}"
 fi
 
-if ( [ "${BUILDOS}" = "" ] )
+if ( [ "${buildos}" = "" ] )
 then
     BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
-then
+else
     BUILDOS="${buildos}"
 fi
 
