@@ -33,28 +33,31 @@ else
     BUILDOS="${buildos}"
 fi
 
-if ( [ "${BUILDOS}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-    /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install mariadb-server 
+    if ( [ "${BUILDOS}" = "ubuntu" ] )
+    then
+        version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+        /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install mariadb-server 
 
-    /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
-    /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+        /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+        /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
     
-    /usr/bin/systemctl start mariadb
-    /usr/bin/systemctl enable mariadb
-fi
+        /usr/bin/systemctl start mariadb
+        /usr/bin/systemctl enable mariadb
+    fi
 
-if ( [ "${BUILDOS}" = "debian" ] )
-then
-    version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-    /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install mariadb-server
+    if ( [ "${BUILDOS}" = "debian" ] )
+    then
+        version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+        /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${version}"
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install mariadb-server
 
-    /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
-    /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+        /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+        /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf
     
-    /usr/bin/systemctl start mariadb
-    /usr/bin/systemctl enable mariadb
+        /usr/bin/systemctl start mariadb
+        /usr/bin/systemctl enable mariadb
+    fi
 fi
