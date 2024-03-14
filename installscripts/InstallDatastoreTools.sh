@@ -20,8 +20,6 @@
 #######################################################################################################
 #set -x
 
-BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
-
 if ( [ "${1}" != "" ] )
 then
     BUILDOS="${1}"
