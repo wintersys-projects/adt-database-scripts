@@ -52,7 +52,7 @@ then
         ip_mask="`/bin/echo ${webserverip} | /usr/bin/cut -d "." -f -2`.%.%"
         ip_mask="`/bin/echo ${ip_mask} | /bin/sed 's/%/0/g'`"
 
-        if ( [ "`/bin/grep "${DB_N} ${postgres_config} | /bin/grep ${ip_mask}`" = "" ] )
+        if ( [ "`/bin/grep ${DB_N} ${postgres_config} | /bin/grep ${ip_mask}`" = "" ] )
         then
             ip_mask="`/bin/echo ${webserverip} | /usr/bin/cut -d "." -f -2`"
             /bin/echo "host       ${DB_N}              ${DB_U}            ${ip_mask}.0.0/0          md5" >> ${postgres_config}
