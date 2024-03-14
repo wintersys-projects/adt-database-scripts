@@ -1,0 +1,2 @@
+This directory contains all scripts to do with installation and initialisation of database instances. 
+Once these scripts have run, you will have an empty and initialised database, ready for use. 
