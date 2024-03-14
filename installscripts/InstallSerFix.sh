@@ -25,24 +25,27 @@ then
     buildos="${1}"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    /bin/mkdir ${HOME}/serfix
-    cd ${HOME}/serfix
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  install -qq -y zip
-    /usr/bin/wget https://github.com/astockwell/serfix/releases/download/v0.2.0/serfix_0.2.0_linux_amd64.zip
-    /usr/bin/unzip serfix_0.2.0_linux_amd64.zip
-    /bin/mv serfix_0.2.0_linux_amd64 /usr/local/bin/serfix
-    /bin/chmod 755 /usr/local/bin/serfix
-fi
+    if ( [ "${buildos}" = "ubuntu" ] )
+    then
+        /bin/mkdir ${HOME}/serfix
+        cd ${HOME}/serfix
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  install -qq -y zip
+        /usr/bin/wget https://github.com/astockwell/serfix/releases/download/v0.2.0/serfix_0.2.0_linux_amd64.zip
+        /usr/bin/unzip serfix_0.2.0_linux_amd64.zip
+        /bin/mv serfix_0.2.0_linux_amd64 /usr/local/bin/serfix
+        /bin/chmod 755 /usr/local/bin/serfix
+    fi
 
-if ( [ "${buildos}" = "debian" ] )
-then
-    /bin/mkdir ${HOME}/serfix
-    cd ${HOME}/serfix
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -qq -y zip
-    /usr/bin/wget https://github.com/astockwell/serfix/releases/download/v0.2.0/serfix_0.2.0_linux_amd64.zip
-    /usr/bin/unzip serfix_0.2.0_linux_amd64.zip
-    /bin/mv serfix_0.2.0_linux_amd64 /usr/local/bin/serfix
-    /bin/chmod 755 /usr/local/bin/serfix
+    if ( [ "${buildos}" = "debian" ] )
+    then
+        /bin/mkdir ${HOME}/serfix
+        cd ${HOME}/serfix
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -qq -y zip
+        /usr/bin/wget https://github.com/astockwell/serfix/releases/download/v0.2.0/serfix_0.2.0_linux_amd64.zip
+        /usr/bin/unzip serfix_0.2.0_linux_amd64.zip
+        /bin/mv serfix_0.2.0_linux_amd64 /usr/local/bin/serfix
+        /bin/chmod 755 /usr/local/bin/serfix
+    fi
 fi
