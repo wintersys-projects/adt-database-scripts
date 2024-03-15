@@ -35,27 +35,36 @@ fi
 BUILDOSVERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOSVERSION'`"
 DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
 
+apt=""
 if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
+then
+    apt="/usr/bin/apt-get"
+elif ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+then
+    apt="/usr/sbin/apt-fast"
+fi
+
+if ( [ "${apt}" != "" ] )
 then
     if ( [ "${BUILDOS}" = "ubuntu" ] )
     then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
         mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
         /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
         DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
         /bin/rm ${mysql_apt_config}
         ${HOME}/installscripts/Update.sh ${BUILDOS}
-        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=69 -qq -y install mysql-client
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=69 -qq -y install mysql-client
     fi
 
     if ( [ "${BUILDOS}" = "debian" ] )
     then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install gnupg
         mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
         /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
         DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
         /bin/rm ${mysql_apt_config}
         ${HOME}/installscripts/Update.sh ${BUILDOS}
-        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
     fi
 fi
