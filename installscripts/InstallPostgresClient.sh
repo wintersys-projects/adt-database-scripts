@@ -34,7 +34,16 @@ fi
 
 BUILDOSVERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOSVERSION'`"
 
+apt=""
 if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
+then
+    apt="/usr/bin/apt-get"
+elif ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+then
+    apt="/usr/sbin/apt-fast"
+fi
+
+if ( [ "${apt}" != "" ] )
 then
     if ( [ "${BUILDOS}" = "ubuntu" ] )
     then
@@ -42,7 +51,7 @@ then
         /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc
         /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list
         ${HOME}/installscripts/Update.sh ${BUILDOS}
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -y install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
     fi
 
     if ( [ "${BUILDOS}" = "debian" ] )
@@ -51,7 +60,7 @@ then
         /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc
         /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list
         ${HOME}/installscripts/Update.sh ${BUILDOS}
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -y install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
     fi
 fi
 
