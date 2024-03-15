@@ -38,12 +38,12 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        DEBIAN_FRONTEND=noninteractive  ${apt} -o DPkg::Lock::Timeout=-1 -qq install sysstat
+        DEBIAN_FRONTEND=noninteractive  ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install sysstat
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq install sysstat
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install sysstat
     fi
 fi
 
