@@ -38,12 +38,12 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 install -qq software-properties-common
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 install -qq -y software-properties-common
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 install -qq software-properties-common
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 install -qq -y software-properties-common
     fi
 fi
 
