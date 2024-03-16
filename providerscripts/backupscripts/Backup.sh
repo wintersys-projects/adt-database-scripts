@@ -150,10 +150,7 @@ fi
 /bin/rm ${HOME}/backups/${period}/*
 /bin/rm -r ${HOME}/.git
 
-if ( [ "${period}" = "hourly" ] && [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DISABLEHOURLY:1`" = "1" ] )
-then
-    /bin/echo "${0} `/bin/date`: Skipping repository creation because hourly backups are disabled" >> ${HOME}/logs/backups/OPERATIONAL_MONITORING.log
-elif ( [ "${period}" = "manual" ] )
+if ( [ "${period}" = "manual" ] )
 then
     if ( [ ! -d /tmp/backup_archive ] )
     then
@@ -197,34 +194,24 @@ DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DATA
 inconsistentbackup="0"
 if ( [ "${SUPERSAFE_DB}" = "1" ]  || [ "${SUPERSAFE_DB}" = "2" ] )
 then
-    if ( [ "${period}" = "hourly" ] && [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DISABLEHOURLY:1`" = "1" ] )
-    then
-        /bin/echo "${0} `/bin/date`: Skipping hourly backup because hourly backups are disabled" >> ${HOME}/logs/backups/OPERATIONAL_MONITORING.log
-    else
-        ${HOME}/providerscripts/datastore/MountDatastore.sh "${DATASTORE_CHOICE}" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
-        ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${DATASTORE_CHOICE} "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
-        ${HOME}/providerscripts/datastore/MoveDatastore.sh ${DATASTORE_CHOICE} "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
-        /bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh "${DATASTORE_CHOICE}" "${websiteDB}" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
-        backup_name="`/bin/echo ${websiteDB} | /usr/bin/awk -F'/' '{print $NF}'`"
-        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}"
+    ${HOME}/providerscripts/datastore/MountDatastore.sh "${DATASTORE_CHOICE}" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
+    ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${DATASTORE_CHOICE} "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
+    ${HOME}/providerscripts/datastore/MoveDatastore.sh ${DATASTORE_CHOICE} "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
+    /bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh "${DATASTORE_CHOICE}" "${websiteDB}" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
+    backup_name="`/bin/echo ${websiteDB} | /usr/bin/awk -F'/' '{print $NF}'`"
+    ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}"
 
-        if ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] )
-        then
-            inconsistentbackup="1"
-            /bin/touch ${HOME}/runtime/BACKUP_MISSING
-            /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" >> ${HOME}/logs/backups/OPERATIONAL_MONITORING.log
-            ${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
-        fi
-        
-        /bin/rm ./${backup_name}
-        
+    if ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] )
+    then
+        inconsistentbackup="1"
+        /bin/touch ${HOME}/runtime/BACKUP_MISSING
+        /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" >> ${HOME}/logs/backups/OPERATIONAL_MONITORING.log
+        ${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
     fi
+    /bin/rm ./${backup_name}
 fi
 
-if ( [ "${period}" = "hourly" ] && [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DISABLEHOURLY:1`" = "1" ] )
-then
-    /bin/echo "${0} `/bin/date`: Skipping hourly backup because hourly backups are disabled" >> ${HOME}/logs/backups/OPERATIONAL_MONITORING.log
-elif ( [ "${SUPERSAFE_DB}" = "0" ]  || [ "${SUPERSAFE_DB}" = "1" ] )
+if ( [ "${SUPERSAFE_DB}" = "0" ]  || [ "${SUPERSAFE_DB}" = "1" ] )
 then
     /bin/systemd-inhibit --why="Persisting database to git repo" ${HOME}/providerscripts/git/GitPushDB.sh "." "Automated Backup" "${APPLICATION_REPOSITORY_PROVIDER}" "${WEBSITE_SUBDOMAIN}-${WEBSITE_NAME}-db-${period}-${BUILD_IDENTIFIER}"
     if ( [ ! -d /tmp/verify/ ] )
