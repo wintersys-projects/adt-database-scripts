@@ -197,11 +197,6 @@ ${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallCron.sh"
 ${HOME}/installscripts/InstallCron.sh ${BUILDOS}
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh ENABLEEFS:1`" = "1" ] )
-then
-    ${HOME}/installscripts/InstallNFS.sh ${BUILDOS}
-fi
-
 ${HOME}/installscripts/InstallMonitoringGear.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
