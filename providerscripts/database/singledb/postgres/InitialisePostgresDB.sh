@@ -53,18 +53,9 @@ then
     
     /bin/sed -i '/127.0.0.1/d' ${postgres_config}
     /bin/sed -i '/128/d' ${postgres_config}
-
-    
-    if ( [ "${CLOUDHOST}" = "aws" ] )
-    then
-        /bin/echo "host       ${DB_N}              ${DB_U}            0.0.0.0/0          md5" >> ${postgres_config}
-        /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
-        /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
-    else
-        /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
-        /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
-        /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
-    fi
+    /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
+    /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
+    /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
     
     . ${HOME}/providerscripts/database/singledb/postgres/InitialiseDatabaseConfig.sh
 
