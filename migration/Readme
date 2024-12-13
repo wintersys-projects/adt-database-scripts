@@ -1,0 +1,1 @@
+If you are migrating your a website dayabase from another provider you can upload your database dump from the build machine using the helper script "CopyToDatabase.sh"

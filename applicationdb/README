@@ -1,0 +1,2 @@
+These scripts will install application SQL codebases for each of the supported database system types. 
+Additional different database types could be added in the future, for example, MongoDB. 
