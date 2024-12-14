@@ -308,7 +308,7 @@ then
     then
         export HOME=${HOMEDIR} && . ${HOME}/applicationdb/InstallApplicationDB.sh
         #Perform any application specific customisations if we are deploying a baseline
-        if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
         then
             . ${HOME}/providerscripts/application/CustomiseApplication.sh
         fi
