@@ -42,7 +42,7 @@ then
     exit
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
     for webserverip in `${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "webserverips/*"`
     do
@@ -51,7 +51,7 @@ then
     done
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
     postgres_config="`/usr/bin/find / -name pg_hba.conf -print`"
     for webserverip in `${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "webserverips/*"`
