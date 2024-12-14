@@ -23,7 +23,7 @@
 
 DB_PORT="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBPORT'`"
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
     HOST="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
 else
@@ -43,7 +43,7 @@ then
         /bin/sed -i "s/${olduser}/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
         export PGPASSWORD="${DB_P}"
         
-        if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
         then
            . ${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
         fi
