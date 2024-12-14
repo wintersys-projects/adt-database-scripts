@@ -26,10 +26,10 @@ then
 fi
 
 apt=""
-if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
     apt="/usr/bin/apt-get"
-elif ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
 then
     apt="/usr/sbin/apt-fast"
 fi
@@ -39,7 +39,7 @@ then
     #For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
     if ( [ "${buildos}" = "ubuntu" ] )
     then    
-        postgres_version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+        postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
         DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-common                          #####UBUNTU-POSTGRESQL-REPO#####
         /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                    #####UBUNTU-POSTGRESQL-REPO#####
         DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-${postgres_version}            #####UBUNTU-POSTGRESQL-REPO#####
@@ -49,7 +49,7 @@ then
   
     if ( [ "${buildos}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
     then   
-        postgres_version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+        postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
         DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-common                            #####DEBIAN-POSTGRESQL-REPO#####
         /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                        #####DEBIAN-POSTGRESQL-REPO#####
         DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-${postgres_version}                        #####DEBIAN-POSTGRESQL-REPO#####
