@@ -33,12 +33,12 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
         command=""
 
-        for table in `${HOME}/providerscripts/utilities/remote/ConnectToLocalMySQL.sh 'show tables LIKE "'${db_prefix}'%";' 'raw'`
+        for table in `${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables LIKE "'${db_prefix}'%";' 'raw'`
         do
                 command="${command} drop table ${table};"
         done
         command="${command} drop table zzzz;"
-        ${HOME}/providerscripts/utilities/remote/ConnectToLocalMySQL.sh "${command}"
+        ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "${command}"
         ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "APPLICATION_INSTALLED"
         ${HOME}/applicationdb/InstallApplicationDB.sh
 fi
