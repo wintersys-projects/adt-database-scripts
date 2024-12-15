@@ -20,11 +20,11 @@
 ##########################################################################################
 #set -x
 
-localip="`${HOME}/providerscripts/utilities/GetIP.sh`"
+localip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 /bin/touch /tmp/${localip}
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${localip} databaseip/${localip}
 
-publicip="`${HOME}/providerscripts/utilities/GetPublicIP.sh`"
+publicip="`${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`"
 /bin/touch /tmp/${publicip}
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${publicip} databasepublicip/${publicip}
 
