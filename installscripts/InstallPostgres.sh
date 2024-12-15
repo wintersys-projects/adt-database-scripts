@@ -44,7 +44,7 @@ then
         /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                    #####UBUNTU-POSTGRESQL-REPO#####
         DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-${postgres_version}            #####UBUNTU-POSTGRESQL-REPO#####
         /usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf    #####UBUNTU-POSTGRESQL-REPO#####
-        ${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql restart                                                   
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
     fi
   
     if ( [ "${buildos}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
@@ -54,7 +54,7 @@ then
         /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                        #####DEBIAN-POSTGRESQL-REPO#####
         DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-${postgres_version}                        #####DEBIAN-POSTGRESQL-REPO#####
         /usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf    #####DEBIAN-POSTGRESQL-REPO#####
-        ${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql restart
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
     fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallPostgres.sh
 fi
