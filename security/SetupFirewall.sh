@@ -71,7 +71,7 @@ SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 
 ${HOME}/security/KnickersUp.sh
 
-. ${HOME}/providerscripts/utilities/SetupInfrastructureIPs.sh
+. ${HOME}/providerscripts/utilities/housekeeping/SetupInfrastructureIPs.sh
 
 if ( [ "${firewall}" = "ufw" ] && [ -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
