@@ -55,7 +55,7 @@ then
         /bin/echo "DEAD"
         /bin/echo "${0} `/bin/date`: The Mariadb database has been offline, I am atempting to restart it" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
         ${HOME}/providerscripts/email/SendEmail.sh "DATABASE HAS BEEN OFFLINE" "THe Mariadb database has been offline" "ERROR"
-        ${HOME}/providerscripts/utilities/RunServiceCommand.sh mariadb restart
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
 
         if ( [ "$?" != "0" ] )
         then
@@ -78,7 +78,7 @@ then
         /bin/echo "DEAD"
         /bin/echo "${0} `/bin/date`: The mysql database has been offline, I am atempting to restart it" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
         ${HOME}/providerscripts/email/SendEmail.sh "DATABASE HAS BEEN OFFLINE" "THe mysql database has been offline" "ERROR"
-        ${HOME}/providerscripts/utilities/RunServiceCommand.sh mysql restart
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
         
         if ( [ "$?" != "0" ] )
         then
@@ -102,7 +102,7 @@ then
         /bin/echo "${0} `/bin/date`: The postgres database has been offline, I am atempting to restart it" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
         ${HOME}/providerscripts/email/SendEmail.sh "DATABASE HAS BEEN OFFLINE" "THe postgres database has been offline" "ERROR"
 
-        ${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql restart
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
         if ( [ "$?" != "0" ] )
         then
