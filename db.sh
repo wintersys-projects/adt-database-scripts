@@ -258,6 +258,15 @@ then
     export TZ=":${SERVER_TIMEZONE_CONTINENT}/${SERVER_TIMEZONE_CITY}"
 fi
 
+cd ${HOME}
+
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+>&2 /bin/echo "${0} Setting up datastore tools"
+/bin/echo "${0} `/bin/date`: Setting up datastore tools" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+. ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+
 if ( [ ! -d ${HOME}/credentials ] )
 then
     /bin/mkdir -p ${HOME}/credentials
@@ -279,17 +288,6 @@ fi
 >&2 /bin/echo "${0} Getting infrastructure repositories from git"
 /bin/echo "${0} `/bin/date`: Getting infrastructure repositories from git" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-
-#Configure git
-cd ${HOME}
-
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
->&2 /bin/echo "${0} Setting up datastore tools"
-/bin/echo "${0} `/bin/date`: Setting up datastore tools" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-
-#. ${HOME}/installscripts/InstallDatastoreTools.sh
-. ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
 
 cd ${HOME}
 
