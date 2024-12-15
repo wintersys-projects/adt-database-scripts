@@ -26,7 +26,7 @@ HOST=""
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
+    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
 else
     HOST="localhost"
 fi
@@ -40,7 +40,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
     ${HOME}/installscripts/InstallSerFix.sh ${BUILDOS}
 
