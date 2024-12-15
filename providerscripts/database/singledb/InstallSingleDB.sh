@@ -29,9 +29,9 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    DBaaS_DBNAME="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSDBNAME'`"
-    DBaaS_PASSWORD="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
-    DBaaS_USERNAME="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
+    DBaaS_DBNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
+    DBaaS_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
+    DBaaS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
 
     /bin/echo "${DBaaS_DBNAME}" >>  ${HOME}/credentials/shit
     /bin/echo "${DBaaS_PASSWORD}" >>  ${HOME}/credentials/shit
