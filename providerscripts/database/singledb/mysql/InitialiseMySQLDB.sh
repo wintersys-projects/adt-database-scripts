@@ -91,7 +91,7 @@ then
     done
 else
     #make sure database has been started and is available - this is local instance under our full control
-    ${HOME}/providerscripts/utilities/RunServiceCommand.sh mysql start
+    ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
     #try with no password set
     /usr/bin/mysql -f -A < ${HOME}/runtime/initialiseDB.sql
 
@@ -110,4 +110,4 @@ then
     /bin/echo "skip-name-resolve" >> /etc/mysql/my.cnf
 fi
 
-${HOME}/providerscripts/utilities/RunServiceCommand.sh mysql restart
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
