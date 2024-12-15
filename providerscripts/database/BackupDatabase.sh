@@ -93,7 +93,7 @@ then
     /bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
     /bin/echo "${0} `/bin/date`: Taring the database dump" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 
-    ${HOME}/providerscripts/utilities/StandardiseMySQLCollations.sh ./applicationDB.sql
+    ${HOME}/providerscripts/utilities/processing/StandardiseMySQLCollations.sh ./applicationDB.sql
     #tar the database dump
     /bin/tar cvfz ${websiteDB} applicationDB.sql
     /bin/rm applicationDB.sql
