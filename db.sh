@@ -405,7 +405,7 @@ SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 
 #${HOME}/security/SetupFirewall.sh
 
-${HOME}/providerscripts/utilities/CleanupAfterBuild.sh
+${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUILT" "A Database has been successfully built and primed as is rebooting ready for use"
 
