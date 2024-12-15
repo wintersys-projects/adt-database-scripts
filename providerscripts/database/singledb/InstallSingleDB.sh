@@ -21,45 +21,50 @@
 #####################################################################################
 #set -x
 
-if ( [ ! -d ${HOME}/credentials ] )
-then
-        /bin/mkdir ${HOME}/credentials
-        /bin/chmod 700 ${HOME}/credentials
-fi
+#if ( [ ! -d ${HOME}/credentials ] )
+#then
+ #       /bin/mkdir ${HOME}/credentials
+ #       /bin/chmod 700 ${HOME}/credentials
+#fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-    DBaaS_DBNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
-    DBaaS_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
-    DBaaS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+#then
+ #   DBaaS_DBNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
+ #   DBaaS_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
+ #   DBaaS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"##
 
-    /bin/echo "${DBaaS_DBNAME}" >>  ${HOME}/credentials/shit
-    /bin/echo "${DBaaS_PASSWORD}" >>  ${HOME}/credentials/shit
-    /bin/echo "${DBaaS_USERNAME}" >>  ${HOME}/credentials/shit
+ #   /bin/echo "${DBaaS_DBNAME}" >>  ${HOME}/credentials/shit
+ #   /bin/echo "${DBaaS_PASSWORD}" >>  ${HOME}/credentials/shit
+ #   /bin/echo "${DBaaS_USERNAME}" >>  ${HOME}/credentials/shit
     
-    ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/credentials/shit credentials/shit
-else
-    rnd="n`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8 | /usr/bin/tr '[:upper:]' '[:lower:]'`n"
-    rnd1="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8 | /usr/bin/tr '[:upper:]' '[:lower:]'`p"
-    rnd2="u`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8 | /usr/bin/tr '[:upper:]' '[:lower:]'`u"
+ #   ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/credentials/shit credentials/shit
+#else
+ #   rnd="n`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8 | /usr/bin/tr '[:upper:]' '[:lower:]'`n"
+ #   rnd1="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8 | /usr/bin/tr '[:upper:]' '[:lower:]'`p"
+ #   rnd2="u`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8 | /usr/bin/tr '[:upper:]' '[:lower:]'`u"
 
-    /bin/echo "${rnd}" > ${HOME}/credentials/shit
-    /bin/echo "${rnd1}" >> ${HOME}/credentials/shit
-    /bin/echo "${rnd2}" >> ${HOME}/credentials/shit
+  #  /bin/echo "${rnd}" > ${HOME}/credentials/shit
+  #  /bin/echo "${rnd1}" >> ${HOME}/credentials/shit
+  #  /bin/echo "${rnd2}" >> ${HOME}/credentials/shit
 
-    ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/credentials/shit credentials/shit
-fi
+  #  ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/credentials/shit credentials/shit
+#fi
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "1" ]  )
+#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "1" ]  )
+#then
+ #   DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
+ #   DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
+ #   DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
+#else
+if ( [ -f ${HOME}/credentials/shit ] )
 then
-    DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
-    DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
-    DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
-else
     DB_N="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
     DB_P="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
     DB_U="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
+else
+        /bin/echo "Database credentials could not be found in datastore"
 fi
+#fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ]  )
 then
