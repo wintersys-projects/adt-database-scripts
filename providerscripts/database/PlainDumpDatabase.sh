@@ -32,7 +32,7 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
     HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
 else
-    HOST="`${HOME}/providerscripts/utilities/GetIP.sh`"
+    HOST="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 fi
 
 #The standard troop of SQL databases
