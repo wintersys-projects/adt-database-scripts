@@ -272,10 +272,10 @@ then
     /bin/mkdir -p ${HOME}/credentials
     /bin/chmod 700 ${HOME}/credentials
 fi    
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
 then
-    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/credentials/shit
-    if ( [ -f ${HOME}/credentials/shit ] )
+    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
+    if ( [ -f ${HOME}/credentials/db_cred ] )
     then
         /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
     fi
