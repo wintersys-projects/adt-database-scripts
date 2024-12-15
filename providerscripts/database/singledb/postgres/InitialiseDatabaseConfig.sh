@@ -38,7 +38,7 @@ postgres_config="`/usr/bin/find / -name pg_hba.conf -print | /usr/bin/tail -1`"
 
 running="0"
    
-${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql restart
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
 if ( [ "$?" != "0" ] )
 then
@@ -70,7 +70,7 @@ then
 
     /bin/rm ${postgres_pid}
             
-    ${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql restart
+    ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
     
     if ( [ "$?" != "0" ] )
     then
@@ -83,6 +83,6 @@ then
         fi
     else
        /bin/sed -i "s/trust/md5/g" ${postgres_config}
-        ${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql reload
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql reload
     fi
 fi
