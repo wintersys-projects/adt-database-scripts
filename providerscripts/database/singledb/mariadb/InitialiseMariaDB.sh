@@ -82,7 +82,7 @@ then
         /usr/bin/mariadb -f -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port="${DB_PORT}" < ${HOME}/runtime/initialiseDB.sql
     done
 else
-    ${HOME}/providerscripts/utilities/RunServiceCommand.sh mariadb start
+    ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb start
     #try with no password set
     /usr/bin/mariadb -A < ${HOME}/runtime/initialiseDB.sql
     #make sure by trying with password
@@ -117,5 +117,5 @@ then
     /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
 fi
 
-${HOME}/providerscripts/utilities/RunServiceCommand.sh mariadb restart
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
 
