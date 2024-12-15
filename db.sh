@@ -266,7 +266,10 @@ fi
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "1" ] )
 then
     ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/credentials/shit
-    ${HOME}/runtime/CREDENTIALS_PRIMED
+    if ( [ -f ${HOME}/credentials/shit ] )
+    then
+        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
+    fi
 else
     /bin/echo "${0} `/bin/date`: Failed to get database credentials from the datastore" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 fi
