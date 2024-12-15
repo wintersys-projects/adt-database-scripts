@@ -43,7 +43,7 @@ then
         ${HOME}/applicationdb/InstallApplicationDB.sh
 fi
 
-${HOME}/providerscripts/utilities/UpdateSoftware.sh "SNAPPED"
+${HOME}/providerscripts/utilities/software/UpdateSoftware.sh "SNAPPED"
 
 /bin/touch ${HOME}/runtime/DATABASE_UPDATED_FOR_SNAPSHOT
 /bin/rm ${HOME}/runtime/DATABASE_APPLICATION_UPDATING
