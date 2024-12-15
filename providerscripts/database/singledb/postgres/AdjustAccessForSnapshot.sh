@@ -27,7 +27,7 @@ postgres_config="`/usr/bin/find / -name pg_hba.conf -print`"
 
 /bin/echo "host       all              postgres           ${HOST}/0          md5" >> ${postgres_config}
 
-${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql restart || /usr/sbin/runuser -l "postgres" -c "/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data/ -l logfile restart"
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart || /usr/sbin/runuser -l "postgres" -c "/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data/ -l logfile restart"
 
 if ( [ "$?" != "0" ] )
 then
