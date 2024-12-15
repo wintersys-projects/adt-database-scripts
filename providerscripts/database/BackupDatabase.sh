@@ -32,13 +32,13 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
+    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
 else
     HOST="`${HOME}/providerscripts/utilities/GetIP.sh`"
 fi
 
-DB_PORT="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBPORT'`"
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 
 
@@ -88,7 +88,7 @@ then
     /bin/sed -i -- 's/http:\/\//https:\/\//g' applicationDB.sql
     /bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" applicationDB.sql
     /bin/sed -i '/SESSION.SQL_LOG_BIN/d' applicationDB.sql
-    IP_MASK="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'IPMASK'`"
+    IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
     /bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.sql
     /bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
     /bin/echo "${0} `/bin/date`: Taring the database dump" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
@@ -113,7 +113,7 @@ then
     /bin/echo "CREATE TABLE public.zzzz ( idxx serial PRIMARY KEY );" >> applicationDB.sql
     /bin/sed -i -- 's/http:\/\//https:\/\//g' applicationDB.sql
     /bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" applicationDB.sql
-    IP_MASK="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'IPMASK'`"
+    IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
     /bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.sql
     /bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
     /bin/echo "${0} `/bin/date`: Taring the database dump" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
