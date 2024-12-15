@@ -28,7 +28,7 @@ fi
 
 if ( [ "${BUILDOS}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else
     BUILDOS="${buildos}"
 fi
