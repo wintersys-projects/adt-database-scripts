@@ -60,9 +60,12 @@ fi
 
 if ( [ "${DB_N}" = "" ] && [ "${DB_P}" = "" ] && [ "${DB_U}" = "" ] )
 then
-    DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
-    DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
-    DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
+    #DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
+    #DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
+    #DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
+    DB_N="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
+    DB_P="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
+    DB_U="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
 fi
 
 DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
