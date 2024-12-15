@@ -64,7 +64,7 @@ then
                 ip_mask="`/bin/echo ${webserverip} | /usr/bin/cut -d "." -f -2`"
                 /bin/echo "host       ${DB_N}              ${DB_U}            ${ip_mask}.0.0/0          md5" >> ${postgres_config}
                 
-                ${HOME}/providerscripts/utilities/RunServiceCommand.sh postgresql reload
+                ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql reload
 
                 if ( [ "$?" != "0" ] )
                 then
