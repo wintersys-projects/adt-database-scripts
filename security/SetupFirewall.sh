@@ -219,10 +219,10 @@ then
         then
                 /usr/sbin/ufw -f enable
                 /usr/sbin/ufw reload
-		${HOME}/providerscripts/utilities/RunServiceCommand.sh networking restart
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh networking restart
         elif ( [ "${firewall}" = "iptables" ] )
         then
-		${HOME}/providerscripts/utilities/RunServiceCommand.sh netfilter-persistent save
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent save
         fi
 fi
 
@@ -234,9 +234,9 @@ then
         fi
 elif ( [ "${firewall}" = "iptables" ] )
 then
-        if ( [ "`${HOME}/providerscripts/utilities/RunServiceCommand.sh netfilter-persistent status | /bin/grep Loaded | /bin/grep enabled`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep Loaded | /bin/grep enabled`" != "" ] )
         then
-                if ( [ "`${HOME}/providerscripts/utilities/RunServiceCommand.sh netfilter-persistent status | /bin/grep active`" != "" ] )
+                if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep active`" != "" ] )
                 then
                         /bin/touch ${HOME}/runtime/FIREWALL-ACTIVE
                 fi
