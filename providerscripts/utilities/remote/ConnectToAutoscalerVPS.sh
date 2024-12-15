@@ -22,9 +22,9 @@
 
 command="$1"
 
-SERVER_USER="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'SERVERUSER'`"
-SSH_PORT="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'SSHPORT'`"
-ALGORITHM="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'ALGORITHM'`"
+SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
+ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh autoscalerip/*`"
 
 if ( [ "`/bin/echo ${webserver_ips} | /usr/bin/wc -l`" -gt "1" ] )
