@@ -60,7 +60,7 @@ SERVER_TIMEZONE_CITY="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/CleanupAtReboot.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export TZ=\":${SERVER_TIMEZONE_CONTINENT}/${SERVER_TIMEZONE_CITY}\"" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME=${HOMEDIR} && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh reboot" >> /var/spool/cron/crontabs/root
-/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/GetIP.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/processing/GetIP.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/UpdateInfrastructure.sh" >>/var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
 
