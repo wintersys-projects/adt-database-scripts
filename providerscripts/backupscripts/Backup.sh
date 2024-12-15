@@ -37,7 +37,7 @@ fi
 #then
 #    exit
 #fi
-if ( [ ! -f ${HOME}/credentials/shit ] )
+if ( [ ! -f ${HOME}/credentials/db_cred ] )
 then
     exit
 fi
@@ -71,9 +71,9 @@ fi
 
 websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
 
-DB_N="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
-DB_P="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
-DB_U="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
+DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
+DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
+DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
 #DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
 #DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
