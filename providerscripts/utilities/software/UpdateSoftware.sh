@@ -12,7 +12,7 @@ do
         /bin/sh ${HOME}/installscripts/${script} ${BUILDOS}
 done
 
-${HOME}/providerscripts/utilities/UpdateInfrastructure.sh
+${HOME}/providerscripts/utilities/software/UpdateInfrastructure.sh
 
 if ( [ "${1}" != "SNAPPED" ] )
 then
