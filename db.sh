@@ -149,7 +149,7 @@ WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ 
 /usr/bin/git config --global pull.rebase false 
 
 #Setup this machine's hostname
-. ${HOME}/providerscripts/utilities/InitialiseHostname.sh
+. ${HOME}/providerscripts/utilities/processing/InitialiseHostname.sh
 
 #Precautions against kernel panics
 /bin/echo "vm.panic_on_oom=1
