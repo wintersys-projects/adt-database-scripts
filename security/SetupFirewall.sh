@@ -68,10 +68,9 @@ SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPO
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 VPC_IP_RANGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
+BUILD_CLIENT_IP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDCLIENTIP'`"
 
 ${HOME}/security/KnickersUp.sh
-
-. ${HOME}/providerscripts/utilities/housekeeping/SetupInfrastructureIPs.sh
 
 if ( [ "${firewall}" = "ufw" ] && [ -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
