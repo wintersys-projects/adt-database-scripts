@@ -423,5 +423,5 @@ ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUI
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/DATABASE_READY
 
-/usr/sbin/shutdown -r now
+#/usr/sbin/shutdown -r now
 
