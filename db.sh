@@ -205,9 +205,6 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
-${HOME}/security/SetupFirewall.sh
-
-
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} `/bin/date`: Installing necessary software" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
