@@ -15,6 +15,8 @@ ${HOME}/installscripts/InstallCurl.sh ${BUILDOS}
 ${HOME}/installscripts/InstallLibioSocketSSL.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallLibnetSSLLeay.sh"
 ${HOME}/installscripts/InstallLibnetSSLLeay.sh ${BUILDOS}
+>&2 /bin/echo "${0} InstallNetworkManager.sh"
+${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallSendEmail.sh"
 ${HOME}/installscripts/InstallSendEmail.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallSysStat.sh"
