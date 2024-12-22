@@ -62,10 +62,10 @@ SERVER_TIMEZONE_CITY="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
 
 
-if ( [ -f ${HOME}/runtime/POSTGRES_FROM_SOURCE ] )
-then
-    /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/database/singledb/postgres/InitialiseDatabaseConfig.sh" >> /var/spool/cron/crontabs/root
-fi
+#if ( [ -f ${HOME}/runtime/POSTGRES_FROM_SOURCE ] )
+#then
+#    /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/database/singledb/postgres/InitialiseDatabaseConfig.sh" >> /var/spool/cron/crontabs/root
+#fi
 
 #Reload cron
 /usr/bin/crontab /var/spool/cron/crontabs/root
