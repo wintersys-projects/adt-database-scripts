@@ -23,10 +23,10 @@
 ####################################################################################
 #set -x
 
-if ( [ -f ${HOME}/runtime/POSTGRES_CONFIGURED ] )
-then
-    exit
-fi
+#if ( [ -f ${HOME}/runtime/POSTGRES_CONFIGURED ] )
+#then
+#    exit
+#fi
 
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 
@@ -81,7 +81,7 @@ then
         /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl restart -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
         if ( [ "$?" = "0" ] )
         then
-           /bin/touch ${HOME}/runtime/POSTGRES_CONFIGURED
+ #          /bin/touch ${HOME}/runtime/POSTGRES_CONFIGURED
            /bin/sed -i "s/trust/md5/g" ${postgres_config}
            /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl reload -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
         fi
