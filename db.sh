@@ -60,6 +60,22 @@ then
     /bin/mkdir ${HOME}/runtime
 fi
 
+if ( [ -f ${HOME}/.ssh/database_configuration_settings.dat ] )
+then
+	/bin/cp ${HOME}/.ssh/database_configuration_settings.dat ${HOME}/runtime/database_configuration_settings.dat
+ 	/bin/chown root:root ${HOME}/runtime/database_configuration_settings.dat
+ 	/bin/chmod 400 ${HOME}/runtime/database_configuration_settings.dat
+  	/bin/mv ${HOME}/.ssh/database_configuration_settings.dat ${HOME}/.ssh/database_configuration_settings.dat.original
+fi
+
+if ( [ -f ${HOME}/.ssh/buildstyles.dat ] )
+then
+	/bin/cp ${HOME}/.ssh/buildstyles.dat ${HOME}/runtime/buildstyles.dat
+ 	/bin/chown root:root ${HOME}/runtime/buildstyles.dat
+ 	/bin/chmod 400 ${HOME}/runtime/buildstyles.dat
+  	/bin/mv ${HOME}/.ssh/buildstyles.dat ${HOME}/.ssh/buildstyles.dat.original
+fi
+
 /bin/mv ${HOME}/providerscripts/utilities/security/Super.sh ${HOME}/super
 /bin/chmod 400 ${HOME}/super/Super.sh
 
@@ -72,7 +88,6 @@ out_file="initialbuild/database-build-out-`/bin/date | /bin/sed 's/ //g'`"
 exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
-
 
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
