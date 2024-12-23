@@ -21,7 +21,7 @@
 #set -x
 export HOME="`/bin/cat /home/homedir.dat`"
 
-/bin/grep -a SERVERUSERPASSWORD ${HOME}/.ssh/database_configuration_settings.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/sudo -S /bin/echo "Going Super hold on to your hat" 
+/bin/grep -a SERVERUSERPASSWORD ${HOME}/runtime/database_configuration_settings.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/sudo -S /bin/echo "Going Super hold on to your hat" 
 
 /bin/echo
 /bin/echo
