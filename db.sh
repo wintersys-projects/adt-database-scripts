@@ -50,14 +50,18 @@ then
     /bin/mkdir ${HOME}/super
 fi
 
+#Create the config directories, these will be mounted from the autoscaler to the other server types - DB, WS and Images Servers
 if ( [ ! -d ${HOME}/.ssh ] )
 then
-    /bin/mkdir ${HOME}/.ssh
+	/bin/mkdir ${HOME}/.ssh
+	/bin/chmod 700 ${HOME}/.ssh
 fi
 
 if ( [ ! -d ${HOME}/runtime ] )
 then
-    /bin/mkdir ${HOME}/runtime
+	/bin/mkdir -p ${HOME}/runtime
+	/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/runtime
+	/bin/chmod 755 ${HOME}/runtime
 fi
 
 if ( [ -f ${HOME}/.ssh/database_configuration_settings.dat ] )
