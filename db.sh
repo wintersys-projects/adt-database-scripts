@@ -68,7 +68,7 @@ if ( [ -f ${HOME}/.ssh/database_configuration_settings.dat ] )
 then
 	/bin/cp ${HOME}/.ssh/database_configuration_settings.dat ${HOME}/runtime/database_configuration_settings.dat
  	/bin/chown root:root ${HOME}/runtime/database_configuration_settings.dat
- 	/bin/chmod 400 ${HOME}/runtime/database_configuration_settings.dat
+ 	/bin/chmod 440 ${HOME}/runtime/database_configuration_settings.dat
   	/bin/mv ${HOME}/.ssh/database_configuration_settings.dat ${HOME}/.ssh/database_configuration_settings.dat.original
 fi
 
@@ -76,9 +76,13 @@ if ( [ -f ${HOME}/.ssh/buildstyles.dat ] )
 then
 	/bin/cp ${HOME}/.ssh/buildstyles.dat ${HOME}/runtime/buildstyles.dat
  	/bin/chown root:root ${HOME}/runtime/buildstyles.dat
- 	/bin/chmod 400 ${HOME}/runtime/buildstyles.dat
+ 	/bin/chmod 440 ${HOME}/runtime/buildstyles.dat
   	/bin/mv ${HOME}/.ssh/buildstyles.dat ${HOME}/.ssh/buildstyles.dat.original
 fi
+
+SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+/bin/chown root:${SERVER_USER} ${HOME}/runtime/buildstyles.dat
+/bin/chown root:${SERVER_USER} ${HOME}/runtime/database_configuration_settings.dat
 
 /bin/mv ${HOME}/providerscripts/utilities/security/Super.sh ${HOME}/super
 /bin/chmod 400 ${HOME}/super/Super.sh
@@ -126,7 +130,6 @@ SERVER_TIMEZONE_CONTINENT="`${HOME}/providerscripts/utilities/config/ExtractConf
 SERVER_TIMEZONE_CITY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
-SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 #Non standard variable settings
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
