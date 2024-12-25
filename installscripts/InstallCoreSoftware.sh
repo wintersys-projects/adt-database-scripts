@@ -27,6 +27,8 @@ ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 ${HOME}/installscripts/InstallRsync.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatabaseClient.sh"
 ${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
+>&2 /bin/echo "${0} InstallDatabaseServer.sh"
+${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallJQ.sh"
 ${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallCron.sh"
