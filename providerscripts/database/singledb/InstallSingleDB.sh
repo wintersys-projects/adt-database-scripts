@@ -68,19 +68,19 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ]  )
 then
-    . ${HOME}/providerscripts/database/singledb/mariadb/InstallMariaDB.sh
+ #   . ${HOME}/providerscripts/database/singledb/mariadb/InstallMariaDB.sh
     . ${HOME}/providerscripts/database/singledb/mariadb/InitialiseMariaDB.sh
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-    . ${HOME}/providerscripts/database/singledb/postgres/InstallPostgresDB.sh
+  #  . ${HOME}/providerscripts/database/singledb/postgres/InstallPostgresDB.sh
     . ${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-    . ${HOME}/providerscripts/database/singledb/mysql/InstallMySQLDB.sh
+#    . ${HOME}/providerscripts/database/singledb/mysql/InstallMySQLDB.sh
     . ${HOME}/providerscripts/database/singledb/mysql/InitialiseMySQLDB.sh
 fi
 
