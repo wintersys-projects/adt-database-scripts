@@ -332,7 +332,10 @@ cd ${HOME}
 
 
 #Initialise the database
-. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
+#. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
+
+
+${HOME}/providerscripts/database/InitialiseDatabase.sh
 
 BYPASS_DB_LAYER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
 
