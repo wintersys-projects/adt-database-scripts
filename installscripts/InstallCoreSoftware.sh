@@ -36,5 +36,5 @@ ${HOME}/installscripts/InstallCron.sh ${BUILDOS}
 
 
 ${HOME}/installscripts/InstallMonitoringGear.sh
-. ${HOME}/installscripts/InstallDatastoreTools.sh
+${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS}
 
