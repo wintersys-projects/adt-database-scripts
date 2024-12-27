@@ -87,7 +87,7 @@ DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
 cd ${HOME}/backups
 
-. ${HOME}/providerscripts/git/database/PlainDumpDatabase.sh
+. ${HOME}/providerscripts/database/PlainDumpDatabase.sh
 
 . ${HOME}/providerscripts/application/branding/RemoveApplicationBranding.sh
 
