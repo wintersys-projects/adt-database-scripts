@@ -66,7 +66,6 @@ then
         /bin/chown root:root /etc/apt-fast.conf
         /bin/chown root:root /usr/sbin/apt-fast
         /usr/bin/snap install aria2c  
-        /bin/sed -i -e 's/http:\/\/us.archive/mirror:\/\/mirrors/' -e 's/\/ubuntu\//\/mirrors.txt/' /etc/apt/sources.list
     fi
     
     if ( [ "${buildos}" = "debian" ] )
