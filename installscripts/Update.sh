@@ -87,6 +87,8 @@ then
         /bin/chown root:root /etc/apt-fast.conf
         /bin/chown root:root /usr/sbin/apt-fast
         /usr/bin/snap install aria2c  
+    	mirrors="`/bin/grep "^deb" /etc/apt/sources.list | /bin/grep -Po 'http.* ' | /usr/bin/awk '{print $1}' | /usr/bin/sort -u | /usr/bin/uniq | /usr/bin/tr '\n' ',' | /bin/sed 's/,$//'`" 
+		/bin/echo "MIRRORS=( '${mirrors}' )" >> /etc/apt-fast.conf
     fi   
 fi
 
