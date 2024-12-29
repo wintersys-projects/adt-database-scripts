@@ -8,11 +8,15 @@ BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDO
 
 >&2 /bin/echo "${0} UpdateAndUpgrade.sh"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
-
+>&2 /bin/echo "${0} InstallFirewall.sh"
+${HOME}/installscripts/InstallFirewall.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallDatabaseClient.sh"
 ${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallDatabaseServer.sh"
 ${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallDatastoreTools.sh"
+${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
+
 >&2 /bin/echo "${0} InstallGo.sh"
 ${HOME}/installscripts/InstallGo.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallSoftwareProperties.sh"
@@ -29,8 +33,6 @@ ${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS}
 ${HOME}/installscripts/InstallSendEmail.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallSysStat.sh"
 ${HOME}/installscripts/InstallSysStat.sh ${BUILDOS} 
->&2 /bin/echo "${0} InstallFirewall.sh"
-${HOME}/installscripts/InstallFirewall.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallRsync.sh"
 ${HOME}/installscripts/InstallRsync.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallJQ.sh"
@@ -39,6 +41,5 @@ ${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 ${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallMonitoringGear.sh"
 ${HOME}/installscripts/InstallMonitoringGear.sh 
->&2 /bin/echo "${0} InstallDatastoreTools.sh"
-${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
+
 
