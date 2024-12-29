@@ -336,6 +336,7 @@ cd ${HOME}
 #Initialise the database
 #. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
 
+${HOME}/providerscripts/database/EnsureEssentialTools.sh
 
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
@@ -349,11 +350,6 @@ then
     
         if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
         then
-		####TIDY THIS UP
-		while ( [ ! -f /usr/bin/mysql ] )
-  		do
-    			/bin/sleep 2
-       		done
 		${HOME}/applicationdb/InstallApplicationDB.sh &
             	. ${HOME}/providerscripts/application/CustomiseApplication.sh
         else
