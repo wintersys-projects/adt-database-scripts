@@ -235,7 +235,7 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 #Update and upgrade the software to its latest available versions
 
-${HOME}/installscripts/InstallCoreSoftware.sh
+${HOME}/installscripts/InstallCoreSoftware.sh &
 
 while ( [ ! -f /usr/bin/s3cmd ] )
 do
