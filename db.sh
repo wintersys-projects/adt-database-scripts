@@ -437,11 +437,7 @@ SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 
 /bin/chown -R ${SERVER_USER}:${SERVER_USER} ${HOME}
 
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
->&2 /bin/echo "${0} Setting up firewall and Rebooting after install"
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-
-#${HOME}/security/SetupFirewall.sh
+${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
 
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
