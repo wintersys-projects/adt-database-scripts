@@ -352,6 +352,11 @@ then
     
         if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
         then
+		####TIDY THIS UP
+		while ( [ ! -f /usr/bin/mysql ] )
+  		do
+    			/bin/sleep 2
+       		done
 		${HOME}/applicationdb/InstallApplicationDB.sh &
             	. ${HOME}/providerscripts/application/CustomiseApplication.sh
         else
