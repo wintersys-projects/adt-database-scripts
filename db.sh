@@ -349,12 +349,14 @@ then
     #...and install the application
     if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
     then
-        export HOME=${HOMEDIR} && . ${HOME}/applicationdb/InstallApplicationDB.sh
-        #Perform any application specific customisations if we are deploying a baseline
+    
         if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
         then
-            . ${HOME}/providerscripts/application/CustomiseApplication.sh
-        fi
+		${HOME}/applicationdb/InstallApplicationDB.sh &
+            	. ${HOME}/providerscripts/application/CustomiseApplication.sh
+        else
+        	${HOME}/applicationdb/InstallApplicationDB.sh &
+    	fi
     fi
 fi
 
