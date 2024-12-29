@@ -10,10 +10,9 @@ BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDO
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
 
 >&2 /bin/echo "${0} InstallDatabaseClient.sh"
-${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} &
+${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallDatabaseServer.sh"
-${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} &
-
+${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallGo.sh"
 ${HOME}/installscripts/InstallGo.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallSoftwareProperties.sh"
