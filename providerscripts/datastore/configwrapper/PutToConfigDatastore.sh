@@ -20,6 +20,9 @@
 ######################################################################################
 #set -x
 
+file_to_put="${1}"
+place_to_put="${2}"
+
 export HOME=`/bin/cat /home/homedir.dat`
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
@@ -31,19 +34,24 @@ configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
         datastore_tool="/usr/bin/s3cmd put "
-        datastore_tool_1="/usr/bin/s3cmd --recursive put "
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
         host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} cp "
-        datastore_tool_1="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} cp "
 fi
 
-if ( [ "${2}" != "" ] )
+if ( [ ! -f ${file_to_put} ] )
 then
-        command="${datastore_tool} $1 s3://${configbucket}/$2"
+        /bin/touch /tmp/${file_to_put}
+        file_to_put="/tmp/${file_to_put}"
+fi
+        
+
+if ( [ "${place_to_put}" != "" ] )
+then
+        command="${datastore_tool} ${file_to_put} s3://${configbucket}/${place_to_put}"
 else
-        command="${datastore_tool} $1 s3://${configbucket}"
+        command="${datastore_tool} ${file_to_put} s3://${configbucket}"
 fi
 
 count="0"
@@ -60,3 +68,8 @@ do
                 satisfied="1"
         fi
 done 
+
+if ( [ -f /tmp/${file_to_put} ] )
+then
+        /bin/rm /tmp/${file_to_put}
+fi
