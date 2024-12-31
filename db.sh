@@ -337,10 +337,17 @@ cd ${HOME}
 #. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
 
 #We want to be sure that the database server is installed
-while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] )
+count="0"
+while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] && [ "${count}" -lt "60" ] )
 do
 	/bin/sleep 2
+ 	count="`/usr/bin/expr ${count} + 1`"
 done
+
+if ( [ "${count}" = "60" ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "The database software didn't install" "The database server didn't install and so I stopped waiting there will most probably be a second attempt" "ERROR"
+fi
 
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
@@ -450,7 +457,7 @@ ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
 
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
-${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUILT" "A Database has been successfully built and primed as is rebooting ready for use"
+${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUILT" "A Database has been successfully built and primed as is rebooting ready for use" "INFO"
 
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/DATABASE_READY
