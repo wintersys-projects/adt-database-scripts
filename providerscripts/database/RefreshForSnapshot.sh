@@ -39,7 +39,10 @@ then
         done
         command="${command} drop table zzzz;"
         ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "${command}"
-        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "APPLICATION_INSTALLED"
+        if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
+        then
+                /bin/rm ${HOME}/runtime/DB_APPLICATION_INSTALLED
+        fi
         ${HOME}/applicationdb/InstallApplicationDB.sh
 fi
 
