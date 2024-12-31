@@ -34,14 +34,15 @@ fi
 
 if ( [ "${1}" = "force" ] )
 then
+
     if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
     then
         exit
     fi
-    ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "APPLICATION_INSTALLED"
-    if ( [ -f ${HOME}/runtime/APPLICATION_INSTALLED ] )
+    
+    if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
     then
-         /bin/rm ${HOME}/runtime/APPLICATION_INSTALLED
+         /bin/rm ${HOME}/runtime/DB_APPLICATION_INSTALLED
     fi
 fi
 
@@ -53,7 +54,7 @@ fi
  #   /bin/cp ${HOME}/.ssh/shit ${HOME}/credentials/shit
 #fi
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "APPLICATION_INSTALLED"`" = "1" ]  || [ -f ${HOME}/runtime/APPLICATION_INSTALLED ] || [ ! -f ${HOME}/runtime/DB_INITIALISED ] )
+if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] || [ ! -f ${HOME}/runtime/DB_INITIALISED ] )
 then
     exit
 fi
