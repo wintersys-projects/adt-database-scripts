@@ -346,7 +346,8 @@ done
 
 if ( [ "${count}" = "60" ] )
 then
-	#Sometimes the database server doesn't install so if this is the case it will reach 60 and we give it another go
+	#Sometimes the database server doesn't install when apt-fast is used so if this is the case it will reach 60 and we give it another go
+ 	#If it still doesn't install then the whole build will fail and will be reinitiated
 	${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
 	${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
 fi
