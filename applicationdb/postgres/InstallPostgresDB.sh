@@ -59,7 +59,7 @@ if ( [ "`/usr/bin/psql -h ${HOST} -p ${DB_PORT} -U ${DB_U} ${DB_N} -c "select ex
 then
     /bin/echo "${0} `/bin/date` : An application has been installed in the database, right on" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
     ${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS COMPLETED" "An application has been installed in your postgres database" "INFO"
-    ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh APPLICATION_INSTALLED
+    /bin/touch ${HOME}/runtime/DB_APPLICATION_INSTALLED
 else
     ${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS FAILED" "An application has failed to install in your postgres database" "ERROR"
 fi
