@@ -107,7 +107,7 @@ if ( [ "`/usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port=
 then
     /bin/echo "${0} `/bin/date` : An application has been installed in the database" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
     ${HOME}/providerscripts/email/SendEmail.sh "A new application has been installed in your database" "A new application has been installed in your database" "INFO"
-    ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh APPLICATION_INSTALLED
+    /bin/touch ${HOME}/runtime/DB_APPLICATION_INSTALLED
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
     /bin/echo "${0} `/bin/date` : FAILED TO INSTALL DATABASE - Exiting build sequence" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
