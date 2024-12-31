@@ -91,7 +91,7 @@ elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
     ${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS FAILED" "Please review your logs as the system has failed to install your database application" "ERROR"
     exit
-fi
+fi 
 
 #Make absolutely certain we are all on INNODB
 tables="`/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/tail -n +2`"
