@@ -336,7 +336,11 @@ cd ${HOME}
 #Initialise the database
 #. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
 
-${HOME}/providerscripts/database/EnsureEssentialTools.sh
+#We want to be sure that the database server is installed
+while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] )
+do
+	/bin/sleep 2
+done
 
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
