@@ -346,7 +346,9 @@ done
 
 if ( [ "${count}" = "60" ] )
 then
-	${HOME}/providerscripts/email/SendEmail.sh "The database software didn't install" "The database server didn't install and so I stopped waiting there will most probably be a second attempt" "ERROR"
+	#Sometimes the database server doesn't install so if this is the case it will reach 60 and we give it another go
+	${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
+	${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
 fi
 
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
