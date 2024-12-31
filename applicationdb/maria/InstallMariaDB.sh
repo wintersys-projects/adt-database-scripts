@@ -106,7 +106,7 @@ if ( [ "`/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --por
 then
     /bin/echo "Successfully installed a new application into the database"
     ${HOME}/providerscripts/email/SendEmail.sh "A new application has been installed in your database" "A new application has been installed in your database" "INFO"
-    ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh APPLICATION_INSTALLED
+    /bin/touch ${HOME}/runtime/DB_APPLICATION_INSTALLED
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
     /bin/echo "Failed to install a new application into the database"
