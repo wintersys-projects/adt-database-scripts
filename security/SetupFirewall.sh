@@ -221,7 +221,7 @@ then
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart
         elif ( [ "${firewall}" = "iptables" ] )
         then
-		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent save
+		/usr/sbin/netfilter-persistent save
         fi
 fi
 
