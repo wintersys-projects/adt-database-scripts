@@ -34,16 +34,19 @@ then
     apt="/usr/sbin/apt-fast"
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libio-socket-ssl-perl    #####UBUNTU-LIBSOCKETSSL-REPO#####
+        ${install_command} install libio-socket-ssl-perl    
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libio-socket-ssl-perl    #####DEBIAN-LIBSOCKETSSL-REPO#####
+        ${install_command} install libio-socket-ssl-perl    
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallLibioSocketSSL.sh				
 fi
