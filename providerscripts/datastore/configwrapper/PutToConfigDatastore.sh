@@ -50,10 +50,16 @@ then
                 file_to_put="/tmp/${file_to_put}"
         else
                 file_to_put="/tmp/${path_to_file}/${file}"
+                dir="`/bin/echo ${file_to_put} | /bin/sed 's:/[^/]*$::'`"
+                if ( [ ! -d ${dir} ] )
+                then
+                        /bin/rm -r ${dir}
+                        /bin/mkdir -p "${dir}"
+                fi
         fi
+        /bin/touch ${file_to_put}
 fi
         
-
 if ( [ "${place_to_put}" != "" ] )
 then
         command="${datastore_tool} ${file_to_put} s3://${configbucket}/${place_to_put}"
