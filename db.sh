@@ -338,7 +338,7 @@ cd ${HOME}
 
 #We want to be sure that the database server is installed
 count="0"
-while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] && [ "${count}" -lt "60" ] )
+while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] || [ "${count}" -lt "60" ] )
 do
 	/bin/sleep 2
  	count="`/usr/bin/expr ${count} + 1`"
