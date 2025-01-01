@@ -29,8 +29,8 @@ ${HOME}/installscripts/InstallLibioSocketSSL.sh ${BUILDOS}
 ${HOME}/installscripts/InstallLibnetSSLLeay.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallNetworkManager.sh"
 ${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS} 
->&2 /bin/echo "${0} InstallSendEmail.sh"
-${HOME}/installscripts/InstallSendEmail.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallEmailUtil.sh"
+${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallSysStat.sh"
 ${HOME}/installscripts/InstallSysStat.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallRsync.sh"
