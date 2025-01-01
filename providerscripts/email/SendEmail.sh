@@ -62,6 +62,8 @@ then
         /bin/echo "${0} `/bin/date`: Email sent via AWS SES, subject : ${subject} to: ${TO_ADDRESS}" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
         /usr/bin/sendemail -o tls=no -f ${FROM_ADDRESS} -t ${TO_ADDRESS} -s email-smtp.eu-west-1.amazonaws.com -xu ${USERNAME} -xp ${PASSWORD} -u "${subject} `/bin/date`" -m ${message}
     fi
+
+    /bin/echo "${message}" | /usr/bin/mail -s "${subject}" -a "From: SenderName <${FROM_ADDRESS}>" "${TO_ADDRESS}" 
 else
     /bin/echo "${0} `/bin/date`:Email not sent because of missing parameter(s)" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 fi
