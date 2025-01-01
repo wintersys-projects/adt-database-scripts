@@ -338,7 +338,7 @@ cd ${HOME}
 
 #We want to be sure that the database server is installed
 count="0"
-while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] || [ "${count}" -lt "60" ] )
+while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] && [ "${count}" -lt "60" ] )
 do
 	/bin/sleep 2
  	count="`/usr/bin/expr ${count} + 1`"
@@ -351,6 +351,11 @@ then
 	${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
 	${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
 fi
+
+while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] )
+do
+	/bin/sleep 2
+done
 
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
