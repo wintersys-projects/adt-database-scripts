@@ -43,24 +43,28 @@ then
     apt="/usr/sbin/apt-fast"
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
+install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
     if ( [ "${BUILDOS}" = "ubuntu" ] )
     then
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-        /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc                #####UBUNTU-POSTGRESQLCLIENT-REPO#####
-        /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list    #####UBUNTU-POSTGRESQLCLIENT-REPO#####
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages                                             #####UBUNTU-POSTGRESQLCLIENT-REPO####
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install postgresql-client-`/bin/echo ${postgres_version}`                        #####UBUNTU-POSTGRESQLCLIENT-REPO#####
+        /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc                
+        /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list   
+        ${update_command}--allow-change-held-packages                                            
+        ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                      
     fi
 
     if ( [ "${BUILDOS}" = "debian" ] )
     then
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-        /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.ascq                #####DEBIAN-POSTGRESQLCLIENT-REPO#####
-        /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list    #####DEBIAN-POSTGRESQLCLIENT-REPO#####
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages                                             #####DEBIAN-POSTGRESQLCLIENT-REPO####
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install postgresql-client-`/bin/echo ${postgres_version}`                       #####DEBIAN-POSTGRESQLCLIENT-REPO#####
+        /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.ascq                
+        /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list   
+        ${update_command}--allow-change-held-packages                                            
+        ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                       
     fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallPostgresClient.sh
 fi
