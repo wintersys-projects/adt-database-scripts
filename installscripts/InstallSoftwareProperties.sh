@@ -34,16 +34,19 @@ then
     apt="/usr/sbin/apt-fast"
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 install -qq -y software-properties-common    #####UBUNTU-SOFTWAREPROPERTIES-REPO#####
+        ${install_command} software-properties-common    
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 install -qq -y software-properties-common    #####DEBIAN-SOFTWAREPROPERTIES-REPO#####
+        ${install_command} software-properties-common    
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallSoftwareProperties.sh
 fi
