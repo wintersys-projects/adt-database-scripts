@@ -45,26 +45,30 @@ then
     apt="/usr/sbin/apt-fast"
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
+install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
 	then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install gnupg    #####UBUNTU-MYSQLCLIENT-REPO#####
- 		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	#####UBUNTU-MYSQLCLIENT-REPO#####
-		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}	#####UBUNTU-MYSQLCLIENT-REPO-SKIP#####
-		/bin/rm ${mysql_apt_config}									#####UBUNTU-MYSQLCLIENT-REPO-SKIP#####
-        	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages #####UBUNTU-MYSQLCLIENT-REPO#####
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=60 -qq -y install mysql-client	#####UBUNTU-MYSQLCLIENT-REPO#####
+        	${install_command} gnupg    
+ 		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
+		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config}	
+		/bin/rm ${mysql_apt_config}									
+        	${update_command} --allow-change-held-packages 
+		${install_command} mysql-client	
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install gnupg    #####DEBIAN-MYSQLCLIENT-REPO#####
- 		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	#####DEBIAN-MYSQLCLIENT-REPO#####
-		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config} #####DEBIAN-MYSQLCLIENT-REPO-SKIP#####
-		/bin/rm ${mysql_apt_config}									#####DEBIAN-MYSQLCLIENT-REPO-SKIP#####
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages #####DEBIAN-MYSQLCLIENT-REPO#####
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=60 -qq -y install mysql-client	#####DEBIAN-MYSQLCLIENT-REPO#####
+        	${install_command} gnupg 
+ 		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
+		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config} 
+		/bin/rm ${mysql_apt_config}									
+                ${update_command} --allow-change-held-packages 
+		${install_command} mysql-client	
 	fi
      	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh
 fi
