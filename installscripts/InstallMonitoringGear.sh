@@ -79,7 +79,7 @@ then
                  fi
                  if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INSTALLMONITORINGGEAR' | /usr/bin/awk -F'|' '{print $NF}'`" = "native" ] )
                  then
-                     /usr/bin/curl -sSL https://repos.insights.digitalocean.com/install.sh | /usr/bin/sudo bash    #####DEBIAN-DIGITALOCEANMONITORING-REPO#####
+                     /usr/bin/curl -sSL https://repos.insights.digitalocean.com/install.sh | /usr/bin/sudo bash    
                  fi
              fi
          fi
