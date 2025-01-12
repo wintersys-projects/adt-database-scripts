@@ -22,7 +22,7 @@ ${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatabaseClient.sh"
 ${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallGo.sh"
-${HOME}/installscripts/InstallGo.sh ${BUILDOS} 
+${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
 #>&2 /bin/echo "${0} InstallCurl.sh"
 #${HOME}/installscripts/InstallCurl.sh ${BUILDOS} 
 #>&2 /bin/echo "${0} InstallLibSocketSSL.sh"
