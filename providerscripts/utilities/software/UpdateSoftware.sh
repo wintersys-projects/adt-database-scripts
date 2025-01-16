@@ -14,10 +14,7 @@ done
 
 ${HOME}/providerscripts/utilities/software/UpdateInfrastructure.sh
 
-if ( [ "${1}" != "SNAPPED" ] )
-then
-    /usr/sbin/shutdown -r now
-fi
+/usr/sbin/shutdown -r now
 
 
 
