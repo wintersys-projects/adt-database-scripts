@@ -102,12 +102,22 @@ else
     fi
 fi
 
-if ( [ "`/bin/grep "${DB_PORT}" /etc/mysql/my.cnf`" = "" ] )
+/bin/echo "[mysqld]" >> /etc/mysql/my.cnf
+/bin/echo "port        = ${DB_PORT}" >> /etc/mysql/my.cnf
+/bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
+/bin/echo "skip-name-resolve" >> /etc/mysql/my.cnf
+
+if ( [ -f ${HOME}/providerscripts/database/singledb/mysql/mysql.config ] )
 then
-    /bin/echo "[mysqld]" >> /etc/mysql/my.cnf
-    /bin/echo "port        = ${DB_PORT}" >> /etc/mysql/my.cnf
-    /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
-    /bin/echo "skip-name-resolve" >> /etc/mysql/my.cnf
+    /bin/cat ${HOME}/providerscripts/database/singledb/mysql/mysql.config >> /etc/mysql/my.cnf
 fi
+
+#if ( [ "`/bin/grep "${DB_PORT}" /etc/mysql/my.cnf`" = "" ] )
+#then
+#    /bin/echo "[mysqld]" >> /etc/mysql/my.cnf
+#    /bin/echo "port        = ${DB_PORT}" >> /etc/mysql/my.cnf
+#    /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
+#    /bin/echo "skip-name-resolve" >> /etc/mysql/my.cnf
+#fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
