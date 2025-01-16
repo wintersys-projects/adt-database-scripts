@@ -92,30 +92,35 @@ else
     fi
 fi
 
-if ( [ -f /etc/mysql/mariadb.conf.d/50-server.cnf ] )
-then
-    /bin/sed -i.bak '/bind-address/d' /etc/mysql/mariadb.conf.d/50-server.cnf
-    /bin/sed -i.bak "s/3306/${DB_PORT}/" /etc/mysql/mariadb.conf.d/50-server.cnf
-else
-    /bin/sed -i.bak '/bind-address/d' /etc/mysql/my.cnf
-    /bin/sed -i.bak "s/3306/${DB_PORT}/" /etc/mysql/my.cnf
-fi
+/bin/echo "[mysqld]" >> /etc/mysql/my.cnf
+/bin/echo "port        = 2035" >> /etc/mysql/my.cnf
+/bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
+/bin/cat 
+
+#if ( [ -f /etc/mysql/mariadb.conf.d/50-server.cnf ] )
+#then
+#    /bin/sed -i.bak '/bind-address/d' /etc/mysql/mariadb.conf.d/50-server.cnf
+#    /bin/sed -i.bak "s/3306/${DB_PORT}/" /etc/mysql/mariadb.conf.d/50-server.cnf
+#else
+#    /bin/sed -i.bak '/bind-address/d' /etc/mysql/my.cnf
+#    /bin/sed -i.bak "s/3306/${DB_PORT}/" /etc/mysql/my.cnf
+#fi
 
 
-if ( [ "`/bin/grep "${DB_PORT}" /etc/mysql/mariadb.conf.d/50-server.cnf`" = "" ] )
-then
-    if ( [ -f /etc/mysql/mariadb.conf.d/50-server.cnf ] )
-    then
-        /bin/echo "[mysqld]" >> /etc/mysql/mariadb.conf.d/50-server.cnf
-        /bin/echo "port        = ${DB_PORT}" >> /etc/mysql/mariadb.conf.d/50-server.cnf
-        /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/mariadb.conf.d/50-server.cnf
-    fi
-elif ( [ "`/bin/grep "${DB_PORT}" /etc/mysql/my.cnf`" = "" ] )
-then
-    /bin/echo "[mysqld]" >> /etc/mysql/my.cnf
-    /bin/echo "port        = ${DB_PORT}" >> /etc/mysql/my.cnf
-    /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
-fi
+#if ( [ "`/bin/grep "${DB_PORT}" /etc/mysql/mariadb.conf.d/50-server.cnf`" = "" ] )
+#then
+#    if ( [ -f /etc/mysql/mariadb.conf.d/50-server.cnf ] )
+#    then
+#        /bin/echo "[mysqld]" >> /etc/mysql/mariadb.conf.d/50-server.cnf
+#        /bin/echo "port        = ${DB_PORT}" >> /etc/mysql/mariadb.conf.d/50-server.cnf
+#        /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/mariadb.conf.d/50-server.cnf
+#    fi
+#elif ( [ "`/bin/grep "${DB_PORT}" /etc/mysql/my.cnf`" = "" ] )
+#then
+#    /bin/echo "[mysqld]" >> /etc/mysql/my.cnf
+#    /bin/echo "port        = ${DB_PORT}" >> /etc/mysql/my.cnf
+#    /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
+#fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
 
