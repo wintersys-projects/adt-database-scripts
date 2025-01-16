@@ -95,8 +95,11 @@ fi
 /bin/echo "[mysqld]" >> /etc/mysql/my.cnf
 /bin/echo "port        = 2035" >> /etc/mysql/my.cnf
 /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
-/bin/cat 
 
+if ( [ -f ${HOME}/providerscripts/database/singledb/mariadb/mariadb.config ] )
+then
+    /bin/cat ${HOME}/providerscripts/database/singledb/mariadb/mariadb.config >> /etc/mysql/my.cnf
+fi
 #if ( [ -f /etc/mysql/mariadb.conf.d/50-server.cnf ] )
 #then
 #    /bin/sed -i.bak '/bind-address/d' /etc/mysql/mariadb.conf.d/50-server.cnf
