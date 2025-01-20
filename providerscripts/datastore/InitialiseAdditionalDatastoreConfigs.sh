@@ -59,8 +59,8 @@ then
                         if ( [ "${count}" != "0" ] )
                         then
                                 /bin/cp  ${HOME}/.s5cfg  ${HOME}/.s5cfg-${count}
-                                /bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg
-                                /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s5cfg
+                                /bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg-${count}
+                                /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s5cfg-${count}
                         fi
                         count="`/usr/bin/expr ${count} + 1`"
                 done
