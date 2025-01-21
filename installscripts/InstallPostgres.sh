@@ -43,9 +43,9 @@ then
     if ( [ "${buildos}" = "ubuntu" ] )
     then    
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-        ${install_command} postgresql-common                          
+        eval ${install_command} postgresql-common                          
         /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                  
-        ${install_command} postgresql-${postgres_version}           
+        eval ${install_command} postgresql-${postgres_version}           
         /usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf   
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
     fi
@@ -53,9 +53,9 @@ then
     if ( [ "${buildos}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
     then   
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-	${install_command} postgresql-common                           
+	eval ${install_command} postgresql-common                           
         /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                        
-        ${install_command} postgresql-${postgres_version}                        
+        eval ${install_command} postgresql-${postgres_version}                        
         /usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf   
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
     fi
