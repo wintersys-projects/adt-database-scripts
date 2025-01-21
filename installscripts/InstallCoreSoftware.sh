@@ -40,7 +40,7 @@ ${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS}
 #${HOME}/installscripts/InstallJQ.sh ${BUILDOS} 
 #>&2 /bin/echo "${0} InstallCron.sh"
 #${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
->&2 /bin/echo "${0} InstallMonitoringGear.sh"
-${HOME}/installscripts/InstallMonitoringGear.sh 
+#>&2 /bin/echo "${0} InstallMonitoringGear.sh"
+#${HOME}/installscripts/InstallMonitoringGear.sh 
 
 
