@@ -41,12 +41,12 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        ${install_command} software-properties-common    
+        eval ${install_command} software-properties-common    
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        ${install_command} software-properties-common    
+        eval ${install_command} software-properties-common    
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallSoftwareProperties.sh
 fi
