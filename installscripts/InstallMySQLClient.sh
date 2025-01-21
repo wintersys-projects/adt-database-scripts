@@ -53,22 +53,22 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
 	then
-        	${install_command} gnupg    
+        	eval ${install_command} gnupg    
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config}	
 		/bin/rm ${mysql_apt_config}									
-        	${update_command} --allow-change-held-packages 
-		${install_command} mysql-client	
+        	eval ${update_command} --allow-change-held-packages 
+		eval ${install_command} mysql-client	
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-        	${install_command} gnupg 
+        	eval ${install_command} gnupg 
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config} 
 		/bin/rm ${mysql_apt_config}									
-                ${update_command} --allow-change-held-packages 
-		${install_command} mysql-client	
+                eval ${update_command} --allow-change-held-packages 
+		eval ${install_command} mysql-client	
 	fi
      	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh
 fi
