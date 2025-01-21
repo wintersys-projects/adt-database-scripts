@@ -34,12 +34,12 @@ ${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
 ${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS} 
 #>&2 /bin/echo "${0} InstallSysStat.sh"
 #${HOME}/installscripts/InstallSysStat.sh ${BUILDOS} 
-#>&2 /bin/echo "${0} InstallRsync.sh"
-#${HOME}/installscripts/InstallRsync.sh ${BUILDOS} 
-#>&2 /bin/echo "${0} InstallJQ.sh"
-#${HOME}/installscripts/InstallJQ.sh ${BUILDOS} 
-#>&2 /bin/echo "${0} InstallCron.sh"
-#${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallRsync.sh"
+${HOME}/installscripts/InstallRsync.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallJQ.sh"
+${HOME}/installscripts/InstallJQ.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallCron.sh"
+${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
 #>&2 /bin/echo "${0} InstallMonitoringGear.sh"
 #${HOME}/installscripts/InstallMonitoringGear.sh 
 
