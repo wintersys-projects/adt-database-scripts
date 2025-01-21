@@ -54,8 +54,8 @@ then
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
         /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc                
         /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list   
-        ${update_command}--allow-change-held-packages                                            
-        ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                      
+        eval ${update_command}--allow-change-held-packages                                            
+        eval ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                      
     fi
 
     if ( [ "${BUILDOS}" = "debian" ] )
@@ -63,8 +63,8 @@ then
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
         /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.ascq                
         /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list   
-        ${update_command}--allow-change-held-packages                                            
-        ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                       
+        eval ${update_command}--allow-change-held-packages                                            
+        eval ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                       
     fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallPostgresClient.sh
 fi
