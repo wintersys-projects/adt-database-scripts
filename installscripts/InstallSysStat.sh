@@ -41,12 +41,12 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        ${install_command} sysstat    
+        eval ${install_command} sysstat    
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        ${install_command} sysstat    
+        eval ${install_command} sysstat    
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallSysStat.sh
 fi
