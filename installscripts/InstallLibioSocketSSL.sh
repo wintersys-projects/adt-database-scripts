@@ -41,12 +41,12 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        ${install_command} install libio-socket-ssl-perl    
+        eval ${install_command} install libio-socket-ssl-perl    
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        ${install_command} install libio-socket-ssl-perl    
+        eval ${install_command} install libio-socket-ssl-perl    
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallLibioSocketSSL.sh				
 fi
