@@ -41,12 +41,12 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        ${install_command} autossh   
+        eval ${install_command} autossh   
     fi
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        ${install_command} autossh   
+        eval ${install_command} autossh   
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallAutoSSH.sh				
 fi
