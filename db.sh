@@ -363,11 +363,6 @@ then
   	fi
 fi
 
-while ( [ ! -f ${HOME}/runtime/DATABASE_SERVER_INSTALLED ] )
-do
-	/bin/sleep 2
-done
-
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
 BYPASS_DB_LAYER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
