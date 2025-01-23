@@ -26,7 +26,7 @@ HOST=""
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
+    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
     HOST="localhost"
 fi
