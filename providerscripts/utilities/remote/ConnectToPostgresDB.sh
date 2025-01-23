@@ -34,9 +34,13 @@ raw="$2"
 #DB_P="`command="${SUDO} ${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh credentials/shit 2" && eval ${command}`"
 #DB_U="`command="${SUDO} ${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh credentials/shit 3" && eval ${command}`"
 
-DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
-DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
+#DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
+#DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
+#DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
+
+DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
+DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
+DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSNAME'`"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
