@@ -40,9 +40,13 @@ DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT
 #DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
 #DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
 
-DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
-DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
+#DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
+#DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
+#DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
+
+DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
+DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
+DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSNAME'`"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
