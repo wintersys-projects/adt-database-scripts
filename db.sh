@@ -293,21 +293,21 @@ cd ${HOME}
 . ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
 . ${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
 
-if ( [ ! -d ${HOME}/credentials ] )
-then
-    /bin/mkdir -p ${HOME}/credentials
-    /bin/chmod 700 ${HOME}/credentials
-fi    
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
-then
-    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
-    if ( [ -f ${HOME}/credentials/db_cred ] )
-    then
-        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
-    fi
-else
-    /bin/echo "${0} `/bin/date`: Failed to get database credentials from the datastore" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-fi
+#if ( [ ! -d ${HOME}/credentials ] )
+#then
+#    /bin/mkdir -p ${HOME}/credentials
+#    /bin/chmod 700 ${HOME}/credentials
+#fi    
+#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
+#then
+#    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
+#    if ( [ -f ${HOME}/credentials/db_cred ] )
+#    then
+#        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
+#    fi
+#else
+#    /bin/echo "${0} `/bin/date`: Failed to get database credentials from the datastore" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+#fi
 
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
