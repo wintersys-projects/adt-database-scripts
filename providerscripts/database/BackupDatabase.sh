@@ -52,7 +52,7 @@ WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
-DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSNAME'`"
+DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
 
 if ( [ "${websiteDB}" = "" ] )
 then
