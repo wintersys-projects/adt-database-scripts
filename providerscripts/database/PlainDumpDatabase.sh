@@ -52,7 +52,7 @@ then
     
     if ( [ "${tries}" = "5" ] )
     then
-        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." 
         ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO TAKE BACKUP" "I haven't been able to take a database backup, please investigate" "ERROR"
         exit
     fi
@@ -76,7 +76,7 @@ then
     
     if ( [ "${tries}" = "5" ] )
     then
-        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." 
         ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO TAKE BACKUP" "I haven't been able to take a database backup, please investigate" "ERROR"
         exit
     fi
