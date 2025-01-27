@@ -108,7 +108,7 @@ ${HOME}/providerscripts/datastore/GetFromDatastore.sh  "`/bin/echo ${WEBSITE_URL
 
 if ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] )
 then
-    /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" >> ${HOME}/logs/backups/OPERATIONAL_MONITORING.log
+    /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" 
     ${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
 fi
 /bin/rm ./${backup_name}
