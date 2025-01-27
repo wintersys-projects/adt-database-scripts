@@ -68,7 +68,7 @@ then
         if ( [ "$?" != "0" ] )
         then
              /bin/touch ${HOME}/runtime/DATABASE_NOT_RUNNING
-             /bin/echo "${0} `/bin/date`: Couldn't restart the mariadb database this is a problem that needs to be looked into" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+             /bin/echo "${0} `/bin/date`: Couldn't restart the mariadb database this is a problem that needs to be looked into" 
              ${HOME}/providerscripts/email/SendEmail.sh "DATABASE MIGHT NOT BE RUNNING" "I think that your database might not be running" "ERROR"
         else
             /bin/rm ${HOME}/runtime/DATABASE_NOT_RUNNING
@@ -84,14 +84,14 @@ then
         /bin/echo "ALIVE"
     else
         /bin/echo "DEAD"
-        /bin/echo "${0} `/bin/date`: The mysql database has been offline, I am atempting to restart it" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+        /bin/echo "${0} `/bin/date`: The mysql database has been offline, I am atempting to restart it" 
         ${HOME}/providerscripts/email/SendEmail.sh "DATABASE HAS BEEN OFFLINE" "THe mysql database has been offline" "ERROR"
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
         
         if ( [ "$?" != "0" ] )
         then
              /bin/touch ${HOME}/runtime/DATABASE_NOT_RUNNING
-             /bin/echo "${0} `/bin/date`: Couldn't restart the mysql database this is a problem that needs to be looked into" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+             /bin/echo "${0} `/bin/date`: Couldn't restart the mysql database this is a problem that needs to be looked into"
              ${HOME}/providerscripts/email/SendEmail.sh "DATABASE MIGHT NOT BE RUNNING" "I think that your mysql database might not be running" "ERROR"       
         else
             /bin/rm ${HOME}/runtime/DATABASE_NOT_RUNNING
@@ -107,7 +107,7 @@ then
         /bin/echo "ALIVE"
     else
         /bin/echo "DEAD"
-        /bin/echo "${0} `/bin/date`: The postgres database has been offline, I am atempting to restart it" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+        /bin/echo "${0} `/bin/date`: The postgres database has been offline, I am atempting to restart it" 
         ${HOME}/providerscripts/email/SendEmail.sh "DATABASE HAS BEEN OFFLINE" "THe postgres database has been offline" "ERROR"
 
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
@@ -115,8 +115,9 @@ then
         if ( [ "$?" != "0" ] )
         then
              /bin/touch ${HOME}/runtime/DATABASE_NOT_RUNNING
-             /bin/echo "${0} `/bin/date`: Couldn't restart the postgres database this is a problem that needs to be looked into" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-             ${HOME}/providerscripts/email/SendEmail.sh "DATABASE MIGHT NOT BE RUNNING" "I think that your postgres database might not be running" "ERROR"         else
+             /bin/echo "${0} `/bin/date`: Couldn't restart the postgres database this is a problem that needs to be looked into" 
+             ${HOME}/providerscripts/email/SendEmail.sh "DATABASE MIGHT NOT BE RUNNING" "I think that your postgres database might not be running" "ERROR"        
+        else
             /bin/rm ${HOME}/runtime/DATABASE_NOT_RUNNING
         fi
     fi
