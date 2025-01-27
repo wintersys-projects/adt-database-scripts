@@ -65,7 +65,7 @@ then
     #Dump the database to an sql file
     if ( [ "`${mysql} -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/wc -l`" -lt "5" ] )
     then
-        /bin/echo "${0} `/bin/date`: Failed to backup database, it seems like the tables are not there" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+        /bin/echo "${0} `/bin/date`: Failed to backup database, it seems like the tables are not there" 
         exit
     fi
     
@@ -87,7 +87,7 @@ then
     
     if ( [ "${tries}" = "5" ] )
     then
-        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." 
         ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO TAKE BACKUP" "I haven't been able to take a database backup, please investigate" "ERROR"
         exit
     fi
@@ -98,8 +98,8 @@ then
     /bin/sed -i '/SESSION.SQL_LOG_BIN/d' applicationDB.sql
     IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
     /bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.sql
-    /bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-    /bin/echo "${0} `/bin/date`: Taring the database dump" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+    /bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" 
+    /bin/echo "${0} `/bin/date`: Taring the database dump" 
 
     ${HOME}/providerscripts/utilities/processing/StandardiseMySQLCollations.sh ./applicationDB.sql
     #tar the database dump
@@ -123,8 +123,8 @@ then
     /bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" applicationDB.sql
     IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
     /bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.sql
-    /bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-    /bin/echo "${0} `/bin/date`: Taring the database dump" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+    /bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" 
+    /bin/echo "${0} `/bin/date`: Taring the database dump"
     /bin/tar cvfz ${websiteDB} applicationDB.sql
     /bin/rm applicationDB.sql
 fi
