@@ -52,17 +52,17 @@ then
     then
         if ( [ "${EMAIL_PROVIDER}" = "1" ] )
         then
-            /bin/echo "${0} `/bin/date`: Email sent via sendpulse, subject : ${subject} to: ${TO_ADDRESS}" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+            /bin/echo "${0} `/bin/date`: Email sent via sendpulse, subject : ${subject} to: ${TO_ADDRESS}" 
             /usr/bin/sendemail -o tls=no -f ${FROM_ADDRESS} -t ${TO_ADDRESS} -s smtp-pulse.com:2525 -xu ${USERNAME} -xp ${PASSWORD} -u "${subject} `/bin/date`" -m ${message}
         fi
         if ( [ "${EMAIL_PROVIDER}" = "2" ] )
         then
-            /bin/echo "${0} `/bin/date`: Email sent via mailjet, subject : ${subject} to: ${TO_ADDRESS}" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+            /bin/echo "${0} `/bin/date`: Email sent via mailjet, subject : ${subject} to: ${TO_ADDRESS}" 
             /usr/bin/sendemail -o tls=no -f ${FROM_ADDRESS} -t ${TO_ADDRESS} -s in-v3.mailjet.com:587 -xu ${USERNAME} -xp ${PASSWORD} -u "${subject} `/bin/date`" -m ${message}    
         fi
         if ( [ "${EMAIL_PROVIDER}" = "3" ] )
         then
-            /bin/echo "${0} `/bin/date`: Email sent via AWS SES, subject : ${subject} to: ${TO_ADDRESS}" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+            /bin/echo "${0} `/bin/date`: Email sent via AWS SES, subject : ${subject} to: ${TO_ADDRESS}" 
             /usr/bin/sendemail -o tls=no -f ${FROM_ADDRESS} -t ${TO_ADDRESS} -s email-smtp.eu-west-1.amazonaws.com -xu ${USERNAME} -xp ${PASSWORD} -u "${subject} `/bin/date`" -m ${message}
         fi
     fi
@@ -71,5 +71,5 @@ then
         /bin/echo "${message}" | /usr/bin/mail -s "${subject}" -a "From: ${FROM_NAME} <${FROM_ADDRESS}>" "${TO_ADDRESS}" 
     fi
 else
-    /bin/echo "${0} `/bin/date`:Email not sent because of missing parameter(s)" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+    /bin/echo "${0} `/bin/date`:Email not sent because of missing parameter(s)"
 fi
