@@ -45,7 +45,7 @@ then
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        eval install_command} rsync   
+        eval ${install_command} rsync   
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallRsync.sh
 fi
