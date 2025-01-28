@@ -32,12 +32,12 @@ else
     HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'MYPUBLICIP'`"
 fi
 
-IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
+#IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
+ip_mask="`${HOME}/providerscripts/utilities/remote/ObtainIPMask.sh`"
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-VPC_IP_RANGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`" ######ADDED
 
 #Older style user setup where necessary, might have to change this with time
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
@@ -49,9 +49,8 @@ create database ${DB_N};
 ALTER DATABASE ${DB_N} CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'localhost' IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'127.0.0.1' IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${VPC_IP_RANGE}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION; #ADDED
 #GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${HOST}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
-#GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${IP_MASK}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${ip_mask}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
 GRANT SESSION_VARIABLES_ADMIN ON *.* TO \"${DB_U}\";
 flush privileges;" > ${HOME}/runtime/initialiseDB.sql
 else
@@ -62,9 +61,8 @@ create database ${DB_N};
 ALTER DATABASE ${DB_N} CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'localhost' IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'127.0.0.1' IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${VPC_IP_RANGE}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION; #ADDED
 #GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${HOST}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
-#GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${IP_MASK}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${ip_mask}\" IDENTIFIED BY \"${DB_P}\" WITH GRANT OPTION;
 drop user 'root'@'localhost';
 drop user 'mysql'@'localhost';
 flush privileges;" > ${HOME}/runtime/initialiseDB.sql
