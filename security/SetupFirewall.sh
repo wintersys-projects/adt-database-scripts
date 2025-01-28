@@ -21,6 +21,8 @@
 #set -x #THIS MUST NOT BE SWITCHED ON DURING NORMAL USE, SCRIPT BREAK
 #####################################################################
 
+exit
+
 if ( [ -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
 	exit
