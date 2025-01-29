@@ -37,10 +37,10 @@ fi
 #then
 #    exit
 #fi
-if ( [ ! -f ${HOME}/credentials/db_cred ] )
-then
-    exit
-fi
+#if ( [ ! -f ${HOME}/credentials/db_cred ] )
+#then
+#    exit
+#fi
 
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
