@@ -38,7 +38,7 @@ DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
     /bin/echo 'use mysql;
-CREATE USER "'${DB_U}'"@'"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+CREATE USER "'${DB_U}'"@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
 CREATE USER "'${DB_U}'"@"127.0.0.1" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
 CREATE USER "'${DB_U}'"@"'${HOST}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
 CREATE USER "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
