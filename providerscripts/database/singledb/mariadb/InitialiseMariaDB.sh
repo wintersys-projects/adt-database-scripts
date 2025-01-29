@@ -45,11 +45,11 @@ then
 update user set user="'${DB_U}'" where user="root";
 flush privileges;
 create database '${DB_N}';
-ALTER DATABASE ${DB_N} CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
 GRANT SESSION_VARIABLES_ADMIN ON *.* TO "'${DB_U}'";
 flush privileges;' > ${HOME}/runtime/initialiseDB.sql
 else
@@ -57,11 +57,11 @@ else
 CREATE USER "'${DB_U}'" IDENTIFIED BY "'${DB_P}'";
 flush privileges;
 create database '${DB_N}';
-ALTER DATABASE ${DB_N} CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
 drop user "root"@"localhost";
 drop user "mysql"@"localhost";
 flush privileges;' > ${HOME}/runtime/initialiseDB.sql
