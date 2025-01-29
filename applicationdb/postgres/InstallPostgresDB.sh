@@ -56,7 +56,9 @@ then
     fi
 fi
 
-if ( [ "`/usr/bin/psql -h ${HOST} -p ${DB_PORT} -U ${DB_U} ${DB_N} -c "select exists ( select 1 from information_schema.tables where table_name='zzzz');" | /bin/grep -v 'exist' | /bin/grep -v '\-\-\-\-'  | /bin/grep -v 'row' | /bin/sed 's/ //g'`" = "t" ] || [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
+#if ( [ "`/usr/bin/psql -h ${HOST} -p ${DB_PORT} -U ${DB_U} ${DB_N} -c "select exists ( select 1 from information_schema.tables where table_name='zzzz');" | /bin/grep -v 'exist' | /bin/grep -v '\-\-\-\-'  | /bin/grep -v 'row' | /bin/sed 's/ //g'`" = "t" ] || [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
+
+if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "select exists ( select 1 from information_schema.tables where table_name='zzzz');" | /bin/grep -v 'exist' | /bin/grep -v '\-\-\-\-'  | /bin/grep -v 'row' | /bin/sed 's/ //g'`" = "t" ] || [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 then
     /bin/echo "${0} `/bin/date` : An application has been installed in the database, right on" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
     ${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS COMPLETED" "An application has been installed in your postgres database" "INFO"
