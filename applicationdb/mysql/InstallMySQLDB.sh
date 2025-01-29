@@ -97,15 +97,18 @@ then
 fi
 
 #Make absolutely certain we are all on INNODB
-tables="`/usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/tail -n +2`"
-/bin/echo ${tables}
+#tables="`/usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/tail -n +2`"
+tables="`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /usr/bin/tail -n +2`"
+#/bin/echo ${tables}
 
 for table in ${tables}
 do
-    /usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e "ALTER TABLE ${table} ENGINE = INNODB;"
+   # /usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e "ALTER TABLE ${table} ENGINE = INNODB;"
+   ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "ALTER TABLE ${table} ENGINE = INNODB;"
 done
 
-if ( [ "`/usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/wc -l`" -gt "5" ] )
+#if ( [ "`/usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/wc -l`" -gt "5" ] )
+if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /bin/grep 'zzzz'`" != "" ] )
 then
     /bin/echo "${0} `/bin/date` : An application has been installed in the database" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
     ${HOME}/providerscripts/email/SendEmail.sh "A new application has been installed in your database" "A new application has been installed in your database" "INFO"
