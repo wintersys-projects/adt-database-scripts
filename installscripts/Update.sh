@@ -80,6 +80,8 @@ then
     #         #   /bin/echo 'DOWNLOADBELOW="aria2c -c -s ${_MAXNUM} -x ${_MAXNUM} -k 1M -q --file-allocation=none"' >> /etc/apt-fast.conf
   		        /bin/sed -i "s/digitalocean/linode/g" /etc/apt/sources.list.d/ubuntu.sources
                 DEBIAN_FRONTEND=noninteractive /usr/sbin/apt-fast -o DPkg::Lock::Timeout=-1 -qq -y update
+                                 		${HOME}/installscripts/InstallAria2.sh "ubuntu"
+
         fi
     
         if ( [ "${buildos}" = "debian" ] )
@@ -109,6 +111,8 @@ then
   		/bin/sed -i "s/digitalocean/linode/g" /etc/apt/mirrors/debian.list
         DEBIAN_FRONTEND=noninteractive /usr/sbin/apt-fast -o DPkg::Lock::Timeout=-1 -qq -y update
                      #  /bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
+                                      		${HOME}/installscripts/InstallAria2.sh "debian"
+
 
         fi
     done
