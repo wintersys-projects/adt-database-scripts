@@ -47,8 +47,9 @@ then
         then
            . ${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
         fi
-        
-        /usr/bin/psql -h ${HOST} -U ${DB_U} -p ${DB_PORT} ${DB_N} < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+
+        ${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+      #  /usr/bin/psql -h ${HOST} -U ${DB_U} -p ${DB_PORT} ${DB_N} < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
         ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "dbinstalllock.file"
     else
         exit
