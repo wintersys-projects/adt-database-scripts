@@ -37,40 +37,40 @@ DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    /bin/echo "use mysql;
-CREATE USER \"${DB_U}\"@'localhost' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-CREATE USER \"${DB_U}\"@'127.0.0.1' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-CREATE USER \"${DB_U}\"@'${HOST}' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-CREATE USER \"${DB_U}\"@'${IP_MASK}' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
+    /bin/echo 'use mysql;
+CREATE USER "'${DB_U}'"@'"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+CREATE USER "'${DB_U}'"@"127.0.0.1" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+CREATE USER "'${DB_U}'"@"'${HOST}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+CREATE USER "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
 flush privileges;
-create database ${DB_N};
-ALTER DATABASE ${DB_N} CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'localhost' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'127.0.0.1' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${HOST}\" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${IP_MASK}\" WITH GRANT OPTION;
-GRANT SESSION_VARIABLES_ADMIN ON *.* TO \"${DB_U}\";
-DELETE FROM mysql.user WHERE User='';
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-flush privileges;" > ${HOME}/runtime/initialiseDB.sql
+create database '${DB_N}';
+ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"localhost" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"127.0.0.1" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"'${HOST}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"'${IP_MASK}'" WITH GRANT OPTION;
+GRANT SESSION_VARIABLES_ADMIN ON *.* TO "'${DB_U}'";
+DELETE FROM mysql.user WHERE User="";
+DELETE FROM mysql.user WHERE User="root" AND Host NOT IN ("localhost", "127.0.0.1", "::1");
+ALTER USER "root"@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+flush privileges;' > ${HOME}/runtime/initialiseDB.sql
 else
-    /bin/echo "use mysql;
-CREATE USER \"${DB_U}\"@'localhost' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-CREATE USER \"${DB_U}\"@'127.0.0.1' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-CREATE USER \"${DB_U}\"@'${HOST}' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-CREATE USER \"${DB_U}\"@'${IP_MASK}' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
+    /bin/echo 'use mysql;
+CREATE USER "'${DB_U}'"@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+CREATE USER "'${DB_U}'"@"127.0.0.1" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+CREATE USER "'${DB_U}'"@"'${HOST}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+CREATE USER "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
 flush privileges;
-create database ${DB_N};
-ALTER DATABASE ${DB_N} CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'localhost' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@'127.0.0.1' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${HOST}\" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ${DB_N}.* TO \"${DB_U}\"@\"${IP_MASK}\" WITH GRANT OPTION;
-DELETE FROM mysql.user WHERE User='';
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${DB_P}';
-flush privileges;" > ${HOME}/runtime/initialiseDB.sql
+create database '${DB_N}';
+ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"localhost" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"127.0.0.1" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"'${HOST}'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON "'${DB_N}'".* TO "'${DB_U}'"@"'${IP_MASK}'" WITH GRANT OPTION;
+DELETE FROM mysql.user WHERE User="";
+DELETE FROM mysql.user WHERE User="root" AND Host NOT IN ("localhost", "127.0.0.1", "::1");
+ALTER USER "root"@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
+flush privileges;' > ${HOME}/runtime/initialiseDB.sql
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
