@@ -84,7 +84,8 @@ then
                 do
                     /bin/sleep 5
                     DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y update
-                done                                 		${HOME}/installscripts/InstallAria2.sh "ubuntu"
+                done                                 		
+                ${HOME}/installscripts/InstallAria2.sh "ubuntu"
 
         fi
     
