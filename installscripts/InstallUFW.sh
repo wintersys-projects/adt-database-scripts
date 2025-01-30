@@ -20,11 +20,12 @@
 ####################################################################################
 #set -x
 
-if ( [ "${1}" != "" ] )
-then
-    buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#    buildos="${1}"
+#fi
 
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 HOME="`/bin/cat /home/homedir.dat`"
 
 apt=""
@@ -41,12 +42,12 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-    if ( [ "${buildos}" = "ubuntu" ] )
+    if ( [ "${BUILDOS}" = "ubuntu" ] )
     then
         eval ${install_command} ufw        
     fi
 
-    if ( [ "${buildos}" = "debian" ] )
+    if ( [ "${BUILDOS}" = "debian" ] )
     then
         eval ${install_command} ufw        
     fi
