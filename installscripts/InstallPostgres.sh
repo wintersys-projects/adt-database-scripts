@@ -20,10 +20,13 @@
 ####################################################################################
 #set -x
 
-if ( [ "${1}" != "" ] )
-then
-    buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#    buildos="${1}"
+#fi
+
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
@@ -40,7 +43,7 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 if ( [ "${apt}" != "" ] )
 then
     #For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
-    if ( [ "${buildos}" = "ubuntu" ] )
+    if ( [ "${BUILDOS}" = "ubuntu" ] )
     then    
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
         eval ${install_command} postgresql-common                          
@@ -50,7 +53,7 @@ then
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
     fi
   
-    if ( [ "${buildos}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
+    if ( [ "${BUILDOS}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
     then   
         postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
 	eval ${install_command} postgresql-common                           
