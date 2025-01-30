@@ -21,17 +21,20 @@
 ####################################################################################
 set -x
 
-if ( [ "${1}" != "" ] )
-then
-    buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#    buildos="${1}"
+#fi
 
-if ( [ "${BUILDOS}" = "" ] )
-then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-else
-    BUILDOS="${buildos}"
-fi
+#if ( [ "${BUILDOS}" = "" ] )
+#then
+#    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+#else
+#    BUILDOS="${buildos}"
+#fi
+
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+
 
 BUILDOSVERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
 
@@ -50,7 +53,7 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-    if ( [ "${buildos}" = "ubuntu" ] )
+    if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
         	eval ${install_command} gnupg   
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
@@ -60,7 +63,7 @@ then
 		eval ${install_command} mysql-server	
 	fi
 
-	if ( [ "${buildos}" = "debian" ] )
+	if ( [ "${BUILDOS}" = "debian" ] )
 	then
         	eval ${install_command} gnupg  		
 	 	mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
