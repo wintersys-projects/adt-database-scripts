@@ -20,10 +20,12 @@
 ####################################################################################
 #set -x
 
-if ( [ "${1}" != "" ] )
-then
-    buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#    buildos="${1}"
+#fi
+
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
@@ -34,7 +36,7 @@ then
     apt="/usr/sbin/apt-fast"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
     if ( [ ! -d /root/scratch ] )
     then
@@ -52,7 +54,7 @@ then
     cd ${cwd}
 fi
 
-if ( [ "${buildos}" = "debian" ] )
+if ( [ "${BUILDOS}" = "debian" ] )
 then
     if ( [ ! -d /root/scratch ] )
     then
