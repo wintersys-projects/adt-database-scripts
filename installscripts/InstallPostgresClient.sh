@@ -20,19 +20,17 @@
 ####################################################################################
 #set -x
 
-#if ( [ "${1}" != "" ] )
-#then
-#    buildos="${1}"
-#fi##
+if ( [ "${1}" != "" ] )
+then
+    buildos="${1}"
+fi
 
-#if ( [ "${buildos}" = "" ] )
-#then
-#    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-#else
-#    BUILDOS="${buildos}"
-#fi
-
-BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+if ( [ "${buildos}" = "" ] )
+then
+    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+else 
+    BUILDOS="${buildos}"
+fi
 
 
 #BUILDOSVERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
