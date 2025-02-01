@@ -19,12 +19,17 @@
 ################################################################################################
 ################################################################################################
 
-#if ( [ "${1}" != "" ] )
-#then
-#	buildos="${1}"
-#fi
+if ( [ "${1}" != "" ] )
+then
+    buildos="${1}"
+fi
 
-#BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+if ( [ "${buildos}" = "" ] )
+then
+    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+else 
+    BUILDOS="${buildos}"
+fi
 
 
 HOME="`/bin/cat /home/homedir.dat`"
@@ -40,10 +45,10 @@ fi
 
 if ( [ "${firewall}" = "ufw" ] )
 then
-	${HOME}/installscripts/InstallUFW.sh 
+	${HOME}/installscripts/InstallUFW.sh ${BUILDOS}
 fi
 
 if ( [ "${firewall}" = "iptables" ] )
 then
-	${HOME}/installscripts/InstallIPTables.sh 
+	${HOME}/installscripts/InstallIPTables.sh ${BUILDOS}
 fi
