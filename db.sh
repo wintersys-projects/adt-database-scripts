@@ -334,18 +334,18 @@ cd ${HOME}
 
 #Initialise the database
 #. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
-
+ 
+notification_file="${HOME}/runtime/DATABASE_SERVER_INSTALLED"
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	notification_file="${HOME}/runtime/DATABASE_CLIENT_INSTALLED"
-else
- 	notification_file="${HOME}/runtime/DATABASE_SERVER_INSTALLED"
 fi
   	
 #We want to be sure that the database server is installed
 count="0"
 while ( [ ! -f ${notification_file} ] && [ "${count}" -lt "60" ] )
 do
+	/bin/echo "${0} WAITING FOR NOTIFICATION FILE" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 	/bin/sleep 2
  	count="`/usr/bin/expr ${count} + 1`"
 done
