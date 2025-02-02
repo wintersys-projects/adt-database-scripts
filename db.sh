@@ -234,6 +234,9 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 #Update and upgrade the software to its latest available versions
 
+/bin/echo "${0} /usr/bin/date" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+
 ${HOME}/installscripts/InstallCoreSoftware.sh &
 
 #${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh
@@ -283,6 +286,9 @@ then
     export TZ=":${SERVER_TIMEZONE_CONTINENT}/${SERVER_TIMEZONE_CITY}"
 fi
 
+/bin/echo "${0} /usr/bin/date" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+
 cd ${HOME}
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
@@ -317,6 +323,8 @@ cd ${HOME}
 
 cd ${HOME}
 
+/bin/echo "${0} /usr/bin/date" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 #Stop cron from sending notification emails
 /bin/echo "MAILTO=''" > /var/spool/cron/crontabs/root
 
@@ -328,10 +336,11 @@ cd ${HOME}
 /bin/echo "" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
+/bin/echo "${0} /usr/bin/date" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} ####################APPLICATION INSTALLATION LOG STREAM BEGIN##########################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-
 
 #Initialise the database
 #. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
@@ -362,6 +371,8 @@ then
 		${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
   	fi
 fi
+/bin/echo "${0} /usr/bin/date" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
@@ -381,6 +392,9 @@ then
     	fi
     fi
 fi
+
+/bin/echo "${0} /usr/bin/date" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} ################APPLICATION INSTALLATION LOG STREAM END################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
@@ -462,6 +476,8 @@ SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 # Configure the crontab
 . ${HOME}/cron/InitialiseCron.sh
+
+/bin/echo "${0} /usr/bin/date" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 
 /bin/chown -R ${SERVER_USER}:${SERVER_USER} ${HOME}
