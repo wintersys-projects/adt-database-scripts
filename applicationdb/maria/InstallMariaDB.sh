@@ -106,11 +106,11 @@ tables="`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "show tabl
 #tables="`/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/tail -n +2`"
 #/bin/echo ${tables}
 
-for table in ${tables}
-do
+#for table in ${tables}
+#do
    # /usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e "ALTER TABLE ${table} ENGINE = INNODB;"
-   ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh  "ALTER TABLE ${table} ENGINE = INNODB;"
-done
+#   ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh  "ALTER TABLE ${table} ENGINE = INNODB;"
+#done
 
 #if ( [ "`/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/wc -l`" -gt "5" ] )
 
