@@ -340,7 +340,8 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
 	notification_file="${HOME}/runtime/DATABASE_CLIENT_INSTALLED"
 fi
-  	
+  	/bin/echo "${0} `/bin/date`: 1" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 #We want to be sure that the database server is installed
 count="0"
 while ( [ ! -f ${notification_file} ] && [ "${count}" -lt "60" ] )
@@ -349,6 +350,7 @@ do
 	/bin/sleep 2
  	count="`/usr/bin/expr ${count} + 1`"
 done
+/bin/echo "${0} `/bin/date`: 2" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 if ( [ "${count}" = "60" ] )
 then
@@ -362,6 +364,8 @@ then
   	fi
 fi
 
+/bin/echo "${0} `/bin/date`: 3" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
 BYPASS_DB_LAYER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
@@ -371,10 +375,16 @@ then
     #...and install the application
     if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
     then    
+    /bin/echo "${0} `/bin/date`: 4" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
         if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
         then
 		${HOME}/applicationdb/InstallApplicationDB.sh 
+  /bin/echo "${0} `/bin/date`: 5" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
             	. ${HOME}/providerscripts/application/CustomiseApplication.sh
+	       /bin/echo "${0} `/bin/date`: 6" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
         else
         	${HOME}/applicationdb/InstallApplicationDB.sh 
     	fi
