@@ -100,11 +100,9 @@ fi
     /bin/echo "${0} `/bin/date`: 3" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 
-tables="`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "show tables" | /usr/bin/tail -n +2`"
+#tables="`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "show tables" | /usr/bin/tail -n +2`"
 
 #Make absolutely certain we are all on INNODB
-#tables="`/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/tail -n +2`"
-#/bin/echo ${tables}
 
 #for table in ${tables}
 #do
