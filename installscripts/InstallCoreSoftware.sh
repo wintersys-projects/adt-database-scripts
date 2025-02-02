@@ -27,6 +27,10 @@ fi
 
 >&2 /bin/echo "${0} InitialUpdate.sh"
 ${HOME}/installscripts/InitialUpdate.sh ${BUILDOS}
+>&2 /bin/echo "${0} InstallDatabaseServer.sh"
+${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
+>&2 /bin/echo "${0} InstallDatabaseClient.sh"
+${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallNetworkManager.sh"
 ${HOME}/installscripts/InstallNetworkManager.sh  ${BUILDOS}
 >&2 /bin/echo "${0} InstallSoftwareProperties.sh"
@@ -42,10 +46,10 @@ then
   exit
 fi
 
->&2 /bin/echo "${0} InstallDatabaseServer.sh"
-${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
->&2 /bin/echo "${0} InstallDatabaseClient.sh"
-${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
+#>&2 /bin/echo "${0} InstallDatabaseServer.sh"
+#${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
+#>&2 /bin/echo "${0} InstallDatabaseClient.sh"
+#${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallJQ.sh"
 ${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallGo.sh"
