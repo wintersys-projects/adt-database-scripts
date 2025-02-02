@@ -205,6 +205,8 @@ then
     count="1" 
     while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
     do
+    /bin/echo "${0} `/bin/date`: 1" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
         . ${HOME}/applicationdb/maria/InstallMariaDB.sh
         count="`/usr/bin/expr ${count} + 1`"
     done
