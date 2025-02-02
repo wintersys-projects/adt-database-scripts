@@ -33,6 +33,9 @@ else
 
 fi
 
+    /bin/echo "${0} `/bin/date`: 2" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+
 . ${HOME}/applicationdb/maria/CustomiseMariaByApplication.sh
    
 if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
@@ -94,6 +97,9 @@ then
     exit
 fi 
 
+    /bin/echo "${0} `/bin/date`: 3" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+
 tables="`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "show tables" | /usr/bin/tail -n +2`"
 
 #Make absolutely certain we are all on INNODB
@@ -107,6 +113,8 @@ do
 done
 
 #if ( [ "`/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/wc -l`" -gt "5" ] )
+
+    /bin/echo "${0} `/bin/date`: 4" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /bin/grep 'zzzz'`" != "" ] )
 then
