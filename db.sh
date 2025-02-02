@@ -371,14 +371,13 @@ if ( [ "${BYPASS_DB_LAYER}" != "1" ] )
 then
     #...and install the application
     if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
-    then
-    
+    then    
         if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
         then
-		${HOME}/applicationdb/InstallApplicationDB.sh &
+		${HOME}/applicationdb/InstallApplicationDB.sh 
             	. ${HOME}/providerscripts/application/CustomiseApplication.sh
         else
-        	${HOME}/applicationdb/InstallApplicationDB.sh &
+        	${HOME}/applicationdb/InstallApplicationDB.sh 
     	fi
     fi
 fi
