@@ -57,9 +57,9 @@ then
 
         /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                  
         /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                           
-    
-        /usr/bin/systemctl start mariadb
-        /usr/bin/systemctl enable mariadb
+
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
     fi
 
     if ( [ "${BUILDOS}" = "debian" ] )
@@ -71,8 +71,8 @@ then
         /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                    
         /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                            
     
-        /usr/bin/systemctl start mariadb
-        /usr/bin/systemctl enable mariadb
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
+        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
     fi
     /bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBServer.sh				
 fi
