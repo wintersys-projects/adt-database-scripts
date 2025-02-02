@@ -55,4 +55,9 @@ then
     /bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
 fi
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+then
+    /bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
+fi
+
 
