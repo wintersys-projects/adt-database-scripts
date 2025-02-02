@@ -202,37 +202,34 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
     . ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
     . ${HOME}/installscripts/InstallMariaDBClient.sh
-  #  count="1" 
-  #  while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
-  #  do
+    count="1" 
+    while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
+    do
         . ${HOME}/applicationdb/maria/InstallMariaDB.sh
-  #      count="`/usr/bin/expr ${count} + 1`"
-  #  done
-    #put in error message if 5
+        count="`/usr/bin/expr ${count} + 1`"
+    done
 fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
     . ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
     . ${HOME}/installscripts/InstallMySQLClient.sh
-   # count="1" 
-   # while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
-   # do
+    count="1" 
+    while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
+    do
         . ${HOME}/applicationdb/mysql/InstallMySQLDB.sh
-   #     count="`/usr/bin/expr ${count} + 1`"
-   # done
-        #put in error message if 5
-
+        count="`/usr/bin/expr ${count} + 1`"
+    done
 fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
     . ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
     . ${HOME}/installscripts/InstallPostgresClient.sh
-   # count="1" 
-   # while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
-   # do
+    count="1" 
+    while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
+    do
         . ${HOME}/applicationdb/postgres/InstallPostgresDB.sh
-   #     count="`/usr/bin/expr ${count} + 1`"
-   # done
+        count="`/usr/bin/expr ${count} + 1`"
+    done
 fi
 
 if ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
