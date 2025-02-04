@@ -128,10 +128,6 @@ SERVER_TIMEZONE_CITY="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 
-${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/providerscripts/utilities/processing/GetIP.sh | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`.%.%"
-${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/providerscripts/utilities/processing/GetIP.sh`" 
-${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'MYPUBLICIP' "`${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`" 
-
 #Non standard variable settings
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
@@ -237,6 +233,10 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 #Update and upgrade the software to its latest available versions
 
 ${HOME}/installscripts/InstallCoreSoftware.sh
+
+${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/providerscripts/utilities/processing/GetIP.sh | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`.%.%"
+${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/providerscripts/utilities/processing/GetIP.sh`" 
+${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'MYPUBLICIP' "`${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`" 
 
 #${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh
 
