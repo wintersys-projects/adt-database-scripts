@@ -27,7 +27,6 @@ export HOME="/home/${USER_HOME}" | /usr/bin/tee -a ~/.bashrc
 
 /bin/echo "set mouse=r" > /root/.vimrc
 
-#Set the permissions as we want for all the autoscaler infrastructure scripts that we are using
 /usr/bin/find ${HOME} -not -path '*/\.*' -type d -print0 | xargs -0 chmod 0755 # for directories
 /usr/bin/find ${HOME} -not -path '*/\.*' -type f -print0 | xargs -0 chmod 0500 # for files
 /bin/chown ${SERVER_USER}:root ${HOME}/.ssh
@@ -49,7 +48,6 @@ then
     /bin/mkdir ${HOME}/super
 fi
 
-#Create the config directories, these will be mounted from the autoscaler to the other server types - DB, WS and Images Servers
 if ( [ ! -d ${HOME}/.ssh ] )
 then
 	/bin/mkdir ${HOME}/.ssh
@@ -107,7 +105,7 @@ exec 2>>${HOME}/logs/${err_file}
 
 
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
-AUTOSCALERIP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ASIP'`"
+#AUTOSCALERIP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ASIP'`"
 BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 BUILD_ARCHIVE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
 ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
@@ -142,7 +140,7 @@ WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ 
 #Record what everything has actually been set to in case there is a problem...
 /bin/echo "##################BUILD ENVIRONMENT SETTINGS#######################" > ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "CLOUDHOST:${CLOUDHOST}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-/bin/echo "AUTOSCALERIP:${AUTOSCALERIP}" > ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+#/bin/echo "AUTOSCALERIP:${AUTOSCALERIP}" > ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "BUILD_IDENTIFIER:${BUILD_IDENTIFIER}" > ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "ALGORITHM:${ALGORITHM}" > ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "WEBSITE_URL:${WEBSITE_URL}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
