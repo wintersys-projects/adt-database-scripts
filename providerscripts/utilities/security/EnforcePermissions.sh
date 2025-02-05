@@ -29,5 +29,5 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 /bin/chown ${SERVER_USER}:root ${HOME}/super/Super.sh
 /bin/chmod -R 640 ${HOME}/runtime
 /bin/chown ${SERVER_USER}:root ${HOME}/runtime
-/bin/chmod 644 ${SERVER_USER}:root ${HOME}/runtime/DATABASE_READY
+/bin/chmod 644 ${HOME}/runtime/DATABASE_READY
 
