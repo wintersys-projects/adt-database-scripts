@@ -21,15 +21,19 @@
 ##################################################################################
 #set -x
 
-SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+set -x
 
-/usr/bin/find /home/${SERVER_USER} -type d -exec chmod 755 {} \;
-/usr/bin/find /home/${SERVER_USER} -type d -exec chmod 640 {} \;
-/usr/bin/find /home/${SERVER_USER} -type d -exec chown ${SERVER_USER}:root {} \;
-/bin/chmod 700 /home/${SERVER_USER}/.ssh
-/bin/chmod 644 /home/${SERVER_USER}/.ssh/authorized_keys
-/bin/chmod 600 /home/${SERVER_USER}/id_*
-/bin/chmod 644 /home/${SERVER_USER}/id_*pub
+HOME="`/bin/cat /home/homedir.dat`"
+
+SERVER_USER="`/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+
+/usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
+/usr/bin/find ${HOME} -type d -exec chmod 640 {} \;
+/usr/bin/find ${HOME} -type d -exec chown ${SERVER_USER}:root {} \;
+/bin/chmod 700 ${HOME}/.ssh
+/bin/chmod 644 ${HOME}/.ssh/authorized_keys
+/bin/chmod 600 ${HOME}/id_*
+/bin/chmod 644 ${HOME}/id_*pub
 
 #/bin/chmod -R 640 ${HOME}/.ssh/*
 #/bin/chown -R ${SERVER_USER}:root ${HOME}/.ssh
