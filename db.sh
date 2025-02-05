@@ -471,12 +471,12 @@ ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
 
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
-${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
-
 ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUILT" "A Database has been successfully built and primed as is rebooting ready for use" "INFO"
 
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/DATABASE_READY
+
+${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
