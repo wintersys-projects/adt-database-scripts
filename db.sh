@@ -479,7 +479,7 @@ ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUI
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
-${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
 #/usr/sbin/shutdown -r now
 
