@@ -25,19 +25,36 @@ fi
 #/bin/sed -i "s/mirrors.linode.com/mirror.katapult.io/g" /etc/apt/sources.list
 #/bin/sed -i "s/mirrors.digitalocean.com/mirror.katapult.io/g" /etc/apt/mirrors/debian.list
 
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} `/bin/date`: Installing apt-fast" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} InitialUpdate.sh"
 ${HOME}/installscripts/InitialUpdate.sh ${BUILDOS}
->&2 /bin/echo "${0} InstallDatabaseServer.sh"
-${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
->&2 /bin/echo "${0} InstallDatabaseClient.sh"
-${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} `/bin/date`: Installing Network Manager" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 >&2 /bin/echo "${0} InstallNetworkManager.sh"
 ${HOME}/installscripts/InstallNetworkManager.sh  ${BUILDOS}
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} `/bin/date`: Installing Software Properties" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 >&2 /bin/echo "${0} InstallSoftwareProperties.sh"
 ${HOME}/installscripts/InstallSoftwareProperties.sh  ${BUILDOS}
+
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} `/bin/date`: Installing Firewall" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 >&2 /bin/echo "${0} InstallFirewall.sh"
 ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatastoreTools.sh"
+
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} `/bin/date`: Installing Datastore Tools" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
 ${HOME}/installscripts/InstallDatastoreTools.sh  ${BUILDOS}
 
 if ( [ ! -f /usr/bin/s3cmd ] && [ ! -f /usr/bin/s5cmd ] )
@@ -46,10 +63,14 @@ then
   exit
 fi
 
-#>&2 /bin/echo "${0} InstallDatabaseServer.sh"
-#${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
-#>&2 /bin/echo "${0} InstallDatabaseClient.sh"
-#${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} `/bin/date`: Installing Database Server or Client" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+>&2 /bin/echo "${0} InstallDatabaseServer.sh"
+${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
+>&2 /bin/echo "${0} InstallDatabaseClient.sh"
+${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallJQ.sh"
 ${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallGo.sh"
@@ -71,5 +92,6 @@ ${HOME}/installscripts/InstallRsync.sh ${BUILDOS}
 ${HOME}/installscripts/InstallCron.sh ${BUILDOS}
 #>&2 /bin/echo "${0} InstallMonitoringGear.sh"
 #${HOME}/installscripts/InstallMonitoringGear.sh 
+
 
 
