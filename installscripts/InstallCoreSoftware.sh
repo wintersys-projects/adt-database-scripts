@@ -67,10 +67,10 @@ fi
 /bin/echo "${0} `/bin/date`: Installing Database Server or Client" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
->&2 /bin/echo "${0} InstallDatabaseServer.sh"
-${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
->&2 /bin/echo "${0} InstallDatabaseClient.sh"
-${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
+#>&2 /bin/echo "${0} InstallDatabaseServer.sh"
+#${HOME}/installscripts/InstallDatabaseServer.sh ${BUILOS}
+#>&2 /bin/echo "${0} InstallDatabaseClient.sh"
+#${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallJQ.sh"
 ${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallGo.sh"
