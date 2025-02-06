@@ -224,9 +224,9 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 #Update and upgrade the software to its latest available versions
 
-${HOME}/installscripts/InstallCoreSoftware.sh &
+#${HOME}/installscripts/InstallCoreSoftware.sh &
 
-${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh 
+#${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh 
 
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/providerscripts/utilities/processing/GetIP.sh | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`.%.%"
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/providerscripts/utilities/processing/GetIP.sh`" 
