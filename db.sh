@@ -226,11 +226,11 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
 ${HOME}/installscripts/InstallCoreSoftware.sh
 
+${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh
+
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/providerscripts/utilities/processing/GetIP.sh | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`.%.%"
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/providerscripts/utilities/processing/GetIP.sh`" 
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'MYPUBLICIP' "`${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`" 
-
-#${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh
 
 ${HOME}/security/SetupFirewall.sh
 
