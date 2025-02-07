@@ -329,36 +329,48 @@ cd ${HOME}
 #Initialise the database
 #. ${HOME}/providerscripts/database/singledb/InstallSingleDB.sh ${DATABASE_INSTALLATION_TYPE}
  
-notification_file="${HOME}/runtime/DATABASE_SERVER_INSTALLED"
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-	notification_file="${HOME}/runtime/DATABASE_CLIENT_INSTALLED"
-fi
-  	/bin/echo "${0} `/bin/date`: 1" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+#notification_file="${HOME}/runtime/DATABASE_SERVER_INSTALLED"
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+#then#
+#	notification_file="${HOME}/runtime/DATABASE_CLIENT_INSTALLED"
+#fi
+ # 	/bin/echo "${0} `/bin/date`: 1" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 #We want to be sure that the database server is installed
+#count="0"
+#while ( [ ! -f ${notification_file} ] && [ "${count}" -lt "60" ] )
+#do
+#	/bin/echo "${0} WAITING FOR NOTIFICATION FILE" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log#
+#	/bin/sleep 2
+# 	count="`/usr/bin/expr ${count} + 1`"
+#done
+#/bin/echo "${0} `/bin/date`: 2" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+#if ( [ "${count}" = "60" ] )
+#then
+#	#Sometimes the database server doesn't install when apt-fast is used so if this is the case it will reach 60 and we give it another go
+ #	#If it still doesn't install then the whole build will fail and will be reinitiated
+  #	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+   #	then
+   # 		${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
+   #   	else
+#		${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
+#  	fi
+#fi
+
+#/bin/echo "${0} `/bin/date`: 3" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 count="0"
-while ( [ ! -f ${notification_file} ] && [ "${count}" -lt "60" ] )
+while ( [ ! -f ${HOME}/runtime/DATABASE_SYSTEM_INSTALLED ] && [ "${count}" -lt "71" ] )
 do
-	/bin/echo "${0} WAITING FOR NOTIFICATION FILE" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 	/bin/sleep 2
  	count="`/usr/bin/expr ${count} + 1`"
 done
-/bin/echo "${0} `/bin/date`: 2" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
-if ( [ "${count}" = "60" ] )
+if ( [ "${count}" = "71" ] )
 then
-	#Sometimes the database server doesn't install when apt-fast is used so if this is the case it will reach 60 and we give it another go
- 	#If it still doesn't install then the whole build will fail and will be reinitiated
-  	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-   	then
-    		${HOME}/installscripts/InstallDatabaseClient.sh ${BUILDOS} 
-      	else
-		${HOME}/installscripts/InstallDatabaseServer.sh ${BUILDOS} 
-  	fi
+	:
+ 	###Send Email and Log Message
 fi
-
-/bin/echo "${0} `/bin/date`: 3" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
