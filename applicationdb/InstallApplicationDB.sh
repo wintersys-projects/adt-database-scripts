@@ -225,7 +225,7 @@ fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
     . ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
-    . ${HOME}/installscripts/InstallPostgresClient.sh
+   # . ${HOME}/installscripts/InstallPostgresClient.sh
     count="1" 
     while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
     do
