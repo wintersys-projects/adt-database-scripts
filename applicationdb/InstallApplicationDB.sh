@@ -201,7 +201,7 @@ cd /root
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
     . ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
-    . ${HOME}/installscripts/InstallMariaDBClient.sh
+   # . ${HOME}/installscripts/InstallMariaDBClient.sh
     count="1" 
     while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
     do
@@ -214,7 +214,7 @@ fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
     . ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
-    . ${HOME}/installscripts/InstallMySQLClient.sh
+   # . ${HOME}/installscripts/InstallMySQLClient.sh
     count="1" 
     while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
     do
