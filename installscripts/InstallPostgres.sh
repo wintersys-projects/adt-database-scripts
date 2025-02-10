@@ -50,22 +50,28 @@ then
     #For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
     if ( [ "${BUILDOS}" = "ubuntu" ] )
     then    
-        postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-        eval ${install_command} postgresql-common                          
-        /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                  
-        eval ${install_command} postgresql-${postgres_version}           
-        /usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf   
-        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
+        if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+        then
+        	postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+        	eval ${install_command} postgresql-common                          
+        	/usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                  
+        	eval ${install_command} postgresql-${postgres_version}           
+        	/usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf   
+        fi
+	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
     fi
   
     if ( [ "${BUILDOS}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
-    then   
-        postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-	eval ${install_command} postgresql-common                           
-        /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                        
-        eval ${install_command} postgresql-${postgres_version}                        
-        /usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf   
-        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
+    then  
+        if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+        then
+        	postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+		eval ${install_command} postgresql-common                           
+        	/usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                        
+        	eval ${install_command} postgresql-${postgres_version}                        
+        	/usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf   
+        fi
+	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
     fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallPostgres.sh
 fi
