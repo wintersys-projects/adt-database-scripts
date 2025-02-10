@@ -61,8 +61,8 @@ then
         /bin/mkdir /var/log/mysql
         /bin/chown mysql:mysql /var/log/mysql  
 
-        /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                  
-        /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                           
+     #   /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                  
+     #   /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                           
 
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
@@ -81,8 +81,8 @@ then
         /bin/mkdir /var/log/mysql
         /bin/chown mysql:mysql /var/log/mysql  
 
-        /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                    
-        /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                            
+    #    /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                    
+    #    /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                            
     
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
         ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
