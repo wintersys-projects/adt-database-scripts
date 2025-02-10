@@ -51,9 +51,9 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${BUILDOS}" = "ubuntu" ] )
     then
-        mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-        /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
-        eval ${install_command} mariadb-server                                                         
+     #   mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+     #   /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
+     #   eval ${install_command} mariadb-server                                                         
 
         /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                  
         /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                           
@@ -64,9 +64,9 @@ then
 
     if ( [ "${BUILDOS}" = "debian" ] )
     then
-        mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-        /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
-        eval ${install_command} mariadb-server                                                         
+     #   mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+     #   /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
+     #   eval ${install_command} mariadb-server                                                         
 
         /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                    
         /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                            
