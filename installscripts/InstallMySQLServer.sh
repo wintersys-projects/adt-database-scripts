@@ -58,7 +58,10 @@ then
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config}	
 		/bin/rm ${mysql_apt_config}									
         	eval ${update_command} --allow-change-held-packages
-		eval ${install_command} mysql-server	
+		eval ${install_command} mysql-server
+
+              /bin/mkdir /var/log/mysql
+            /bin/chown mysql:mysql /var/log/mysql  
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -69,6 +72,9 @@ then
 		/bin/rm ${mysql_apt_config}									
         	eval ${update_command} --allow-change-held-packages
 		eval ${install_command} mysql-server
+
+              /bin/mkdir /var/log/mysql
+            /bin/chown mysql:mysql /var/log/mysql  
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLServer.sh
 fi
