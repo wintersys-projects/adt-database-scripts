@@ -55,28 +55,22 @@ if ( [ "${apt}" != "" ] )
 then
     if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-            if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-            then
         	eval ${install_command} gnupg    
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config}	
 		/bin/rm ${mysql_apt_config}									
         	eval ${update_command} --allow-change-held-packages 
 		eval ${install_command} mysql-client	
-  	    fi       
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-            if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-            then
         	eval ${install_command} gnupg 
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config} 
 		/bin/rm ${mysql_apt_config}									
                 eval ${update_command} --allow-change-held-packages 
 		eval ${install_command} mysql-client	
-	    fi
  	fi
      	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh
 fi
