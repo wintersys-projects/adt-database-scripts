@@ -210,14 +210,14 @@ kernel.panic=10" >> /etc/sysctl.conf
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 #Make sure that client connections to sshd are long lasting
-if ( [ "`/bin/grep 'ClientAliveInterval 200' /etc/ssh/sshd_config 2>/dev/null`" = "" ] )
-then
-    /bin/echo "
-ClientAliveInterval 200
-ClientAliveCountMax 10" >> /etc/ssh/sshd_config
-fi
+#if ( [ "`/bin/grep 'ClientAliveInterval 200' /etc/ssh/sshd_config 2>/dev/null`" = "" ] )
+#then
+#    /bin/echo "
+#ClientAliveInterval 200
+#ClientAliveCountMax 10" >> /etc/ssh/sshd_config
+#fi
 
-${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
+#${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} `/bin/date`: Installing necessary software" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
