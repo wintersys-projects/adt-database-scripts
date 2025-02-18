@@ -80,13 +80,7 @@ then
             /bin/sed -i 's/.*sql_require_primary_key.*/SET sql_require_primary_key=0;/g' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
             /bin/sed -i '/GTID_PURGED/d' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
         fi
-       # /usr/bin/mariadb -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port=${DB_PORT} ${DB_N} < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-       # if ( [ "$?" != "0" ] )
-       # then
-       #     HOST="localhost"
-       #     /usr/bin/mariadb -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port=${DB_PORT} ${DB_N} < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-       # fi
-       ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+        ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
         ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "dbinstalllock.file"
     else
         exit
@@ -97,22 +91,7 @@ then
     exit
 fi 
 
-    /bin/echo "${0} `/bin/date`: 3" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-
-
-tables="`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "show tables" | /usr/bin/tail -n +2`"
-
-#Make absolutely certain we are all on INNODB
-
-for table in ${tables}
-do
-  #  /usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e "ALTER TABLE ${table} ENGINE = INNODB;"
-   ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh  "ALTER TABLE ${table} ENGINE = INNODB;"
-done
-
-#if ( [ "`/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/wc -l`" -gt "5" ] )
-
-    /bin/echo "${0} `/bin/date`: 4" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+${HOME}/applicationdb/maria/EnforceEngineType.sh &
 
 if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /bin/grep 'zzzz'`" != "" ] )
 then
