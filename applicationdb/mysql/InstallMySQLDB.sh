@@ -96,6 +96,7 @@ then
     exit
 fi
 
+${HOME}/applicationdb/mysql/EnforceEngineType.sh &
 
 #if ( [ "`/usr/bin/mysql -A -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e 'show tables' | /usr/bin/wc -l`" -gt "5" ] )
 if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /bin/grep 'zzzz'`" != "" ] )
