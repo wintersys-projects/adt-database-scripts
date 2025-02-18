@@ -1,3 +1,6 @@
+
+HOME="`/bin/cat /home/homedir.dat`"
+
 #Make absolutely certain we are all on INNODB
 tables="`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /usr/bin/tail -n +2`"
 
