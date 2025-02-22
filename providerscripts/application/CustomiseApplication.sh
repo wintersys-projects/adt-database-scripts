@@ -22,6 +22,9 @@
 ######################################################################################
 ######################################################################################
 #set -x
+
+HOME="`/bin/cat /home/homedir.dat`"
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONIDENTIFIER:1`" = "1" ] )
 then
     :
