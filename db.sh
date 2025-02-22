@@ -126,9 +126,6 @@ ${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
 
 cd ${HOME}
 
-#Stop cron from sending notification emails
-/bin/echo "MAILTO=''" > /var/spool/cron/crontabs/root
-
 count="0"
 while ( [ ! -f ${HOME}/runtime/DATABASE_SYSTEM_INSTALLED ] && [ "${count}" -lt "71" ] )
 do
