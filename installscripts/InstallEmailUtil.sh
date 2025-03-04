@@ -40,5 +40,5 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'EMAILUTIL:ssmtp'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallMail.sh ${BUILDOS}
+	${HOME}/installscripts/InstallSSMTP.sh ${BUILDOS}
 fi
