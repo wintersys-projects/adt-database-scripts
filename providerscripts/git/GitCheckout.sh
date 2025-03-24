@@ -25,13 +25,13 @@ repository_item="${2}"
 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
-    /usr/bin/git checkout FETCH_HEAD -- ${repository_item}
+	/usr/bin/git checkout FETCH_HEAD -- ${repository_item}
 fi
 if ( [ "${repository_provider}" = "github" ] )
 then
-    /usr/bin/git checkout FETCH_HEAD -- ${repository_item}
+	/usr/bin/git checkout FETCH_HEAD -- ${repository_item}
 fi
 if ( [ "${repository_provider}" = "gitlab" ] )
 then
-    /usr/bin/git checkout FETCH_HEAD -- ${repository_item}
+	/usr/bin/git checkout FETCH_HEAD -- ${repository_item}
 fi
