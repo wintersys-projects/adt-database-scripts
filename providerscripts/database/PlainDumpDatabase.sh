@@ -23,77 +23,77 @@
 
 if ( [ -f /usr/bin/mariadb-dump ] )
 then
-        mysql_dump="/usr/bin/mariadb-dump --ssl "
+	mysql_dump="/usr/bin/mariadb-dump --ssl "
 else
-        mysql_dump="/usr/bin/mysqldump --set-gtid-purged=OFF --ssl-mode=REQUIRED --skip-column-statistics "
+	mysql_dump="/usr/bin/mysqldump --set-gtid-purged=OFF --ssl-mode=REQUIRED --skip-column-statistics "
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-    HOST="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+	HOST="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 fi
 
 #The standard troop of SQL databases
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then    
-    /bin/echo "SET SESSION sql_require_primary_key = 0;" > applicationDB.sql
-    tries="1"
-    #originally I just had --skip-lock-tables --single-transaction set
-    ${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
+	/bin/echo "SET SESSION sql_require_primary_key = 0;" > applicationDB.sql
+	tries="1"
+	${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
 
-    while ( [ "$?" != "0"  ] && [ "${tries}" -lt "5" ] )
-    do
-        /bin/sleep 10
-        tries="`/usr/bin/expr ${tries} + 1`"
-        ${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
-    done
+	while ( [ "$?" != "0"  ] && [ "${tries}" -lt "5" ] )
+	do
+		/bin/sleep 10
+		tries="`/usr/bin/expr ${tries} + 1`"
+		${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
+	done
     
-    if ( [ "${tries}" = "5" ] )
-    then
-        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." 
-        ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO TAKE BACKUP" "I haven't been able to take a database backup, please investigate" "ERROR"
-        exit
-    fi
-   # /bin/sed -i '/SESSION.SQL_LOG_BIN/d' applicationDB.sql
-    /bin/echo "DROP TABLE IF EXISTS \`zzzz\`;" >> applicationDB.sql
-    /bin/echo "CREATE TABLE \`zzzz\` ( \`idxx\` int(10) unsigned NOT NULL, PRIMARY KEY (\`idxx\`) ) Engine=INNODB CHARSET=utf8mb4;" >> applicationDB.sql
-    ${HOME}/providerscripts/utilities/processing/StandardiseMySQLCollations.sh ./applicationDB.sql
+	if ( [ "${tries}" = "5" ] )
+	then
+		/bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." 
+		${HOME}/providerscripts/email/SendEmail.sh "FAILED TO TAKE BACKUP" "I haven't been able to take a database backup, please investigate" "ERROR"
+		exit
+	fi
+    
+	/bin/echo "DROP TABLE IF EXISTS \`zzzz\`;" >> applicationDB.sql
+	/bin/echo "CREATE TABLE \`zzzz\` ( \`idxx\` int(10) unsigned NOT NULL, PRIMARY KEY (\`idxx\`) ) Engine=INNODB CHARSET=utf8mb4;" >> applicationDB.sql
+	${HOME}/providerscripts/utilities/processing/StandardiseMySQLCollations.sh ./applicationDB.sql
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-    /bin/echo "SET SESSION sql_require_primary_key = 0;" > applicationDB.sql
-    tries="1"
-    ${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
-    while ( [ "$?" != "0"  ] && [ "${tries}" -lt "5" ] )
-    do
-        /bin/sleep 10
-        tries="`/usr/bin/expr ${tries} + 1`"
-        ${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
-    done
+	/bin/echo "SET SESSION sql_require_primary_key = 0;" > applicationDB.sql
+	tries="1"
+	${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
+	
+ 	while ( [ "$?" != "0"  ] && [ "${tries}" -lt "5" ] )
+	do
+		/bin/sleep 10
+		tries="`/usr/bin/expr ${tries} + 1`"
+		${mysql_dump} --skip-lock-tables --single-transaction --hex-blob --routines --triggers --events --force -y --port=${DB_PORT} --host=${HOST} -u ${DB_U} -p${DB_P} ${DB_N} | /bin/sed -e '/SET @@SESSION.SQL_LOG_BIN= 0;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=OFF;/d' -e '/SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC;/d' -e '/SET @@GLOBAL.GTID_PURGED=/,/;/d' -e '/SET @@GLOBAL.GTID_PURGED=.*;/d' >> applicationDB.sql
+	done
     
-    if ( [ "${tries}" = "5" ] )
-    then
-        /bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." 
-        ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO TAKE BACKUP" "I haven't been able to take a database backup, please investigate" "ERROR"
-        exit
-    fi
- #   /bin/sed -i '/SESSION.SQL_LOG_BIN/d' applicationDB.sql
-    /bin/echo "DROP TABLE IF EXISTS \`zzzz\`;" >> applicationDB.sql
-    /bin/echo "CREATE TABLE \`zzzz\` ( \`idxx\` int(10) unsigned NOT NULL, PRIMARY KEY (\`idxx\`) ) Engine=INNODB CHARSET=utf8mb4;" >> applicationDB.sql
-    ${HOME}/providerscripts/utilities/processing/StandardiseMySQLCollations.sh ./applicationDB.sql
+	if ( [ "${tries}" = "5" ] )
+	then
+		/bin/echo "${0} `/bin/date`: Had trouble makng a backup of your database. Please investigate..." 
+		${HOME}/providerscripts/email/SendEmail.sh "FAILED TO TAKE BACKUP" "I haven't been able to take a database backup, please investigate" "ERROR"
+		exit
+	fi
+
+	/bin/echo "DROP TABLE IF EXISTS \`zzzz\`;" >> applicationDB.sql
+	/bin/echo "CREATE TABLE \`zzzz\` ( \`idxx\` int(10) unsigned NOT NULL, PRIMARY KEY (\`idxx\`) ) Engine=INNODB CHARSET=utf8mb4;" >> applicationDB.sql
+	${HOME}/providerscripts/utilities/processing/StandardiseMySQLCollations.sh ./applicationDB.sql
 fi
 
 #The Postgres SQL database
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-    export PGPASSWORD="${DB_P}" && /usr/bin/pg_dump -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} > applicationDB.sql
-    if ( [ "$?" != "0" ] )
-    then
-        /usr/bin/sudo -su postgres /usr/bin/pg_dump -h ${HOST} -p ${DB_PORT} -d ${DB_N} > applicationDB.sql
-    fi
-    /bin/echo "DROP TABLE IF EXISTS public.zzzz;" >> applicationDB.sql
-    /bin/echo "CREATE TABLE public.zzzz ( idxx serial PRIMARY KEY );" >> applicationDB.sql
+	export PGPASSWORD="${DB_P}" && /usr/bin/pg_dump -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} > applicationDB.sql
+	if ( [ "$?" != "0" ] )
+	then
+		/usr/bin/sudo -su postgres /usr/bin/pg_dump -h ${HOST} -p ${DB_PORT} -d ${DB_N} > applicationDB.sql
+	fi
+	/bin/echo "DROP TABLE IF EXISTS public.zzzz;" >> applicationDB.sql
+	/bin/echo "CREATE TABLE public.zzzz ( idxx serial PRIMARY KEY );" >> applicationDB.sql
 fi
