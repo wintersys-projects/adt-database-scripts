@@ -19,10 +19,10 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
-
+ 
 if ( [ -f ${HOME}/EXOSCALE ] )
 then
-    /usr/sbin/dhclient 1>/dev/null 2>/dev/null
+	/usr/sbin/dhclient 1>/dev/null 2>/dev/null
 fi
 
 private_ip_anchor="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE' | /usr/bin/awk -F'.' '{print $1}'`"
