@@ -30,46 +30,46 @@ datastore_regions="`${HOME}/providerscripts/utilities/config/ExtractConfigValues
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-        count="0"
-        if ( [ -f ${HOME}/.s3cfg ] )
-        then
-                for datastore_region in ${datastore_regions}
-                do
-                        if ( [ "${count}" != "0" ] )
-                        then
-                                /bin/cp  ${HOME}/.s3cfg  ${HOME}/.s3cfg-${count}
-                                /bin/sed -i "s/${primary_datastore_region}/${datastore_region}/" ${HOME}/.s3cfg-${count}
-                                /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s3cfg-${count}
-                        elif ( [ "${count}" = "0" ] )
-                        then
-                                primary_datastore_region="${datastore_region}"
-                        fi
-                        count="`/usr/bin/expr ${count} + 1`"
-                done
-        fi
+	count="0"
+	if ( [ -f ${HOME}/.s3cfg ] )
+	then
+		for datastore_region in ${datastore_regions}
+		do
+			if ( [ "${count}" != "0" ] )
+			then
+				/bin/cp  ${HOME}/.s3cfg  ${HOME}/.s3cfg-${count}
+				/bin/sed -i "s/${primary_datastore_region}/${datastore_region}/" ${HOME}/.s3cfg-${count}
+				/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s3cfg-${count}
+			elif ( [ "${count}" = "0" ] )
+			then
+				primary_datastore_region="${datastore_region}"
+			fi
+			count="`/usr/bin/expr ${count} + 1`"
+		done
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ] )
 then
-        count="0"
-        if ( [ -f ${HOME}/.s5cfg ] )
-        then
-                for datastore_region in ${datastore_regions}
-                do
-                        if ( [ "${count}" != "0" ] )
-                        then
-                                /bin/cp  ${HOME}/.s5cfg  ${HOME}/.s5cfg-${count}
-                                /bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg-${count}
-                                /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s5cfg-${count}
-                        fi
-                        count="`/usr/bin/expr ${count} + 1`"
-                done
-        fi
+	count="0"
+	if ( [ -f ${HOME}/.s5cfg ] )
+	then
+		for datastore_region in ${datastore_regions}
+		do
+			if ( [ "${count}" != "0" ] )
+			then
+				/bin/cp  ${HOME}/.s5cfg  ${HOME}/.s5cfg-${count}
+				/bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg-${count}
+				/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s5cfg-${count}
+			fi
+			count="`/usr/bin/expr ${count} + 1`"
+		done
+	fi
 
-        if ( [ "${S3_HOST_BASE}" != "" ] )
-        then
-                /bin/sed -i "s/XXXXHOSTBASEXXXX/${S3_HOST_BASE}/" ${HOME}/.s3cfg
-                /bin/echo "host_base = ${S3_HOST_BASE}" >> ${HOME}/.s5cfg
-                /bin/echo "alias s5cmd='/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${S3_HOST_BASE}'" >> /root/.bashrc
-        fi
+	if ( [ "${S3_HOST_BASE}" != "" ] )
+	then
+		/bin/sed -i "s/XXXXHOSTBASEXXXX/${S3_HOST_BASE}/" ${HOME}/.s3cfg
+		/bin/echo "host_base = ${S3_HOST_BASE}" >> ${HOME}/.s5cfg
+		/bin/echo "alias s5cmd='/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${S3_HOST_BASE}'" >> /root/.bashrc
+	fi
 fi
