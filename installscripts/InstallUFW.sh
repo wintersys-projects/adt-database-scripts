@@ -31,8 +31,8 @@ then
 else 
     BUILDOS="${buildos}"
 fi
-HOME="`/bin/cat /home/homedir.dat`"
 
+HOME="`/bin/cat /home/homedir.dat`"
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
