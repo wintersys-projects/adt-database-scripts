@@ -23,59 +23,55 @@
 
 if ( [ "${1}" = "reboot" ] )
 then
-    if ( [ -f ${HOME}/runtime/ATOP_RUNNING ] )
-    then
-        /bin/rm ${HOME}/runtime/ATOP_RUNNING
-    fi
+	if ( [ -f ${HOME}/runtime/ATOP_RUNNING ] )
+	then
+		/bin/rm ${HOME}/runtime/ATOP_RUNNING
+	fi
 fi
 
 if ( [ -d ${HOME}/logs/atoplogrecords ] )
 then
-    /usr/bin/find ${HOME}/logs/atoplogrecords -type f -mtime +7 -delete
+	/usr/bin/find ${HOME}/logs/atoplogrecords -type f -mtime +7 -delete
 fi
 
 if ( [ -f  ${HOME}/runtime/ATOP_RUNNING ] )
 then
-    exit
+	exit
 fi
 
 if ( [ -f /usr/bin/atopsar ] )
 then
-    if ( [ ! -d ${HOME}/logs/atoplogrecords ] )
-    then
-        /bin/mkdir -p ${HOME}/logs/atoplogrecords
-    fi
+	if ( [ ! -d ${HOME}/logs/atoplogrecords ] )
+	then
+		/bin/mkdir -p ${HOME}/logs/atoplogrecords
+	fi
 
-    LOG_FILE="atop_out_`/bin/date | /bin/sed 's/ //g'`"
-    exec 1>>${HOME}/logs/atoplogrecords/${LOG_FILE}
+	LOG_FILE="atop_out_`/bin/date | /bin/sed 's/ //g'`"
+	exec 1>>${HOME}/logs/atoplogrecords/${LOG_FILE}
 
-    /bin/touch ${HOME}/runtime/ATOP_RUNNING
+	/bin/touch ${HOME}/runtime/ATOP_RUNNING
+	/usr/bin/atopsar -c 10 360 
 
-    /usr/bin/atopsar -c 10 360 
+	total_records="`/usr/bin/tail -n +7 ${HOME}/logs/atoplogrecords/${LOG_FILE} | /usr/bin/wc -l`"
+	idle_values="`/usr/bin/awk '{print $NF}' ${HOME}/logs/atoplogrecords/${LOG_FILE}`"
+	no_low_values="0"
 
-    total_records="`/usr/bin/tail -n +7 ${HOME}/logs/atoplogrecords/${LOG_FILE} | /usr/bin/wc -l`"
-    idle_values="`/usr/bin/awk '{print $NF}' ${HOME}/logs/atoplogrecords/${LOG_FILE}`"
+	for value in ${idle_values}
+	do
+		if ( [ "${value}" -eq "${value}" ] 2>/dev/null )
+		then
+			if ( [ "${value}" -le "10" ] )
+			then
+				no_low_values="`/usr/bin/expr ${no_low_values} + 1`" 
+			fi
+		fi
+	done
 
-    no_low_values="0"
-
-    for value in ${idle_values}
-    do
-        if ( [ "${value}" -eq "${value}" ] 2>/dev/null )
-        then
-            if ( [ "${value}" -le "10" ] )
-            then
-                no_low_values="`/usr/bin/expr ${no_low_values} + 1`" 
-            fi
-        fi
-    done
-
-    percentage_low_values=`/usr/bin/awk -v values=${no_low_values} -v total=${total_records} 'BEGIN { printf "%.0f\n", 100 * values / total }'`
+	percentage_low_values=`/usr/bin/awk -v values=${no_low_values} -v total=${total_records} 'BEGIN { printf "%.0f\n", 100 * values / total }'`
     
-    if ( [ "${percentage_low_values}" -gt "25" ] )
-    then
-        ${HOME}/providerscripts/email/SendEmail.sh "HIGH PERCENTAGE LOAD" "More than a quarter of samples had more than 90% load over the past hour on machine with IP address `${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`" "ERROR"
-    fi
-
-    /bin/rm ${HOME}/runtime/ATOP_RUNNING
-
+	if ( [ "${percentage_low_values}" -gt "25" ] )
+	then
+		${HOME}/providerscripts/email/SendEmail.sh "HIGH PERCENTAGE LOAD" "More than a quarter of samples had more than 90% load over the past hour on machine with IP address `${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`" "ERROR"
+	fi
+	/bin/rm ${HOME}/runtime/ATOP_RUNNING
 fi
