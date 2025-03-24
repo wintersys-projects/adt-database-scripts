@@ -23,19 +23,19 @@
 
 if ( [ "`/bin/cat /proc/uptime | /usr/bin/awk -F'.' '{print $1}'`" -lt "600" ] )
 then
-   exit
+	exit
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:1`" = "0" ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:3`" = "0" ] )
 then
-    exit
+	exit
 fi
 
 #If the toolkit isn't fully installed, don't do anything
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
 then
-    exit
+	exit
 fi
 
 firewall=""
@@ -58,11 +58,11 @@ elif ( [ "${firewall}" = "iptables" ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep Loaded | /bin/grep enabled`" = "" ] )
  	then
-  		if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep active`" = "" ] || [ "`/usr/sbin/iptables --list-rules | /bin/grep '\-P INPUT DROP'`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep active`" = "" ] || [ "`/usr/sbin/iptables --list-rules | /bin/grep '\-P INPUT DROP'`" = "" ] )
 		then
   			${HOME}/providerscripts/email/SendEmail.sh "FIREWALL (iptables) INACTIVE" "Just so you know, your firewall is inactive on machine `${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`. The machine may still be initialsing after a reboot, which can take some minutes, but if these messages continue indefinitely, then you need to look into why the firewall is inactive." "ERROR"
 			/bin/rm ${HOME}/runtime/FIREWALL-ACTIVE
-   		fi
+		fi	
 	fi
- fi
+fi
 
