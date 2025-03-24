@@ -24,7 +24,7 @@ cd ${HOME}
 
 if ( [ -d adt-webserver-scripts ] )
 then
-    /bin/rm -r adt-webserver-scripts
+	/bin/rm -r adt-webserver-scripts
 fi
 
 INFRASTRUCTURE_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
@@ -37,15 +37,15 @@ ${HOME}/providerscripts/git/GitClone.sh "${INFRASTRUCTURE_REPOSITORRY_PROVIDER}"
 count="0" 
 while ( [ ! -d ${HOME}/${repository_name}/providerscripts/utilities ] && [ "${count}" -le "5" ] )
 do
-    /bin/sleep 5
-    ${HOME}/providerscripts/git/GitClone.sh "${INFRASTRUCTURE_REPOSITORRY_PROVIDER}" "${INFRASTRUCTURE_REPOSITORY_USERNAME}" "" "${INFRASTRUCTURE_REPOSITORY_OWNER}" "${repository_name}"
-    count="`/usr/bin/expr ${count} + 1`"
+	/bin/sleep 5
+	${HOME}/providerscripts/git/GitClone.sh "${INFRASTRUCTURE_REPOSITORRY_PROVIDER}" "${INFRASTRUCTURE_REPOSITORY_USERNAME}" "" "${INFRASTRUCTURE_REPOSITORY_OWNER}" "${repository_name}"
+	count="`/usr/bin/expr ${count} + 1`"
 done
 
 if ( [ -d ${HOME}/${repository_name}/providerscripts/utilities ] )
 then
-    cd ${HOME}/${repository_name}
-    /bin/cp -r * ${HOME}
-    cd ..
-    /bin/rm -r ${repository_name}
+	cd ${HOME}/${repository_name}
+	/bin/cp -r * ${HOME}
+	cd ..
+	/bin/rm -r ${repository_name}
 fi
