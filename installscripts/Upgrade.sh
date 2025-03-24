@@ -22,34 +22,34 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    apt="/usr/bin/apt-get"
+	apt="/usr/bin/apt-get"
 elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
 then
-    apt="/usr/sbin/apt-fast"
+	apt="/usr/sbin/apt-fast"
 fi
 
 if ( [ "${apt}" != "" ] )
 then
-    if ( [ "${BUILDOS}" = "ubuntu" ] )
-    then
-        DEBIAN_FRONTEND=noninteractive ${apt} -qq upgrade -o DPkg::Lock::Timeout=-1 -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
-    fi
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
+	then
+		DEBIAN_FRONTEND=noninteractive ${apt} -qq upgrade -o DPkg::Lock::Timeout=-1 -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+	fi
 
-    if ( [ "${BUILDOS}" = "debian" ] )
-    then
-        DEBIAN_FRONTEND=noninteractive ${apt} -qq upgrade -o DPkg::Lock::Timeout=-1 -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
-    fi
+	if ( [ "${BUILDOS}" = "debian" ] )
+	then
+		DEBIAN_FRONTEND=noninteractive ${apt} -qq upgrade -o DPkg::Lock::Timeout=-1 -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+	fi
 fi
