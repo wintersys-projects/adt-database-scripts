@@ -20,34 +20,33 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #####################################################################################################
 #####################################################################################################
-set -x
+#set -x
 
 HOST=""
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-    HOST="localhost"
+	HOST="localhost"
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
-    /bin/sed -i '/^\[mysqld\]/a binlog_format=mixed' /etc/mysql/my.cnf
-    /bin/sed -i '/^\[mysqld\]/a innodb_file_per_table=ON' /etc/mysql/my.cnf
-    /bin/sed -i '/^\[mysqld\]/a innodb_default_row_format=dynamic' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a binlog_format=mixed' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a innodb_file_per_table=ON' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a innodb_default_row_format=dynamic' /etc/mysql/my.cnf
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	${HOME}/installscripts/InstallSerFix.sh ${BUILDOS}
 
-    ${HOME}/installscripts/InstallSerFix.sh ${BUILDOS}
-
-    if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
-    then
-        /bin/cat ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /usr/local/bin/serfix > ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed
-        /bin/mv ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-    fi
+	if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
+	then
+		/bin/cat ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /usr/local/bin/serfix > ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed
+		/bin/mv ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+	fi
 fi
 
