@@ -27,8 +27,8 @@ trap cleanup 0 1 2 3 6 9 14 15
 
 cleanup()
 {
-    /bin/rm ${HOME}/runtime/firewalllock.file
-    exit
+	/bin/rm ${HOME}/runtime/firewalllock.file
+	exit
 }
 
 lockfile=${HOME}/runtime/firewalllock.file
@@ -37,9 +37,9 @@ lockfile=${HOME}/runtime/firewalllock.file
 
 if ( [ ! -f ${lockfile} ] )
 then
-    /usr/bin/touch ${lockfile}
-    ${HOME}/security/SetupFirewall.sh
-    /bin/rm ${lockfile}
+	/usr/bin/touch ${lockfile}
+	${HOME}/security/SetupFirewall.sh
+	/bin/rm ${lockfile}
 else
-    /bin/echo "script already running"
+	/bin/echo "script already running"
 fi
