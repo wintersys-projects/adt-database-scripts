@@ -24,15 +24,15 @@ export HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "${1}" = "" ] )
 then
-   /bin/echo "0"
-   exit
+	/bin/echo "0"
+	exit
 fi
-
+ 
 key_value="`/bin/grep -a "${1}" ${HOME}/runtime/database_configuration_settings.dat`"
 
 if ( [ "${key_value}" != "" ] )
 then
-    /bin/echo "1"
+	/bin/echo "1"
 else
-    /bin/echo "0" 
+	/bin/echo "0" 
 fi
