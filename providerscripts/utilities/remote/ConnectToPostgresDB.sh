@@ -30,24 +30,16 @@ SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 sql_command="$1"
 raw="$2"
 
-#DB_N="`command="${SUDO} ${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh credentials/shit 1" && eval ${command}`"
-#DB_P="`command="${SUDO} ${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh credentials/shit 2" && eval ${command}`"
-#DB_U="`command="${SUDO} ${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh credentials/shit 3" && eval ${command}`"
-
-#DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
-#DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-#DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
-
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-    HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databaseip/*"`"
-    HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databasepublicip/*"`"
+	HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databaseip/*"`"
+	HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databasepublicip/*"`"
 fi
 
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
@@ -56,33 +48,33 @@ export PGPASSWORD=${DB_P}
 
 if ( [ "${raw}" != "raw" ] )
 then
-    if ( [ "${sql_command}" != "" ]  )
-    then
-        /usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-        if ( [ "$?" != "0" ] )
-        then
-            /usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-        fi
-    else
-        /usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N}
-        if ( [ "$?" != "0" ] )
-        then
-            /usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N}
-        fi
-    fi
+	if ( [ "${sql_command}" != "" ]  )
+	then
+		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+		if ( [ "$?" != "0" ] )
+		then
+			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+		fi
+	else
+		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N}
+		if ( [ "$?" != "0" ] )
+		then
+			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N}
+		fi
+	fi
 else
-    if ( [ "${sql_command}" != "" ]  )
-    then
-        /usr/bin/psql -t -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-        if ( [ "$?" != "0" ] )
-        then
-            /usr/bin/psql -t -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-        fi
-    else
-        /usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} 
-        if ( [ "$?" != "0" ] )
-        then
-            /usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} 
-        fi
-    fi
+	if ( [ "${sql_command}" != "" ]  )
+	then
+		/usr/bin/psql -t -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+		if ( [ "$?" != "0" ] )
+		then
+			/usr/bin/psql -t -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+		fi
+	else
+		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} 
+		if ( [ "$?" != "0" ] )
+		then
+			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} 
+		fi
+	fi
 fi
