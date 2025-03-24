@@ -23,14 +23,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
@@ -38,10 +38,10 @@ BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDO
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    apt="/usr/bin/apt-get"
+	apt="/usr/bin/apt-get"
 elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
 then
-    apt="/usr/sbin/apt-fast"
+	apt="/usr/sbin/apt-fast"
 fi
 
 export DEBIAN_FRONTEND=noninteractive
@@ -49,43 +49,36 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-    if ( [ "${BUILDOS}" = "ubuntu" ] )
-    then
-        if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-        then
-            mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-            /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
-            eval ${install_command} mariadb-server
-        fi
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
+	then
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		then
+			mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
+			eval ${install_command} mariadb-server
+		fi
 
-        /bin/mkdir /var/log/mysql
-        /bin/chown mysql:mysql /var/log/mysql  
+		/bin/mkdir /var/log/mysql
+		/bin/chown mysql:mysql /var/log/mysql                            
 
-     #   /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                  
-     #   /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                           
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
+	fi
 
-        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
-        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
-    fi
-
-    if ( [ "${BUILDOS}" = "debian" ] )
-    then
-    
-        if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-        then
-            mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-            /usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
-            eval ${install_command} mariadb-server     
-        fi
+	if ( [ "${BUILDOS}" = "debian" ] )
+	then
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		then
+			mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
+			eval ${install_command} mariadb-server     
+		fi
         
-        /bin/mkdir /var/log/mysql
-        /bin/chown mysql:mysql /var/log/mysql  
-
-    #    /bin/sed -i 's/^character-set-server.*/character-set-server     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                                    
-    #    /bin/sed -i 's/^character-set-collations.*/character-set-collations     = utf8mb4/g' /etc/mysql/mariadb.conf.d/50-server.cnf                            
+		/bin/mkdir /var/log/mysql
+		/bin/chown mysql:mysql /var/log/mysql                         
     
-        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
-        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
-    fi
-    /bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBServer.sh				
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
+	fi
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBServer.sh				
 fi
