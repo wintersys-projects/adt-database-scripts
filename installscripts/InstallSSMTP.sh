@@ -21,14 +21,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -48,13 +48,13 @@ then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
 		eval ${install_command} ssmtp	
-  		eval ${install_command} mailutils	
-        fi
+		eval ${install_command} mailutils	
+	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
 		eval ${install_command} ssmtp	
   		eval ${install_command} mailutils	
-        fi
-     	/bin/touch ${HOME}/runtime/installedsoftware/InstallSSMTP.sh	
+	fi
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallSSMTP.sh	
 fi
