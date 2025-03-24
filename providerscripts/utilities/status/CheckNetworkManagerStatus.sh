@@ -2,7 +2,7 @@
 ######################################################################################
 # Author : Peter Winter
 # Date   : 11/08/2021
-# Description: This script gives the status of the network manager
+# Description: This script gives starts the network manager if it is not running
 #######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
