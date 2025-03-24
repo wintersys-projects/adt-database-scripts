@@ -22,25 +22,25 @@
 #set -x
 
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-
+ 
 if ( [ "${1}" = "" ] )
 then
-    /bin/echo "Your application type is set to: `${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
-    /bin/echo "Please make very sure this is correct for your application otherwise things will break"
-    /bin/echo "Press <enter> when you are sure"
-    read x
+	/bin/echo "Your application type is set to: `${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
+	/bin/echo "Please make very sure this is correct for your application otherwise things will break"
+	/bin/echo "Press <enter> when you are sure"
+	read x
     
-    /bin/echo "Please enter a unique identifier for your baseline and make sure you have created a repository with the name <identifier>-db-baseline with your repository provider"
-    read baseline_name
+	/bin/echo "Please enter a unique identifier for your baseline and make sure you have created a repository with the name <identifier>-db-baseline with your repository provider"
+	read baseline_name
 else
-    baseline_name="${1}"
+	baseline_name="${1}"
 fi
 
 /bin/echo "Creating baseline of your database with the following logs available on your database server"
 
 if ( [ ! -d ${HOME}/logs/backups ] )
 then
-    /bin/mkdir -p ${HOME}/logs/backups
+	/bin/mkdir -p ${HOME}/logs/backups
 fi
 
 #The log files for the server build are written here...
@@ -63,7 +63,7 @@ WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ 
 
 if ( [ ! -d ${HOME}/backups ] )
 then
-    /bin/mkdir -p ${HOME}/backups
+	/bin/mkdir -p ${HOME}/backups
 fi
 
 /bin/rm -r ${HOME}/backups/*
@@ -73,17 +73,7 @@ APPLICATION_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/Extra
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
 APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
 APPLICATION_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
-
-
 websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
-
-#DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
-#DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
-#DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
-
-#DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
-#DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-#DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
@@ -115,16 +105,15 @@ IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK
 REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
 
 #You can add additional repository providers here if you want to create a baseline with a different provider
-
 if ( [ "${REPOSITORY_PROVIDER}" = "bitbucket" ] )
 then
-    /usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@bitbucket.org/${APPLICATION_REPOSITORY_OWNER}/${baseline_name}-db-baseline.git
+	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@bitbucket.org/${APPLICATION_REPOSITORY_OWNER}/${baseline_name}-db-baseline.git
 elif ( [ "${REPOSITORY_PROVIDER}" = "github" ] )
 then
-    /usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@github.com/${APPLICATION_REPOSITORY_OWNER}/${baseline_name}-db-baseline.git
+	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@github.com/${APPLICATION_REPOSITORY_OWNER}/${baseline_name}-db-baseline.git
 elif ( [ "${REPOSITORY_PROVIDER}" = "gitlab" ] )
 then
-    /usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@gitlab.com/${APPLICATION_REPOSITORY_OWNER}/${baseline_name}-db-baseline.git
+	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@gitlab.com/${APPLICATION_REPOSITORY_OWNER}/${baseline_name}-db-baseline.git
 fi
 
 /usr/bin/git push -u -f origin main
