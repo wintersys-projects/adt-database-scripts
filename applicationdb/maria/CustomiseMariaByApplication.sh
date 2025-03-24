@@ -27,29 +27,28 @@ HOST=""
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'MYPUBLICIP'`"
+	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'MYPUBLICIP'`"
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
-    /bin/sed -i '/^\[mysqld\]/a binlog_format=mixed' /etc/mysql/my.cnf
-    /bin/sed -i '/^\[mysqld\]/a innodb_large_prefix=1' /etc/mysql/my.cnf
-    /bin/sed -i '/^\[mysqld\]/a innodb_file_per_table=ON' /etc/mysql/my.cnf
-    /bin/sed -i '/^\[mysqld\]/a innodb_default_row_format=dynamic' /etc/mysql/my.cnf
-    /bin/sed -i '/^\[mysqld\]/a innodb_file_format=Barracuda' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a binlog_format=mixed' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a innodb_large_prefix=1' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a innodb_file_per_table=ON' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a innodb_default_row_format=dynamic' /etc/mysql/my.cnf
+	/bin/sed -i '/^\[mysqld\]/a innodb_file_format=Barracuda' /etc/mysql/my.cnf
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	${HOME}/installscripts/InstallSerFix.sh ${BUILDOS}
 
-    ${HOME}/installscripts/InstallSerFix.sh ${BUILDOS}
-
-    if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
-    then
-        /bin/cat ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /usr/local/bin/serfix > ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed
-        /bin/mv ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-    fi
+	if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
+	then
+		/bin/cat ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /usr/local/bin/serfix > ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed
+		/bin/mv ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql.fixed ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+	fi
 fi
