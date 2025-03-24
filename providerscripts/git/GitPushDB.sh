@@ -22,24 +22,23 @@
 
 if ( [ "$1" = "" ] || [ "$2" = "" ] || [ "$3" = "" ] || [ "$4" = "" ] )
 then
-    /bin/echo "Usage : ${0} : <files> <commit message> <repository provider> <repository name>"
-    exit
+	/bin/echo "Usage : ${0} : <files> <commit message> <repository provider> <repository name>"
+	exit
 fi
 
 if ( [ "$5" = "" ] || [ "$6" = "" ] || [ "$7" = "" ] )
 then
-    repository_provider="${3}"
-    APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
-    APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
-    APPLICATION_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
-
-    APPLICATION_REPOSITORY_NAME="${4}"
+	repository_provider="${3}"
+	APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
+	APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
+	APPLICATION_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
+	APPLICATION_REPOSITORY_NAME="${4}"
 else
-    repository_provider="${3}"
-    APPLICATION_REPOSITORY_USERNAME="$5"
-    APPLICATION_REPOSITORY_PASSWORD="$6"
-    APPLICATION_REPOSITORY_OWNER="$7"
-    APPLICATION_REPOSITORY_NAME="$4"
+	repository_provider="${3}"
+	APPLICATION_REPOSITORY_USERNAME="$5"
+	APPLICATION_REPOSITORY_PASSWORD="$6"
+	APPLICATION_REPOSITORY_OWNER="$7"
+	APPLICATION_REPOSITORY_NAME="$4"
 fi
 
 /usr/bin/git add ${1}
@@ -48,15 +47,15 @@ fi
 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
-    /usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@bitbucket.org/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@bitbucket.org/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
 fi
 if ( [ "${repository_provider}" = "github" ] )
 then
-    /usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@github.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@github.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
 fi
 if ( [ "${repository_provider}" = "gitlab" ] )
 then
-    /usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@gitlab.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@gitlab.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
 fi
 /usr/bin/git push -u -f origin main
 
