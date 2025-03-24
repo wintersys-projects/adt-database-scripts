@@ -31,19 +31,19 @@ webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDa
 
 if ( [ "`/bin/echo ${webserver_ips} | /usr/bin/wc -l`" -gt "1" ] )
 then
-    for ip in ${webserver_ips}
-    do
-        /bin/echo "Would you like to connect to the webserver with IP address: ${ip}"
-        /bin/echo "Please enter 'Y' or 'y' to connect, anything else to continue"
-        read response
+	for ip in ${webserver_ips}
+	do
+		/bin/echo "Would you like to connect to the webserver with IP address: ${ip}"
+		/bin/echo "Please enter 'Y' or 'y' to connect, anything else to continue"
+		read response
 
-        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
-        then 
-            /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip} "${command}"
-            exit
-        fi
-    done
- else
-     ip="${webserver_ips}"
-     /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip} "${command}"
+		if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+		then 
+			/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip} "${command}"
+			exit
+		fi
+	done
+else
+	ip="${webserver_ips}"
+	/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip} "${command}"
  fi
