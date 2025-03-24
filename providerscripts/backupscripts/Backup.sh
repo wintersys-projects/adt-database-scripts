@@ -21,7 +21,7 @@
 ##################################################################################
 ##################################################################################
 #set -x
-
+ 
 if ( [ "$1" = "" ] )
 then
     /bin/echo "This script requires the <Build periodicity> parameter to be set"
@@ -32,15 +32,6 @@ if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh
 then
     exit
 fi
-
-#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
-#then
-#    exit
-#fi
-#if ( [ ! -f ${HOME}/credentials/db_cred ] )
-#then
-#    exit
-#fi
 
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
@@ -58,8 +49,8 @@ period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 allowed_periods="hourly daily weekly monthly bimonthly"
 if ( [ "`/bin/echo ${allowed_periods} | /bin/grep ${period}`" = "" ] )
 then
-        /bin/echo "Invalid periodicity passed to backup script"
-        exit
+    /bin/echo "Invalid periodicity passed to backup script"
+    exit
 fi
 
 if ( [ ! -d ${HOME}/backups ] )
@@ -68,20 +59,12 @@ then
 fi
 
 /bin/rm -r ${HOME}/backups/*
-
 websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
-
-#DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
-#DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-#DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
-#DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
-#DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
-#DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
 
 cd ${HOME}/backups
 . ${HOME}/providerscripts/database/BackupDatabase.sh
@@ -94,7 +77,7 @@ fi
 
 if ( [ -f ${WEBSITE_NAME}-db* ] )
 then
-        /bin/mv *${WEBSITE_NAME}-db* ${HOME}/backups/${period}
+    /bin/mv *${WEBSITE_NAME}-db* ${HOME}/backups/${period}
 fi
 
 cd ${HOME}/backups/
@@ -111,4 +94,5 @@ then
     /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" 
     ${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
 fi
+
 /bin/rm ./${backup_name}
