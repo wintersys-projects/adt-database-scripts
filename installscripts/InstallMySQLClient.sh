@@ -22,29 +22,23 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
-
-
-#BUILDOSVERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
-#DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
-#DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-#DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    apt="/usr/bin/apt-get"
+	apt="/usr/bin/apt-get"
 elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
 then
-    apt="/usr/sbin/apt-fast"
+	apt="/usr/sbin/apt-fast"
 fi
 
 export DEBIAN_FRONTEND=noninteractive
@@ -53,24 +47,24 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-    if ( [ "${BUILDOS}" = "ubuntu" ] )
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-        	eval ${install_command} gnupg    
+		eval ${install_command} gnupg    
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config}	
 		/bin/rm ${mysql_apt_config}									
-        	eval ${update_command} --allow-change-held-packages 
+		eval ${update_command} --allow-change-held-packages 
 		eval ${install_command} mysql-client	
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-        	eval ${install_command} gnupg 
+		eval ${install_command} gnupg 
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config} 
 		/bin/rm ${mysql_apt_config}									
-                eval ${update_command} --allow-change-held-packages 
+		eval ${update_command} --allow-change-held-packages 
 		eval ${install_command} mysql-client	
- 	fi
-     	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh
+	fi
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh
 fi
