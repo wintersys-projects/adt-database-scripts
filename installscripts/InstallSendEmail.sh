@@ -22,23 +22,23 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    apt="/usr/bin/apt-get"
+	apt="/usr/bin/apt-get"
 elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
 then
-    apt="/usr/sbin/apt-fast"
+	apt="/usr/sbin/apt-fast"
 fi
 
 export DEBIAN_FRONTEND=noninteractive
@@ -46,15 +46,15 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-    if ( [ "${BUILDOS}" = "ubuntu" ] )
-    then
-        eval ${install_command} sendemail        
-    fi
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
+	then
+		eval ${install_command} sendemail        
+	fi
 
-    if ( [ "${BUILDOS}" = "debian" ] )
-    then
-        eval ${install_command} sendemail        
-    fi
-    /bin/touch ${HOME}/runtime/installedsoftware/InstallSendEmail.sh
+	if ( [ "${BUILDOS}" = "debian" ] )
+	then
+		eval ${install_command} sendemail        
+	fi
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallSendEmail.sh
 fi
 
