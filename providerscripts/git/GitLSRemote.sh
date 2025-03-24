@@ -28,28 +28,28 @@ repository_name="${5}"
 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
-    if ( [ "${repository_password}" = "none" ] )
-    then
-        /usr/bin/git ls-remote https://${repository_username}@bitbucket.org/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
-    else
-        /usr/bin/git ls-remote https://${repository_username}:${repository_password}@bitbucket.org/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
-    fi
+	if ( [ "${repository_password}" = "none" ] )
+	then
+		/usr/bin/git ls-remote https://${repository_username}@bitbucket.org/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
+	else
+		/usr/bin/git ls-remote https://${repository_username}:${repository_password}@bitbucket.org/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
+	fi
 fi
 if ( [ "${repository_provider}" = "github" ] )
 then
-    if ( [ "${repository_password}" = "none" ] )
-    then
-        /usr/bin/git ls-remote https://${repository_username}@github.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
-    else
-        /usr/bin/git ls-remote https://${repository_username}:${repository_password}@github.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
-    fi
+	if ( [ "${repository_password}" = "none" ] )
+	then
+		/usr/bin/git ls-remote https://${repository_username}@github.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
+	else
+		/usr/bin/git ls-remote https://${repository_username}:${repository_password}@github.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
+	fi
 fi
 if ( [ "${repository_provider}" = "gitlab" ] )
 then
-    if ( [ "${repository_password}" = "none" ] )
-    then
-        /usr/bin/git ls-remote https://${repository_username}@gitlab.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
-    else
-        /usr/bin/git ls-remote https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
-    fi
+	if ( [ "${repository_password}" = "none" ] )
+	then
+		/usr/bin/git ls-remote https://${repository_username}@gitlab.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
+	else
+		/usr/bin/git ls-remote https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
+	fi
 fi
