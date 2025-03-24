@@ -20,44 +20,41 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ###################################################################################
 ###################################################################################
-set -x
+#set -x
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
-#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ]  )
 then
- ${HOME}/installscripts/InstallMariaDBServer.sh ${BUILDOS}
- /bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
+	${HOME}/installscripts/InstallMariaDBServer.sh ${BUILDOS}
+	/bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
 fi
 
-#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ]  )
 then
-     ${HOME}/installscripts/InstallMySQLServer.sh ${BUILDOS}
-     /bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
+	${HOME}/installscripts/InstallMySQLServer.sh ${BUILDOS}
+	/bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
 fi
 
-#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ]  )
 then
-    ${HOME}/installscripts/InstallPostgres.sh ${BUILDOS}
-    /bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
+	${HOME}/installscripts/InstallPostgres.sh ${BUILDOS}
+	/bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    /bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
+	/bin/touch ${HOME}/runtime/DATABASE_SERVER_INSTALLED
 fi
 
 
