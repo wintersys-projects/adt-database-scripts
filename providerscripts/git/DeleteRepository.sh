@@ -34,16 +34,16 @@ REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.s
 
 if ( [ "${provider_name}" = "bitbucket" ] )
 then
-    /usr/bin/curl -X DELETE --user ${repository_username}:${repository_password} https://api.bitbucket.org/2.0/repositories/${REPOSITORY_OWNER}/${repository_name}
+	/usr/bin/curl -X DELETE --user ${repository_username}:${repository_password} https://api.bitbucket.org/2.0/repositories/${REPOSITORY_OWNER}/${repository_name}
 fi
 if ( [ "${provider_name}" = "github" ] )
 then
-    /usr/bin/curl -X DELETE -u ${repository_username}:${repository_password} https://api.github.com/repos/${REPOSITORY_OWNER}/${repository_name}
+	/usr/bin/curl -X DELETE -u ${repository_username}:${repository_password} https://api.github.com/repos/${REPOSITORY_OWNER}/${repository_name}
 fi
 if ( [ "${provider_name}" = "gitlab" ] )
 then
-    APPLICATION_REPOSITORY_TOKEN="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYTOKEN'`"
-    /usr/bin/curl --request DELETE --header "PRIVATE-TOKEN: ${APPLICATION_REPOSITORY_TOKEN}" https://gitlab.com/api/v3/projects/${REPOSITORY_OWNER}%2F${repository_name}
+	APPLICATION_REPOSITORY_TOKEN="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYTOKEN'`"
+	/usr/bin/curl --request DELETE --header "PRIVATE-TOKEN: ${APPLICATION_REPOSITORY_TOKEN}" https://gitlab.com/api/v3/projects/${REPOSITORY_OWNER}%2F${repository_name}
 fi
 
 
