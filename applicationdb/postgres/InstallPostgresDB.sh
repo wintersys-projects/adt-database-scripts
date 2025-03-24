@@ -25,44 +25,41 @@ DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-    HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-    HOST=127.0.0.1
+	HOST=127.0.0.1
 fi
 
 if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
 then    
-    if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "dbinstalllock.file"`" = "0" ] )
-    then
-        /usr/bin/touch ${HOME}/runtime/dbinstalllock.file
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/dbinstalllock.file 
-        /bin/sed -i "s/XXXXXXXXXX/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-        IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
-        /bin/sed -i "s/YYYYYYYYYY/${IP_MASK}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-        olduser="`/bin/grep 'u........u' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /bin/sed 's/ /\n/g' | grep '^u........u$' | /usr/bin/head -1`"
-        /bin/sed -i "s/${olduser}/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-        export PGPASSWORD="${DB_P}"
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "dbinstalllock.file"`" = "0" ] )
+	then
+		/usr/bin/touch ${HOME}/runtime/dbinstalllock.file
+		${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/dbinstalllock.file 
+		/bin/sed -i "s/XXXXXXXXXX/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+		IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
+		/bin/sed -i "s/YYYYYYYYYY/${IP_MASK}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+		olduser="`/bin/grep 'u........u' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /bin/sed 's/ /\n/g' | grep '^u........u$' | /usr/bin/head -1`"
+		/bin/sed -i "s/${olduser}/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+		export PGPASSWORD="${DB_P}"
         
-        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-        then
-           . ${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
-        fi
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+		then
+			. ${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
+		fi
 
-        ${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-      #  /usr/bin/psql -h ${HOST} -U ${DB_U} -p ${DB_PORT} ${DB_N} < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "dbinstalllock.file"
-    else
-        exit
-    fi
+		${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+		${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "dbinstalllock.file"
+	else
+		exit
+	fi
 fi
-
-#if ( [ "`/usr/bin/psql -h ${HOST} -p ${DB_PORT} -U ${DB_U} ${DB_N} -c "select exists ( select 1 from information_schema.tables where table_name='zzzz');" | /bin/grep -v 'exist' | /bin/grep -v '\-\-\-\-'  | /bin/grep -v 'row' | /bin/sed 's/ //g'`" = "t" ] || [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 
 if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "select exists ( select 1 from information_schema.tables where table_name='zzzz');" | /bin/grep -v 'exist' | /bin/grep -v '\-\-\-\-'  | /bin/grep -v 'row' | /bin/sed 's/ //g'`" = "t" ] || [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 then
-    /bin/echo "${0} `/bin/date` : An application has been installed in the database, right on" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
-    ${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS COMPLETED" "An application has been installed in your postgres database" "INFO"
-    /bin/touch ${HOME}/runtime/DB_APPLICATION_INSTALLED
+	/bin/echo "${0} `/bin/date` : An application has been installed in the database, right on" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+	${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS COMPLETED" "An application has been installed in your postgres database" "INFO"
+	/bin/touch ${HOME}/runtime/DB_APPLICATION_INSTALLED
 else
-    ${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS FAILED" "An application has failed to install in your postgres database" "ERROR"
+	${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS FAILED" "An application has failed to install in your postgres database" "ERROR"
 fi
