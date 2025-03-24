@@ -26,7 +26,7 @@ key_value="`/bin/grep -a "^${1}" ${HOME}/runtime/buildstyles.dat`"
 
 if ( [ "${key_value}" != "" ] )
 then
-    /bin/echo "1"
-else
-    /bin/echo "0" 
+	/bin/echo "1"
+else 
+	/bin/echo "0" 
 fi
