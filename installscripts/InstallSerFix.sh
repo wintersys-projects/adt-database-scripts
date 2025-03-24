@@ -22,60 +22,61 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    apt="/usr/bin/apt-get"
+	apt="/usr/bin/apt-get"
 elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
 then
-    apt="/usr/sbin/apt-fast"
+	apt="/usr/sbin/apt-fast"
 fi
 
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
-    if ( [ ! -d /root/scratch ] )
-    then
-        /bin/mkdir /root/scratch
-    fi
+	if ( [ ! -d /root/scratch ] )
+	then
+		/bin/mkdir /root/scratch
+	fi
     
-    tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
-    /usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz -C /root/scratch
-    cwd="`/usr/bin/pwd`"
-    cd /root/scratch/astock*
-    /usr/bin/go build serfix.go
-    /bin/mv serfix /usr/local/bin
-    /bin/chmod 755 /usr/local/bin/serfix
-    /bin/rm -r /root/scratch
-    cd ${cwd}
+	tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
+	/usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz -C /root/scratch
+	cwd="`/usr/bin/pwd`"
+	cd /root/scratch/astock*
+	/usr/bin/go build serfix.go
+	/bin/mv serfix /usr/local/bin
+	/bin/chmod 755 /usr/local/bin/serfix
+	/bin/rm -r /root/scratch
+	cd ${cwd}
 fi
 
 if ( [ "${BUILDOS}" = "debian" ] )
 then
-    if ( [ ! -d /root/scratch ] )
-    then
-        /bin/mkdir /root/scratch
-    fi
+	if ( [ ! -d /root/scratch ] )
+	then
+		/bin/mkdir /root/scratch
+	fi
     
-    tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
-    /usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz -C /root/scratch
-    cwd="`/usr/bin/pwd`"
-    cd /root/scratch/astock*
-    /usr/bin/go build serfix.go
-    /bin/mv serfix /usr/local/bin
-    /bin/chmod 755 /usr/local/bin/serfix
-    /bin/rm -r /root/scratch
-    cd ${cwd}
+	tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
+	/usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz -C /root/scratch
+	cwd="`/usr/bin/pwd`"
+	cd /root/scratch/astock*
+	/usr/bin/go build serfix.go
+	/bin/mv serfix /usr/local/bin
+	/bin/chmod 755 /usr/local/bin/serfix
+	/bin/rm -r /root/scratch
+	cd ${cwd}
 fi
+
 /bin/touch ${HOME}/runtime/installedsoftware/InstallSerFix.sh
 
 
