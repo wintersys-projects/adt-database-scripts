@@ -39,25 +39,25 @@ export HOME="/home/${USER_HOME}" | /usr/bin/tee -a ~/.bashrc
 
 if ( [ ! -d ${HOME}/logs/initialbuild ] )
 then
-    /bin/mkdir -p ${HOME}/logs/initialbuild
+	/bin/mkdir -p ${HOME}/logs/initialbuild
 fi
 
 if ( [ ! -d ${HOME}/super ] )
 then
-    /bin/mkdir ${HOME}/super
+	/bin/mkdir ${HOME}/super
 fi
-
+ 
 if ( [ ! -d ${HOME}/.ssh ] )
 then
-        /bin/mkdir ${HOME}/.ssh
-        /bin/chmod 700 ${HOME}/.ssh
+	/bin/mkdir ${HOME}/.ssh
+	/bin/chmod 700 ${HOME}/.ssh
 fi
 
 if ( [ ! -d ${HOME}/runtime ] )
 then
-        /bin/mkdir -p ${HOME}/runtime
-        /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/runtime
-        /bin/chmod 755 ${HOME}/runtime
+	/bin/mkdir -p ${HOME}/runtime
+	/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/runtime
+	/bin/chmod 755 ${HOME}/runtime
 fi
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
@@ -71,37 +71,10 @@ err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
 
 
-#CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
-#AUTOSCALERIP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ASIP'`"
-#BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
-#BUILD_ARCHIVE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
-#ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
-#WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-#WEBSITE_DISPLAY_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
 BASELINE_DB_REPOSITORY_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BASELINEDBREPOSITORY'`"
-#INFRASTRUCTURE_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPROVIDER'`"
-#INFRASTRUCTURE_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYUSERNAME'`"
-#INFRASTRUCTURE_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPASSWORD'`"
-##INFRASTRUCTURE_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
-##APPLICATION_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
-#APPLICATION_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
-#APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
-#APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
-#DATABASE_INSTALLATION_TYPE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATABASEINSTALLATIONTYPE'`"
 GIT_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed 's/#/ /g'`"
 GIT_EMAIL_ADDRESS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'GITEMAILADDRESS'`"
-#SERVER_TIMEZONE_CONTINENT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
-#SERVER_TIMEZONE_CITY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-#SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
-
-#Non standard variable settings
-#WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
-#WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
-#ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^ //g' | /bin/sed 's/ /./g'`"
-#WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
-#WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-
 
 #Initialise Git
 /usr/bin/git config --global user.name "${GIT_USER}"
@@ -129,17 +102,15 @@ cd ${HOME}
 count="0"
 while ( [ ! -f ${HOME}/runtime/DATABASE_SYSTEM_INSTALLED ] && [ "${count}" -lt "71" ] )
 do
-        /bin/sleep 2
-        count="`/usr/bin/expr ${count} + 1`"
+	/bin/sleep 2
+	count="`/usr/bin/expr ${count} + 1`"
 done
 
 if ( [ "${count}" = "71" ] )
 then
-        :
+	:
         ###Send Email and Log Message
 fi
-
-
 
 /bin/echo "${0} Initialising Database"
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
@@ -147,18 +118,18 @@ ${HOME}/providerscripts/database/InitialiseDatabase.sh
 BYPASS_DB_LAYER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
 if ( [ "${BYPASS_DB_LAYER}" != "1" ] )
 then
-    #...and install the application
-    if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
-    then    
-        /bin/echo "${0} Installing bespoke application"
-        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
-        then
-                ${HOME}/applicationdb/InstallApplicationDB.sh 
-                ${HOME}/providerscripts/application/CustomiseApplication.sh
-        else
-                ${HOME}/applicationdb/InstallApplicationDB.sh 
-        fi
-    fi
+	#...and install the application
+	if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
+	then    
+		/bin/echo "${0} Installing bespoke application"
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+		then
+			${HOME}/applicationdb/InstallApplicationDB.sh 
+			${HOME}/providerscripts/application/CustomiseApplication.sh
+		else
+			${HOME}/applicationdb/InstallApplicationDB.sh 
+		fi
+	fi
 fi
 
 #Set userallow for fuse
