@@ -22,8 +22,8 @@
 
 if ( [ "$1" = "" ] || [ "$2" = "" ] || [ "$3" = "" ] )
 then
-    /bin/echo "Usage : ${0} : <files> <commit message> <repository provider> "
-    exit
+	/bin/echo "Usage : ${0} : <files> <commit message> <repository provider> "
+	exit
 fi
 
 repository_provider="${3}"
@@ -34,10 +34,10 @@ INFRASTRUCTURE_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/Extra
 
 if ( [ "${INFRASTRUCTURE_REPOSITORY_USERNAME}" = "" ] || [ "${INFRASTRUCTURE_REPOSITORY_PASSWORD}" = "" ] )
 then
-    /bin/echo "Please enter your repository username"
-    read INFRASTRUCTURE_REPOSITORY_USERNAME
-    /bin/echo "Please enter your repository password"
-    read INFRASTRUCTURE_REPOSITORY_PASSWORD
+	/bin/echo "Please enter your repository username"
+	read INFRASTRUCTURE_REPOSITORY_USERNAME
+	/bin/echo "Please enter your repository password"
+	read INFRASTRUCTURE_REPOSITORY_PASSWORD
 fi
 
 /usr/bin/git add ${1}
@@ -46,30 +46,30 @@ fi
 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
-    if ( [ "${INFRASTRUCTURE_REPOSITORY_PASSWORD}" = "" ] )
-    then
-        /usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@bitbucket.org/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
-    else
-        /usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@bitbucket.org/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
-    fi
+	if ( [ "${INFRASTRUCTURE_REPOSITORY_PASSWORD}" = "" ] )
+	then
+		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@bitbucket.org/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+	else
+		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@bitbucket.org/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+	fi
 fi
 if ( [ "${repository_provider}" = "github" ] )
 then
-    if ( [ "${INFRASTRUCTURE_REPOSITORY_PASSWORD}" = "" ] )
-    then
-        /usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
-    else
-        /usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
-    fi
+	if ( [ "${INFRASTRUCTURE_REPOSITORY_PASSWORD}" = "" ] )
+	then
+		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+	else
+		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+	fi
 fi
 if ( [ "${repository_provider}" = "gitlab" ] )
 then
-    if ( [ "${INFRASTRUCTURE_REPOSITORY_PASSWORD}" = "" ] )
-    then
-        /usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@gitlab.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
-    else
-        /usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@gitlab.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
-    fi
+	if ( [ "${INFRASTRUCTURE_REPOSITORY_PASSWORD}" = "" ] )
+	then
+		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@gitlab.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+	else
+		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@gitlab.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+	fi
 fi
 
 /usr/bin/git push -u origin main
