@@ -29,22 +29,22 @@ configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}
 
 if ( [ "${1}" = "" ] )
 then
-    /bin/echo "0"
-    exit
+	/bin/echo "0"
+	exit
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-        datastore_tool="/usr/bin/s3cmd "
+	datastore_tool="/usr/bin/s3cmd "
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-        host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
+	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
 fi
 
 if ( [ "`${datastore_tool} ls s3://${configbucket}/$1`" = "" ] )
 then
-    /bin/echo "0"
+	/bin/echo "0"
 else
-    /bin/echo "1"
+	/bin/echo "1"
 fi
