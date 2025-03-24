@@ -19,10 +19,10 @@
 #######################################################################################
 #######################################################################################
 #set -x
-
+ 
 if ( [ "${1}" = "reboot" ] )
 then
-    /usr/bin/find ${HOME}/runtime -name *lock* -type f -delete
+	/usr/bin/find ${HOME}/runtime -name *lock* -type f -delete
 else
-    /usr/bin/find ${HOME}/runtime -name *lock* -type f -mmin +35 -delete
+	/usr/bin/find ${HOME}/runtime -name *lock* -type f -mmin +35 -delete
 fi
