@@ -26,20 +26,20 @@
  
 if ( [ "$1" = "backup" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "dbbackuplock.file"`" = "0" ] )
 then
-    /bin/echo "Making a daily and an emergency shutdown backup of your database"
-    BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
-    /bin/echo "Making the daily periodicity backup please wait....."
-    ${HOME}/cron/BackupFromCron.sh 'DAILY' ${BUILD_IDENTIFIER} > /dev/null 2>&1
-    /bin/echo "Making the special shutdown backup please wait....."
-    ${HOME}/cron/BackupFromCron.sh 'SHUTDOWN' ${BUILD_IDENTIFIER} > /dev/null 2>&1
+	/bin/echo "Making a daily and an emergency shutdown backup of your database"
+	BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
+	/bin/echo "Making the daily periodicity backup please wait....."
+	${HOME}/cron/BackupFromCron.sh 'DAILY' ${BUILD_IDENTIFIER} > /dev/null 2>&1
+	/bin/echo "Making the special shutdown backup please wait....."
+	${HOME}/cron/BackupFromCron.sh 'SHUTDOWN' ${BUILD_IDENTIFIER} > /dev/null 2>&1
 fi
-
+ 
 ${HOME}/providerscripts/email/SendEmail.sh "A database is being shutdown" "A database is being shutdown" "INFO"
 
 if ( [ "${1}" = "halt" ] )
 then
-    /usr/sbin/shutdown -h now
+	/usr/sbin/shutdown -h now
 elif ( [ "${1}" = "reboot" ] )
 then
-    /usr/sbin/shutdown -r now
+	/usr/sbin/shutdown -r now
 fi
