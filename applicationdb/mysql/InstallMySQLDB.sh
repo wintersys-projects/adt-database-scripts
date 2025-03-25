@@ -32,7 +32,7 @@ else
 	HOST="localhost"
 fi
 
-. ${HOME}/applicationdb/mysql/CustomiseMySQLByApplication.sh
+${HOME}/applicationdb/mysql/CustomiseMySQLByApplication.sh
 
 if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
 then
