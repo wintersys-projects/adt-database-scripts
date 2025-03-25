@@ -22,6 +22,8 @@
 
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 
 HOST=""
 
@@ -32,7 +34,6 @@ else
 	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'MYPUBLICIP'`"
 fi
 
-/bin/echo "${0} `/bin/date`: 2" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 ${HOME}/applicationdb/maria/CustomiseMariaByApplication.sh
    
 if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
