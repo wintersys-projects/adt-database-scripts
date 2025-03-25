@@ -33,7 +33,7 @@ else
 fi
 
 /bin/echo "${0} `/bin/date`: 2" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-. ${HOME}/applicationdb/maria/CustomiseMariaByApplication.sh
+${HOME}/applicationdb/maria/CustomiseMariaByApplication.sh
    
 if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] )
 then
