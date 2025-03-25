@@ -185,7 +185,7 @@ cd /root
     
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
-	. ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
+	${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
 	count="1" 
 	while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
 	do
@@ -196,7 +196,7 @@ then
 fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-	. ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
+	${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
 	count="1" 
 	while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
 	do
@@ -207,7 +207,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-	. ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
+	${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
 	count="1" 
 	while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
 	do
