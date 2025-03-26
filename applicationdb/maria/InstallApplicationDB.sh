@@ -73,18 +73,13 @@ then
 	fi
 
 	#Install the actual database by connecting the the mariadb instance and passing in the database dump that we have worked hard to have
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "dbinstalllock.file"`" = "0" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-		then
-			/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port=${DB_PORT} -e "CREATE DATABASE ${DB_N};"
-			/bin/sed -i 's/.*sql_require_primary_key.*/SET sql_require_primary_key=0;/g' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-			/bin/sed -i '/GTID_PURGED/d' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-		fi
-		${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	else
-		exit
+		/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port=${DB_PORT} -e "CREATE DATABASE ${DB_N};"
+		/bin/sed -i 's/.*sql_require_primary_key.*/SET sql_require_primary_key=0;/g' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+		/bin/sed -i '/GTID_PURGED/d' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
 	fi
+	${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS FAILED" "Please review your logs as the system has failed to install your database application" "ERROR"
