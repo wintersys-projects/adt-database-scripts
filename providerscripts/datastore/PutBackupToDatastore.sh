@@ -2,7 +2,11 @@
 #####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Put files into a bucket in the datastore
+# Description: This is a special case of putting a file to the datastore because the
+# file that is being put is the backup file of the database. The reason why this is 
+# a special case is that if the deployer has configured "multi region backups" then
+# when we put the backup archive into the datastore it needs to be stored to all the 
+# regions that the deployer has requested for it to be stored in
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
