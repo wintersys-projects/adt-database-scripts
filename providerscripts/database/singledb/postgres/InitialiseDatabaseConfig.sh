@@ -2,7 +2,7 @@
 ########################################################################################
 # Description: This script will setup the postgres database ready for the application
 # to be installed. It will be setup with the postgres user having its password set to
-# $DB_P which is available in ${HOME}/credentials/shit
+# $DB_P which is available as a config value
 #
 # Author: Peter Winter
 # Date: 17/06/2021
@@ -23,20 +23,8 @@
 ####################################################################################
 #set -x
 
-#if ( [ -f ${HOME}/runtime/POSTGRES_CONFIGURED ] )
-#then
-#    exit
-#fi
 
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-
-#DB_N="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
-#DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
-#DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
-
-#DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
-#DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-#DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
@@ -85,7 +73,6 @@ then
         /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl restart -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
         if ( [ "$?" = "0" ] )
         then
- #          /bin/touch ${HOME}/runtime/POSTGRES_CONFIGURED
            /bin/sed -i "s/trust/md5/g" ${postgres_config}
            /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl reload -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
         fi
