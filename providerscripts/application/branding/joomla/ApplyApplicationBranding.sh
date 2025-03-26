@@ -3,7 +3,7 @@
 # Description: When you make extract a backup of your database, you extract out generic placeholder values
 # from your database backup, you can then change these generic valued placeholders with deployment specific values.
 # When you "RemoveApplicationBranding" as you make a backup, specific values are replaced with generic placeholders
-# and here is where these generic placeholders can be replaced with deployment specific values again.  
+# and here is where these generic placeholders can be replaced with deployment specific values again. 
 # Author: Peter Winter
 # Date: 17/05/2017
 ########################################################################################################
