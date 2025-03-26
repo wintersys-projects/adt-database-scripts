@@ -131,9 +131,6 @@ then
 	fi
 fi
 
-#Set userallow for fuse
-/bin/sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
-
 # Configure the crontab
 ${HOME}/cron/InitialiseCron.sh
 
