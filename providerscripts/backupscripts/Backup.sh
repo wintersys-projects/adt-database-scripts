@@ -66,7 +66,7 @@ DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 
 cd ${HOME}/backups
-. ${HOME}/providerscripts/database/BackupDatabase.sh
+${HOME}/providerscripts/database/BackupDatabase.sh
 cd ${HOME}/backups
 
 if ( [ ! -d ${HOME}/backups/${period} ] )
