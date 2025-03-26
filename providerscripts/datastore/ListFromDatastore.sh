@@ -2,7 +2,7 @@
 #####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Lists files from a bucket in the datastore
+# Description: Lists a file from a bucket in the datastore
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
