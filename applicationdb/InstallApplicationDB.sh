@@ -75,10 +75,10 @@ fi
 #        /bin/rm -r ${HOME}/installer/*
 #fi
 
-#if ( [ ! -d ${HOME}/installer/${BUILD_ARCHIVE_CHOICE} ] )
-#then
-#        /bin/mkdir -p ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}
-#fi
+if ( [ ! -d ${HOME}/installer/${BUILD_ARCHIVE_CHOICE} ] )
+then
+        /bin/mkdir -p ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}
+fi
 
 while ( [ "`/bin/ls ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/ | /usr/bin/wc -l`" -lt "1" ] && [ ! -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
 do
