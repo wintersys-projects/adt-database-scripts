@@ -139,7 +139,7 @@ elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
         if ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* ] )
         then
-                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* > /installer/${WEBSITE_NAME}-DB-full.tar.gz
+                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* > ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
         fi
 
         if ( [ -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
@@ -167,8 +167,8 @@ then
         exit
 fi
 
-cd /root
-/bin/rm -r /installer/*
+cd ${HOME}
+/bin/rm -r ${HOME}/installer
 
 #Apply the application branding that we need for this deployment and then install the archive we have obtained as our database 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
