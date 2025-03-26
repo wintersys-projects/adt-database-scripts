@@ -2,7 +2,7 @@
 ####################################################################################
 # Author: Peter Winter
 # Date  : 10/4/2016
-# Description : Set up the firewall for the database
+# Description : Set up the firewall for the database machine
 ####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
