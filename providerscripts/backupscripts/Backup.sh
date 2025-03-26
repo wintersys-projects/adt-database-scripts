@@ -3,8 +3,7 @@
 # Author: Peter Winter
 # Date  : 04/07/2016
 # Description : This is a script which backups up the application  DB to
-# the application git repository provider along with to the datastore if supersafe
-# backups are enabled. 
+# the application datastore. 
 ####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
