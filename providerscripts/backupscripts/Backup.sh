@@ -53,7 +53,7 @@ fi
 websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
 
 cd ${HOME}/backups
-${HOME}/providerscripts/database/BackupDatabase.sh
+${HOME}/providerscripts/database/BackupDatabase.sh ${websiteDB}
 cd ${HOME}/backups
 
 if ( [ ! -d ${HOME}/backups/${period} ] )
