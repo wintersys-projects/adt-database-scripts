@@ -1,9 +1,10 @@
 #!/bin/sh
 ############################################################################
-# Description: This script initialises the mysql db instance ready for use.
+# Description: This script initialises the maria db instance ready for use.
 # It can be either a local database or a remote managed database. 
-# Once this script has run, an empty database with a known name and user will have been
-# created. 
+# Once this script has run, an empty database with a known name will have been
+# created along with our database username and password. The root user will have
+# been disabled 
 # Author: Peter Winter
 # Date: 15/01/2017
 ############################################################################
@@ -21,7 +22,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #################################################################################
 #################################################################################
-set -x
+#set -x
 
 HOST=""
 
@@ -115,13 +116,5 @@ if ( [ -f ${HOME}/providerscripts/database/singledb/mysql/mysql.config ] )
 then
     /bin/cat ${HOME}/providerscripts/database/singledb/mysql/mysql.config >> /etc/mysql/my.cnf
 fi
-
-#if ( [ "`/bin/grep "${DB_PORT}" /etc/mysql/my.cnf`" = "" ] )
-#then
-#    /bin/echo "[mysqld]" >> /etc/mysql/my.cnf
-#    /bin/echo "port        = ${DB_PORT}" >> /etc/mysql/my.cnf
-#    /bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
-#    /bin/echo "skip-name-resolve" >> /etc/mysql/my.cnf
-#fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
