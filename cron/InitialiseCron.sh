@@ -23,8 +23,6 @@
 HOME="`/bin/cat /home/homedir.dat`"
 
 #These scripts run every minute
-#/bin/echo "*/1 * * * * export HOME=${HOME} && ${HOME}/providerscripts/database/PrimeCredentials.sh" >> /var/spool/cron/crontabs/root
-#/bin/echo "*/1 * * * * export HOME=${HOME} && ${HOME}/providerscripts/utilities/remote/EnsureAccessForWebservers.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/cron/SetupFirewallFromCron.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME=${HOME} && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh" >> /var/spool/cron/crontabs/root
