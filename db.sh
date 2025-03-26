@@ -2,8 +2,8 @@
 #################################################################################################################
 # Author: Peter Winter
 # Date  : 10/4/2016
-# Description : This script is the main script for building a database server.
-# It is called remotely from the "BuildDatabase" script of the build machine. 
+# Description : This script is the main script for building a database server. It is called by "cloud-init" when
+# a new database server is built
 #################################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -108,8 +108,7 @@ done
 
 if ( [ "${count}" = "71" ] )
 then
-	:
-        ###Send Email and Log Message
+	${HOME}/providerscripts/email/SendEmail.sh "A DATABASE DID NOT INSTALL" "The database server ran out of time to install" "ERROR"
 fi
 
 /bin/echo "${0} Initialising Database"
