@@ -60,11 +60,6 @@ fi
 /bin/rm -r ${HOME}/backups/*
 websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
 
-DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
-
-
 cd ${HOME}/backups
 ${HOME}/providerscripts/database/BackupDatabase.sh
 cd ${HOME}/backups
