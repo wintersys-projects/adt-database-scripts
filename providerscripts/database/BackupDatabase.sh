@@ -21,6 +21,8 @@
 #######################################################################################################
 #set -x
 
+websiteDB="${1}"
+
 if ( [ -f /usr/bin/mariadb-dump ] )
 then
 	mysql_dump="/usr/bin/mariadb-dump --ssl"
@@ -45,10 +47,6 @@ DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAM
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
-if ( [ "${websiteDB}" = "" ] )
-then
-	websiteDB="/tmp/${WEBSITE_NAME}-database.tar.gz"
-fi
 
 #The standard troop of SQL databases
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ]  )
