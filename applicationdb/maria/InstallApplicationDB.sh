@@ -47,7 +47,8 @@ then
 	currentengine="`/bin/grep ENGINE= ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /usr/bin/awk -F' ' '{print $2}' | /usr/bin/head -1`"
 	# We are a mysql cluster so we need to use NDB engine type the way to do this is to modify the dump file
 	/bin/sed -i "s/${currentengine}/ENGINE=INNODB /g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-    
+
+	#Make any mods that we want first for self managed and then for managed
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
 	then
 		/bin/sed -i '/SESSION.SQL_LOG_BIN/d' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
@@ -71,14 +72,9 @@ then
 		fi
 	fi
 
-	#Not sure why but sometimes installation of the application is truncated leaving only a partial set of tables installed
-	#so try installing it several in the hope that one succeeds
-
+	#Install the actual database by connecting the the mariadb instance and passing in the database dump that we have worked hard to have
 	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "dbinstalllock.file"`" = "0" ] )
 	then
-		/usr/bin/touch ${HOME}/runtime/dbinstalllock.file
-		${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/dbinstalllock.file 
-
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 		then
 			/usr/bin/mariadb -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port=${DB_PORT} -e "CREATE DATABASE ${DB_N};"
@@ -86,7 +82,6 @@ then
 			/bin/sed -i '/GTID_PURGED/d' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
 		fi
 		${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-		${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "dbinstalllock.file"
 	else
 		exit
 	fi
@@ -96,8 +91,10 @@ then
 	exit
 fi 
 
+#Make sure all tables are set to INNODB in our new database
 ${HOME}/applicationdb/maria/EnforceEngineType.sh &
 
+#And so we can gain confidence that our database has installed correctly by looking for our special marker table
 if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /bin/grep 'zzzz'`" != "" ] )
 then
 	/bin/echo "Successfully installed a new application into the database"
