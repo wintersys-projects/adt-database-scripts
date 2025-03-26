@@ -5,7 +5,9 @@
 # backup. When you "ApplyApplicationBranding" as you make a deployment, these generic placeholder values
 # can be replaced with deployment specific values again. This means that, for example, your codebase can
 # be deployed to different URLs which is essential, if, for example, you want to make a baseline and 
-# using one url and to deploy it to different urls as a "product" used by other developers. # Author : Peter Winter
+# using one url and to deploy it to different urls as a "product" used by other developers. 
+# This script removes the application branding when you make a baseline of an application. 
+# Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
 # License Agreement:
