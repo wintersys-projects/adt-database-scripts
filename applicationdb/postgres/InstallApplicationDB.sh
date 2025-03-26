@@ -48,7 +48,7 @@ then
         
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 	then
-		. ${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
+		${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
 	fi
 	${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
 fi
