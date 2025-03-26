@@ -1,6 +1,6 @@
 #!/bin/sh
 ############################################################################
-# Description: This script initialises the maria db instance ready for use.
+# Description: This script initialises the MySQL db instance ready for use.
 # It can be either a local database or a remote managed database. 
 # Once this script has run, an empty database with a known name will have been
 # created along with our database username and password. The root user will have
