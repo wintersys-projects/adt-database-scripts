@@ -70,53 +70,53 @@ then
         BUILD_ARCHIVE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
 fi
 
-if ( [ -d /installer ] )
-then
-        /bin/rm -r /installer
-fi
+#if ( [ -d ${HOME}/installer ] )
+#then
+#        /bin/rm -r ${HOME}/installer/*
+#fi
 
-if ( [ ! -d /installer/${BUILD_ARCHIVE_CHOICE} ] )
-then
-        /bin/mkdir -p /installer/${BUILD_ARCHIVE_CHOICE}
-fi
+#if ( [ ! -d ${HOME}/installer/${BUILD_ARCHIVE_CHOICE} ] )
+#then
+#        /bin/mkdir -p ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}
+#fi
 
-while ( [ "`/bin/ls /installer/${BUILD_ARCHIVE_CHOICE}/ | /usr/bin/wc -l`" -lt "1" ] && [ ! -f /installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
+while ( [ "`/bin/ls ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/ | /usr/bin/wc -l`" -lt "1" ] && [ ! -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
 do
-        if ( [ -f /installer/.git ] )
+        if ( [ -f ${HOME}/installer/.git ] )
         then
-                /bin/rm -r /installer/.git
-                /bin/rm -r /installer/.git*
+                /bin/rm -r ${HOME}/installer/.git
+                /bin/rm -r ${HOME}/installer/.git*
         fi
     
-        if ( [ -d /installer ] )
+        if ( [ -d ${HOME}/installer ] )
         then
-                /bin/rm -r /installer/*
+                /bin/rm -r ${HOME}/installer/*
         fi
     
-        cd /installer
+        cd ${HOME}/installer
 
         #We don't do anything if we are a virgin, but, if we are a baseline then clone the database archvive and prepare it in the installer directory
         if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
         then
                 ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" .
-                /bin/cat /installer/${BUILD_ARCHIVE_CHOICE}/application-db-?? > /installer/${BUILD_ARCHIVE_CHOICE}/application-db
-                /bin/mv /installer/${BUILD_ARCHIVE_CHOICE}/application-db /installer/${BUILD_ARCHIVE_CHOICE}/application-db-00
+                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db-?? > /installer/${BUILD_ARCHIVE_CHOICE}/application-db
+                /bin/mv ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db /installer/${BUILD_ARCHIVE_CHOICE}/application-db-00
         elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
         then
                 #if we are here then we are a temporal backup so get the database archive fron the datastore and prepare it
-                if ( [ ! -f /installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-* ] )
+                if ( [ ! -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-* ] )
                 then
                         ${HOME}/providerscripts/datastore/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
-                elif ( [ -f /installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-00 ] )
+                elif ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-00 ] )
                 then
-                        /bin/mv /installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-00 /installer/${WEBSITE_NAME}-DB-full.tar.gz
+                        /bin/mv ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-00 ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
                 fi
        
-                if ( [ -f  /installer/${WEBSITE_NAME}-DB-backup.tar.gz ] && [ ! -f /installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
+                if ( [ -f  ${HOME}/installer/${WEBSITE_NAME}-DB-backup.tar.gz ] && [ ! -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
                 then
-                        /bin/mv /installer/${WEBSITE_NAME}-DB-backup.tar.gz /installer/${WEBSITE_NAME}-DB-full.tar.gz
+                        /bin/mv ${HOME}/installer/${WEBSITE_NAME}-DB-backup.tar.gz ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
                 fi
-                /bin/rm /installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-*
+                /bin/rm ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-*
         fi
 done
 
@@ -125,27 +125,27 @@ done
 #If we are virgin, do nothing otherwise extract the archive so we can "get at" the actual SQL that is going to populate our database
 if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
-        if ( [ -f /installer/${BUILD_ARCHIVE_CHOICE}/application-db* ] )
+        if ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db* ] )
         then
-                /bin/cat /installer/${BUILD_ARCHIVE_CHOICE}/application-db* > /installer/${WEBSITE_NAME}-DB-full.tar.gz
+                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db* > ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
         fi
 
-        if ( [ "`/bin/ls /installer/${WEBSITE_NAME}-DB-full.tar.gz | /usr/bin/wc -l`" = "1" ] )
+        if ( [ "`/bin/ls ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz | /usr/bin/wc -l`" = "1" ] )
         then
-                /bin/tar xvfz /installer/${WEBSITE_NAME}-DB-full.tar.gz
-                /bin/mv /installer/${WEBSITE_NAME}-DB-full.tar.gz  ${HOME}/backups/installDB/latestDB.tar.gz
+                /bin/tar xvfz ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
+                /bin/mv ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz  ${HOME}/backups/installDB/latestDB.tar.gz
         fi
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
-        if ( [ -f /installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* ] )
+        if ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* ] )
         then
-                /bin/cat /installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* > /installer/${WEBSITE_NAME}-DB-full.tar.gz
+                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* > /installer/${WEBSITE_NAME}-DB-full.tar.gz
         fi
 
-        if ( [ -f /installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
+        if ( [ -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
         then
-                /bin/tar xvfz /installer/${WEBSITE_NAME}-DB-full.tar.gz
-                /bin/mv /installer/${WEBSITE_NAME}-DB-full.tar.gz  ${HOME}/backups/installDB/latestDB.tar.gz
+                /bin/tar xvfz ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
+                /bin/mv ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz  ${HOME}/backups/installDB/latestDB.tar.gz
         fi
 fi
 
