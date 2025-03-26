@@ -1,6 +1,6 @@
 #!/bin/sh
 ######################################################################################################
-# Description: This will set the engine type to INNODB in the mariadb database
+# Description: This will set the engine type to INNODB for all tables in the mariadb database
 # Author: Peter Winter
 # Date: 17/01/2017
 ######################################################################################################
