@@ -4,10 +4,11 @@
 # Date  : 10/4/2016
 # Description : This script will install the application DB for the database type that you have installed.
 # It expects a database system to be online either locally or as a managed database at a remote location. 
-# Your database dump file is expected to be available either in a repository or your datastore and if it is not
-# available or it is damaged in some way, then, the installation will fail. 
+# Your database dump file is expected to be available either in a repository (if you are installing a baseline) or 
+# in your datastore if you are making a temporal backup based deployment. If the database archive is damaged in any
+# way then the installation of your application's database will fail. 
 # It has rudimentary checking that the application database has installed correctly and it will apply application
-# branding to make your application flexible enough to work for differently domainnamed deployments to that which
+# branding to make your application flexible enough to work for differently domain named deployments to that which
 # your application was originally built as making it possible for your application to be built by you for your domain
 # name but deployed by 3rd parties with a different domain name
 #################################################################################################################
@@ -94,13 +95,15 @@ do
     
         cd /installer
 
+        #We don't do anything if we are a virgin, but, if we are a baseline then clone the database archvive and prepare it in the installer directory
         if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
         then
                 ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" .
                 /bin/cat /installer/${BUILD_ARCHIVE_CHOICE}/application-db-?? > /installer/${BUILD_ARCHIVE_CHOICE}/application-db
                 /bin/mv /installer/${BUILD_ARCHIVE_CHOICE}/application-db /installer/${BUILD_ARCHIVE_CHOICE}/application-db-00
-    elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
-    then
+        elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
+        then
+                #if we are here then we are a temporal backup so get the database archive fron the datastore and prepare it
                 if ( [ ! -f /installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-* ] )
                 then
                         ${HOME}/providerscripts/datastore/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
@@ -119,6 +122,7 @@ done
 
 /bin/mkdir -p ${HOME}/backups/installDB/
 
+#If we are virgin, do nothing otherwise extract the archive so we can "get at" the actual SQL that is going to populate our database
 if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
         if ( [ -f /installer/${BUILD_ARCHIVE_CHOICE}/application-db* ] )
@@ -165,7 +169,8 @@ fi
 
 cd /root
 /bin/rm -r /installer/*
-    
+
+#Apply the application branding that we need for this deployment and then install the archive we have obtained as our database 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
         ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
