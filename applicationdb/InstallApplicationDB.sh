@@ -178,6 +178,7 @@ then
         while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
         do
                 /bin/echo "${0} `/bin/date`: 1" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+                #Install the application db into a maria database
                 ${HOME}/applicationdb/maria/InstallMariaDB.sh
                 count="`/usr/bin/expr ${count} + 1`"
         done
@@ -188,6 +189,7 @@ then
         count="1" 
         while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
         do
+                #Install the application db into a MySQL database
                 ${HOME}/applicationdb/mysql/InstallMySQLDB.sh
                 count="`/usr/bin/expr ${count} + 1`"
         done
@@ -199,11 +201,13 @@ then
         count="1" 
         while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
         do
+                #Install the application db into a Postgres database
                 ${HOME}/applicationdb/postgres/InstallPostgresDB.sh
                 count="`/usr/bin/expr ${count} + 1`"
         done
 fi
 
+# We reckon all is good if this file exists
 if ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
 then
         ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "I don't think that the application installed correctly into the database" "ERROR"
