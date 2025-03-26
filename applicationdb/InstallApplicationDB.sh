@@ -179,7 +179,7 @@ then
         do
                 /bin/echo "${0} `/bin/date`: 1" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
                 #Install the application db into a maria database
-                ${HOME}/applicationdb/maria/InstallMariaDB.sh
+                ${HOME}/applicationdb/maria/InstallApplicationDB.sh
                 count="`/usr/bin/expr ${count} + 1`"
         done
 fi
@@ -190,7 +190,7 @@ then
         while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
         do
                 #Install the application db into a MySQL database
-                ${HOME}/applicationdb/mysql/InstallMySQLDB.sh
+                ${HOME}/applicationdb/mysql/InstallApplicationDB.sh
                 count="`/usr/bin/expr ${count} + 1`"
         done
 fi
@@ -202,7 +202,7 @@ then
         while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
         do
                 #Install the application db into a Postgres database
-                ${HOME}/applicationdb/postgres/InstallPostgresDB.sh
+                ${HOME}/applicationdb/postgres/InstallApplicationDB.sh
                 count="`/usr/bin/expr ${count} + 1`"
         done
 fi
