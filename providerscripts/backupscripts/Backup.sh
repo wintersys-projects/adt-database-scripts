@@ -34,8 +34,6 @@ fi
 
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-
-#Non standard variables
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
