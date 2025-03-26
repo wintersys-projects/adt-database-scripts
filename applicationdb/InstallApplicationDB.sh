@@ -99,8 +99,8 @@ do
         if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
         then
                 ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" .
-                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db-?? > /installer/${BUILD_ARCHIVE_CHOICE}/application-db
-                /bin/mv ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db /installer/${BUILD_ARCHIVE_CHOICE}/application-db-00
+                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db-?? > ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db
+                /bin/mv ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db-00
         elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
         then
                 #if we are here then we are a temporal backup so get the database archive fron the datastore and prepare it
