@@ -32,5 +32,13 @@ then
 	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
 fi
 
-${datastore_tool} mv s3://${original_object} s3://${new_object}
-
+if ( [ "`${datastore_tool} ls s3://${original_object}`" != "" ] )
+then
+        count="0"
+        while ( [ "`${datastore_tool} mv s3://${original_object} s3://${new_object} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+        do
+                /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
+                /bin/sleep 5
+                count="`/usr/bin/expr ${count} + 1`"
+        done
+fi
