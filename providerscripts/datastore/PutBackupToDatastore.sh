@@ -45,7 +45,7 @@ do
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 	then
 		host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-		/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${datastore_region} mb ${datastore_to_put_in}
+		/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${datastore_region} mb s3://${datastore_to_put_in}
 		datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${datastore_region} cp "
 	fi
 
