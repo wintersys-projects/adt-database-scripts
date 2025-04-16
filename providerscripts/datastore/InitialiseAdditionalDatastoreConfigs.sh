@@ -2,10 +2,9 @@
 ####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: This script will install the datastore tool on your webserver
-# it will configure itself based on the template in the subdirectory "configfiles".
-# If this tool later changes the format of its configuration the template in configfiles
-# will have to be updated to reflect the format changes
+# Description: This script will configure the datastore tool for multiple regions
+# which can be used by the backup scripts to make multi-region resilient backups
+# each time a backup process runs. 
 #######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
