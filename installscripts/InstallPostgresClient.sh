@@ -1,9 +1,9 @@
 #!/bin/sh
-###################################################################################
-# Description: This  will install postgres client
-# Date: 18/11/2016
-# Author : Peter Winter
-###################################################################################
+######################################################################################################
+# Description: This script will install the postgres client
+# Author: Peter Winter
+# Date: 17/01/2017
+#######################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
-####################################################################################
-####################################################################################
+#######################################################################################################
+#######################################################################################################
 #set -x
 
 if ( [ "${1}" != "" ] )
@@ -42,28 +42,19 @@ then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
-update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
-install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-		/usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc                
-		/bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list   
-		eval ${update_command}--allow-change-held-packages                                            
-		eval ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                      
+		eval ${install_command} postgresql-client 
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-		/usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.ascq                
-		/bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | /usr/bin/sudo /usr/bin/tee /etc/apt/sources.list.d/pgdg.list   
-		eval ${update_command}--allow-change-held-packages                                            
-		eval ${install_command} postgresql-client-`/bin/echo ${postgres_version}`                       
+		eval ${install_command} postgresql-client 
 	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallPostgresClient.sh
+	/bin/touch ${HOME}/runtime/installedsoftware/POSTGRES_CLIENT				
 fi
 
