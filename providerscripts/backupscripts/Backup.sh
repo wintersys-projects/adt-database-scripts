@@ -68,12 +68,24 @@ fi
 
 cd ${HOME}/backups/
 
-${HOME}/providerscripts/datastore/MountDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
-${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
-${HOME}/providerscripts/datastore/MoveDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
-/bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh "${websiteDB}" "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
+db_backup="``/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}`"
+
+${HOME}/providerscripts/datastore/MountDatastore.sh "${db_backup}"
+
+if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP`" != "" ] )
+then
+	${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
+fi
+
+if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz`" != "" ] )
+then
+	${HOME}/providerscripts/datastore/MoveDatastore.sh "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
+fi
+
+/bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh "${websiteDB}" "${db_backup}"
+
 backup_name="`/bin/echo ${websiteDB} | /usr/bin/awk -F'/' '{print $NF}'`"
-${HOME}/providerscripts/datastore/GetFromDatastore.sh  "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}"
+${HOME}/providerscripts/datastore/GetFromDatastore.sh  "${db_backup}/${backup_name}"
 
 if ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] )
 then
