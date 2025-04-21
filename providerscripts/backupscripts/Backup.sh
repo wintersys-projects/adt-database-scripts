@@ -68,7 +68,7 @@ fi
 
 cd ${HOME}/backups/
 
-db_backup="``/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}`"
+db_backup="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
 
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${db_backup}"
 
