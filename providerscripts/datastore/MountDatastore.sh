@@ -31,9 +31,9 @@ then
 	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
 fi
 
-if ( [ "`${datastore_tool} ls s3://${datastore_to_mount}`" != "" ] )
+if ( [ "`${datastore_tool} ls s3://${datastore_to_mount} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] )
 then
-	exit
+        exit
 fi
 
 count="0"
