@@ -33,4 +33,40 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 /bin/chmod 600 ${HOME}/.ssh/id_*
 /bin/chmod 644 ${HOME}/.ssh/id_*pub
 
+if ( [ -f ${HOME}/.ssh/database_configuration_settings.dat.gz ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/database_configuration_settings.dat.gz
+    /bin/chmod 600 ${HOME}/.ssh/database_configuration_settings.dat.gz
+fi
+
+if ( [ -f ${HOME}/.ssh/database_configuration_settings.dat ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/database_configuration_settings.dat
+    /bin/chmod 600 ${HOME}/.ssh/database_configuration_settings.dat
+fi
+
+if ( [ -f ${HOME}/.ssh/buildstyles.dat.gz ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/buildstyles.dat.gz
+    /bin/chmod 600 ${HOME}/.ssh/buildstyles.dat.gz
+fi
+
+if ( [ -f ${HOME}/.ssh/buildstyles.dat ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/buildstyles.dat
+    /bin/chmod 600 ${HOME}/.ssh/buildstyles.dat
+fi
+
+if ( [ -f ${HOME}/runtime/database_configuration_settings.dat ] )
+then
+    /bin/chown root:root ${HOME}/runtime/database_configuration_settings.dat
+    /bin/chmod 600 ${HOME}/runtime/database_configuration_settings.dat
+fi
+
+if ( [ -f ${HOME}/runtime/buildstyles.dat ] )
+then
+    /bin/chown root:root ${HOME}/runtime/buildstyles.dat
+    /bin/chmod 600 ${HOME}/runtime/buildstyles.dat
+fi
+
 
