@@ -1,9 +1,12 @@
 #!/bin/sh
-########################################################################################
-# Author : Peter Winter
-# Date   : 10/07/2016
-# Description : Cleanup and then shutdown this database instance.
-########################################################################################
+################################################################################################
+# Author: Peter Winter
+# Date  : 9/4/2016
+# Description : Shutdown this database, all shutdowns should come through here so that any 
+# cleanup that is needed can be put here. A backup of the database is made here with the special
+# periodicity of "shutdown" so that we have a backup to reference of how the system was immediately
+# prior to shutdown
+################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
@@ -16,25 +19,17 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
-########################################################################################
-########################################################################################
+#################################################################################################
+#################################################################################################
 #set -x
-
+ 
 /bin/echo ""
-/bin/echo "#######################################################################"
-/bin/echo "Shutting down a database, please wait whilst I clean the place up first"
- 
-if ( [ "$1" = "backup" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "dbbackuplock.file"`" = "0" ] )
-then
-	/bin/echo "Making a daily and an emergency shutdown backup of your database"
-	BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
-	/bin/echo "Making the daily periodicity backup please wait....."
-	${HOME}/cron/BackupFromCron.sh 'DAILY' ${BUILD_IDENTIFIER} > /dev/null 2>&1
-	/bin/echo "Making the special shutdown backup please wait....."
-	${HOME}/cron/BackupFromCron.sh 'SHUTDOWN' ${BUILD_IDENTIFIER} > /dev/null 2>&1
-fi
- 
-${HOME}/providerscripts/email/SendEmail.sh "A database is being shutdown" "A database is being shutdown" "INFO"
+/bin/echo "###########################################################################################"
+/bin/echo "Shutting down a database with `${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`, please wait whilst I clean the place up first"
+/bin/echo "###########################################################################################"
+/bin/echo ""
+
+${HOME}/providerscripts/backupscripts/Backup.sh "shutdown"
 
 if ( [ "${1}" = "halt" ] )
 then
