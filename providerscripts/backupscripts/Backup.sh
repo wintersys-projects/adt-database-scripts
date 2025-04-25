@@ -37,7 +37,7 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-allowed_periods="hourly daily weekly monthly bimonthly"
+allowed_periods="hourly daily weekly monthly bimonthly shutdown"
 if ( [ "`/bin/echo ${allowed_periods} | /bin/grep ${period}`" = "" ] )
 then
     /bin/echo "Invalid periodicity passed to backup script"
