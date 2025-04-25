@@ -31,6 +31,10 @@ datastore_regions="`${HOME}/providerscripts/utilities/config/ExtractConfigValues
 count="0"
 for datastore_region in ${datastore_regions}
 do
+        if ( [ "${count}" != "0" ] )
+        then
+                suffix="-${count}"
+        fi
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 	then
 		if ( [ "${count}" = "0" ] )
@@ -40,20 +44,20 @@ do
 			config_file="${HOME}/.s3cfg-${count}"
 		fi
                 
-		/usr/bin/s3cmd --config=${config_file}  mb s3://${datastore_to_put_in}
+		/usr/bin/s3cmd --config=${config_file}  mb s3://${datastore_to_put_in}${suffix}
 		datastore_tool="/usr/bin/s3cmd --force --recursive --multipart-chunk-size-mb=5 --config=${config_file} put "
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 	then
 		host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-		/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${datastore_region} mb s3://${datastore_to_put_in}
+		/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${datastore_region} mb s3://${datastore_to_put_in}${suffix}
 		datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${datastore_region} cp "
 	fi
 
 	count="`/usr/bin/expr ${count} + 1`"
-	${HOME}/providerscripts/datastore/MountDatastore.sh ${datastore_to_put_in}
+	${HOME}/providerscripts/datastore/MountDatastore.sh ${datastore_to_put_in}${suffix}
 
 	count1="0"
-	while ( [ "`${datastore_tool} ${file_to_put} s3://${datastore_to_put_in} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count1}" -lt "5" ] )
+	while ( [ "`${datastore_tool} ${file_to_put} s3://${datastore_to_put_in}${suffix} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count1}" -lt "5" ] )
 	do
 		/bin/echo "An error has occured `/usr/bin/expr ${count1} + 1` times in script ${0}"
 		/bin/sleep 5
