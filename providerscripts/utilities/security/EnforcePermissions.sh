@@ -57,6 +57,9 @@ then
     /bin/chmod 660 ${HOME}/.ssh/buildstyles.dat
 fi
 
+#If you want to harden the security of your system you  can change the ownerships of these files to root but you won't be able
+#to "get rooted" using ${HOME}/super/Super.sh
+
 if ( [ -f ${HOME}/runtime/database_configuration_settings.dat ] )
 then
    # /bin/chown root:root ${HOME}/runtime/database_configuration_settings.dat
