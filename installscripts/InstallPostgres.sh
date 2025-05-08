@@ -53,10 +53,16 @@ then
 		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
 			postgres_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-			eval ${install_command} postgresql-common                          
-			/usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh                                                  
-			eval ${install_command} postgresql-${postgres_version}           
-			/usr/bin/sudo -su postgres /usr/lib/postgresql/${postgres_version}/bin/postgres -D /var/lib/postgresql/${postgres_version}/main -c config_file=/etc/postgresql/${postgres_version}/main/postgresql.conf   
+			VERSION_CODENAME="`/usr/bin/lsb_release -a | /bin/grep Codename | /usr/bin/awk '{print $NF}'`"
+			${install_command} postgresql-common
+			/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+			${install_command} curl ca-certificates
+			/usr/bin/install -d /usr/share/postgresql-common/pgdg
+			/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+			. /etc/os-release
+			#sudo sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+			${update_command}
+			${install_command} postgresql-${postgres_version}			  
 		fi
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
 	fi
@@ -75,7 +81,7 @@ then
 			/bin/sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
 			${update_command}
 			${install_command} postgresql-${postgres_version}
-  fi
+		fi
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallPostgres.sh
