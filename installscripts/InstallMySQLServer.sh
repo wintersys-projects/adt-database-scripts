@@ -51,20 +51,19 @@ then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
 		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
-
-
+		/usr/bin/tar -xvf ./mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
+  		${install_command} libaio1
+		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
+		/usr/bin/dpkg -i mysql-{common,community-client-plugins,community-client-core,community-client,client,community-server-core,community-server,server}_*.deb
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		eval ${install_command} gnupg  		
-		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
-		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && /usr/bin/dpkg -i ${mysql_apt_config} 
-		/bin/rm ${mysql_apt_config}									
-		eval ${update_command} --allow-change-held-packages
-		eval ${install_command} mysql-server
-		/bin/mkdir /var/log/mysql
-		/bin/chown mysql:mysql /var/log/mysql  
+		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1debian12_amd64.deb-bundle.tar
+		/usr/bin/tar -xvf ./mysql-server_8.4.5-1debian12_amd64.deb-bundle.tar
+  		${install_command} libaio1
+		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
+		/usr/bin/dpkg -i mysql-{common,community-client-plugins,community-client-core,community-client,client,community-server-core,community-server,server}_*.deb
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLServer.sh
 fi
