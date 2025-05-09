@@ -19,7 +19,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-set -x
+#set -x
 
 if ( [ "${1}" != "" ] )
 then
@@ -50,7 +50,7 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-   /usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
+		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
 
 
 	fi
