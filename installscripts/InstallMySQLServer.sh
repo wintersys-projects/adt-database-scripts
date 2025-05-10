@@ -58,11 +58,11 @@ then
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-common_*.deb
 		/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
-  		/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
-  		/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
-  		/usr/bin/dpkg -i /opt/mysql-client_*.deb
-  		/usr/bin/dpkg -i /opt/mysql-community-server-core_*.deb
-      		/usr/bin/dpkg -i /opt/mysql-community-server_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
+		/usr/bin/dpkg -i /opt/mysql-client_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-server-core_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-server_*.deb		
   		cd ${cwd}
 		/bin/rm /opt/*mysql*
@@ -79,10 +79,10 @@ then
 		/usr/bin/dpkg -i /opt/mysql-common_*.deb
 		/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
   		/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
-  		/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
-  		/usr/bin/dpkg -i /opt/mysql-client_*.deb
-  		/usr/bin/dpkg -i /opt/mysql-community-server-core_*.deb
-      		/usr/bin/dpkg -i /opt/mysql-community-server_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
+		/usr/bin/dpkg -i /opt/mysql-client_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-server-core_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-server_*.deb	
   		cd ${cwd}
 		/bin/rm /opt/*mysql*
