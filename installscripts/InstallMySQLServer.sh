@@ -65,6 +65,7 @@ then
       		/usr/bin/dpkg -i /opt/mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-server_*.deb		
   		cd ${cwd}
+		/bin/rm /opt/*mysql*
  	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -75,8 +76,16 @@ then
 		/usr/bin/tar -xvf ./mysql-server_8.4.5-1debian12_amd64.deb-bundle.tar
   		${install_command} libmecab2
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
-		/usr/bin/dpkg -i ./mysql-{common,community-client-plugins,community-client-core,community-client,client,community-server-core,community-server,server}_*.deb
-		cd ${cwd}
+		/usr/bin/dpkg -i /opt/mysql-common_*.deb
+		/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
+  		/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
+  		/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
+  		/usr/bin/dpkg -i /opt/mysql-client_*.deb
+  		/usr/bin/dpkg -i /opt/mysql-community-server-core_*.deb
+      		/usr/bin/dpkg -i /opt/mysql-community-server_*.deb
+		/usr/bin/dpkg -i /opt/mysql-server_*.deb	
+  		cd ${cwd}
+		/bin/rm /opt/*mysql*
  	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLServer.sh
 fi
