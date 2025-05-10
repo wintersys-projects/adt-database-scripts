@@ -33,6 +33,8 @@ else
 	BUILDOS="${buildos}"
 fi
 
+BUILDOS_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
+
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
@@ -50,10 +52,13 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
+ 		minor_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
+   		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
+
  		cwd="`/usr/bin/pwd`"
 		cd /opt
-		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
-		/usr/bin/tar -xvf ./mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
+		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
+		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
   		${install_command} libmecab2
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-common_*.deb
@@ -70,10 +75,12 @@ then
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
+  		minor_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
+   		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
   		cwd="`/usr/bin/pwd`"
 		cd /opt
-		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1debian12_amd64.deb-bundle.tar
-		/usr/bin/tar -xvf ./mysql-server_8.4.5-1debian12_amd64.deb-bundle.tar
+		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
   		${install_command} libmecab2
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-common_*.deb
