@@ -52,7 +52,7 @@ then
 	then
 		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
 		/usr/bin/tar -xvf ./mysql-server_8.4.5-1ubuntu24.04_amd64.deb-bundle.tar
-  		${install_command} libaio1
+  		${install_command} libmecab2
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
 		/usr/bin/dpkg -i mysql-{common,community-client-plugins,community-client-core,community-client,client,community-server-core,community-server,server}_*.deb
 	fi
@@ -61,7 +61,7 @@ then
 	then
 		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-8.4/mysql-server_8.4.5-1debian12_amd64.deb-bundle.tar
 		/usr/bin/tar -xvf ./mysql-server_8.4.5-1debian12_amd64.deb-bundle.tar
-  		${install_command} libaio1
+  		${install_command} libmecab2
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
 		/usr/bin/dpkg -i mysql-{common,community-client-plugins,community-client-core,community-client,client,community-server-core,community-server,server}_*.deb
 	fi
