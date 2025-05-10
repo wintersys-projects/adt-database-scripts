@@ -81,7 +81,7 @@ then
 		cd /opt
 		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
-  		${install_command} libmecab2
+  		${install_command} libmecab2 libaio1
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-common_*.deb
 		/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
