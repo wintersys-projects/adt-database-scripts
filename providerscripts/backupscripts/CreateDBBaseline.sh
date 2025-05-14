@@ -100,8 +100,6 @@ then
 		if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
 		then
 			/bin/echo "Repository (${baseline_name}-db-baseline) successfully created"
-			/bin/echo "Press <enter> to continue"
-			read x
 		else
 			/bin/echo "Repository (${baseline_name}-db-baseline) not created I will need to exit"
 			exit
