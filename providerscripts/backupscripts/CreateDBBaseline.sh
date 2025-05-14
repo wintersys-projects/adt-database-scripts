@@ -77,22 +77,36 @@ websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
 
 if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" != "" ] )
 then
-        /bin/echo "Repository not found, do you want me to create one () (Y|y)"
-        read response
-        if ( [ "`/bin/echo "Y y" | /bin/grep ${response}`" != "" ] )
-        then
-                /bin/echo "Creating a new repository"
-                ${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PROVIDER}
-                if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
-                then
-                        /bin/echo "Repository (${baseline_name}-db-baseline) successfully created"
-                        /bin/echo "Press <enter> to continue"
-                        read x
-                else
-                        /bin/echo "Repository (${baseline_name}-db-baseline) not created I will need to exit"
-                        exit
-                fi
-        fi
+	if ( [ "${1}" = "" ] )
+	then
+		/bin/echo "Repository not found, do you want me to create one () (Y|y)"
+		read response
+		if ( [ "`/bin/echo "Y y" | /bin/grep ${response}`" != "" ] )
+		then
+			/bin/echo "Creating a new repository"
+			${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PROVIDER}
+			if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
+			then
+				/bin/echo "Repository (${baseline_name}-db-baseline) successfully created"
+				/bin/echo "Press <enter> to continue"
+				read x
+			else
+				/bin/echo "Repository (${baseline_name}-db-baseline) not created I will need to exit"
+				exit
+			fi
+		fi
+	else
+		${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PROVIDER}
+		if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
+		then
+			/bin/echo "Repository (${baseline_name}-db-baseline) successfully created"
+			/bin/echo "Press <enter> to continue"
+			read x
+		else
+			/bin/echo "Repository (${baseline_name}-db-baseline) not created I will need to exit"
+			exit
+		fi
+	fi
 elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1`" = "" ] )
 then
         /bin/echo "Suitable repo (${baseline_name}-db-baseline) found, press <enter> to continue"
