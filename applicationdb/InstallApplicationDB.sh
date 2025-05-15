@@ -80,7 +80,7 @@ then
         /bin/mkdir -p ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}
 fi
 
-while ( [ "`/bin/ls ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/ | /usr/bin/wc -l`" -lt "1" ] && [ ! -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
+while ( [ "`/bin/ls ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/ | /usr/bin/wc -l 2>/dev/null`" -lt "1" ] && [ ! -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
 do
         if ( [ -f ${HOME}/installer/.git ] )
         then
