@@ -116,7 +116,10 @@ do
                 then
                         /bin/mv ${HOME}/installer/${WEBSITE_NAME}-DB-backup.tar.gz ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
                 fi
-                /bin/rm ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-*
+                if ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-* ] )
+                then
+                        /bin/rm ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-*
+                fi
         fi
 done
 
