@@ -60,6 +60,12 @@ then
 	/bin/chmod 755 ${HOME}/runtime
 fi
 
+if ( [ -f /root/.bashrc ] )
+then
+    /bin/cp /root/.bashrc ${HOME}/.bashrc
+    /bin/chmod 760 ${HOME}/.bashrc
+fi
+
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 /bin/mv ${HOME}/providerscripts/utilities/security/Super.sh ${HOME}/super
