@@ -66,8 +66,11 @@ then
 	/bin/mkdir -p ${HOME}/backups
 fi
 
-/bin/rm -r ${HOME}/backups/*
-/bin/rm -r ${HOME}/.git
+/bin/rm -r ${HOME}/backups/* 2>/dev/null
+if ( [ -d ${HOME}/.git ] )
+then
+	/bin/rm -r ${HOME}/.git
+fi
 
 APPLICATION_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
@@ -137,7 +140,12 @@ IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK
 /bin/rm -r .git
 /usr/bin/git init
 /usr/bin/git config --global --add safe.directory ${HOME}/backups
-/usr/bin/git add .gitattributes
+
+if ( [ -f ./gitattibutes ] )
+then
+	/usr/bin/git add .gitattributes
+fi
+
 /usr/bin/git add .
 /usr/bin/git commit -m "Baseline baby"
 /usr/bin/git branch -M main
