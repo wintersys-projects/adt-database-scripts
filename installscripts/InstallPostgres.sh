@@ -85,3 +85,5 @@ then
         fi
         /bin/touch ${HOME}/runtime/installedsoftware/InstallPostgres.sh
 fi
+
+/usr/bin/psql
