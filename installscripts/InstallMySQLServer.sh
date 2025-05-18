@@ -96,3 +96,5 @@ then
  	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLServer.sh
 fi
+
+/usr/bin/mysqld_safe
