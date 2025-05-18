@@ -51,7 +51,7 @@ then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:repo'`" = "1" ] )
  		then
 			eval ${install_command} s3cmd	
-		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:binary'`" = "1" ] )
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:source'`" = "1" ] )
  		then
   			eval ${install_command} python3
 			/usr/bin/ln -s /usr/bin/python3 /usr/bin/python
@@ -66,7 +66,7 @@ then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:repo'`" = "1" ] )
 		then
 			eval ${install_command} s3cmd
-		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:binary'`" = "1" ] )
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:source'`" = "1" ] )
 		then
   			eval ${install_command} python3
 			/usr/bin/ln -s /usr/bin/python3 /usr/bin/python
