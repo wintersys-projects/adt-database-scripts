@@ -56,5 +56,11 @@ then
 		eval ${install_command} ssmtp	
   		eval ${install_command} mailutils	
 	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallSSMTP.sh	
+fi
+
+if ( [ ! -f /usr/sbin/ssmtp ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR SSMTP" "I believe that ssmtp hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallSSMPT.sh	
 fi
