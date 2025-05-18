@@ -82,7 +82,7 @@ then
 	fi
 fi
 
-if ( [ ! -f /usr/bin/mysqld_safe ] )
+if ( [ ! -f /usr/bin/mariadbd-safe ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MARIADB" "I believe that mariadb server hasn't installed correctly, please investigate" "ERROR"
 else
