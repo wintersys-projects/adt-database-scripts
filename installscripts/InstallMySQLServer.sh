@@ -94,7 +94,11 @@ then
   		cd ${cwd}
 		/bin/rm /opt/*mysql*
  	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLServer.sh
 fi
 
-/usr/bin/mysqld_safe
+if ( [ ! -f /usr/bin/mysqld_safe ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MYSQL" "I believe that mysql server hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLServer.sh				
+fi
