@@ -66,5 +66,11 @@ then
 		eval ${update_command} --allow-change-held-packages 
 		eval ${install_command} mysql-client	
 	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh
+fi
+
+if ( [ ! -f /usr/bin/mysql ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MYSQL" "I believe that mysql-client hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh				
 fi
