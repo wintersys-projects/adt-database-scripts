@@ -66,5 +66,11 @@ then
 			eval ${install_command} mariadb-client                                              
 		fi
 	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBClient.sh				
+fi
+
+if ( [ ! -f /usr/bin/mariadb ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MARIADB" "I believe that mariadb-client hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBClient.sh					
 fi
