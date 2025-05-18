@@ -81,6 +81,12 @@ then
                         ${install_command} postgresql-client-${postgres_version}
                 fi
         fi
+fi
+
+if ( [ ! -f /usr/bin/psql ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR POSTGRES" "I believe that postgres client hasn't installed correctly, please investigate" "ERROR"
+else
         /bin/touch ${HOME}/runtime/installedsoftware/InstallPostgresClient.sh
 fi
 
