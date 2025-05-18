@@ -77,6 +77,11 @@ then
 	cd ${cwd}
 fi
 
-/bin/touch ${HOME}/runtime/installedsoftware/InstallSerFix.sh
+if ( [ ! -f /usr/local/bin/serfix ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR SERFIX" "I believe that serfix hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallSerFix.sh
+fi
 
 
