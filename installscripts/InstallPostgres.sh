@@ -83,7 +83,11 @@ then
                 fi
                 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
         fi
-        /bin/touch ${HOME}/runtime/installedsoftware/InstallPostgres.sh
 fi
 
-/usr/bin/psql
+if ( [ ! -f /usr/bin/psql ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR POSTGRES SERVER" "I believe that postgres server hasn't installed correctly, please investigate" "ERROR"
+else
+        /bin/touch ${HOME}/runtime/installedsoftware/InstallPostgres.sh
+fi
