@@ -82,3 +82,7 @@ then
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBServer.sh				
 fi
+
+/usr/bin/mysqld_safe
+
+
