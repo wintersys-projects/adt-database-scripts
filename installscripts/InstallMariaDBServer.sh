@@ -80,9 +80,15 @@ then
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb enable
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
 	fi
+fi
+
+if ( [ ! -f /usr/bin/mysqld_safe ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MARIADB" "I believe that mariadb server hasn't installed correctly, please investigate" "ERROR"
+else
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBServer.sh				
 fi
 
-/usr/bin/mysqld_safe
+
 
 
