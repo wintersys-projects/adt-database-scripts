@@ -58,7 +58,18 @@ then
     /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
     
  
- 
+    if ( [ ! -d ${HOME}/runtime/postgres-init ] )
+   then
+      /bin/mkdir -p ${HOME}/runtime/postgres-init
+   fi
+   
+   /bin/cp ${HOME}/providerscripts/database/selfmanaged/postgres/live/postgres.psql ${HOME}/runtime/postgres-init/initialiseDB.psql
+
+    /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
+
+    /bin/rm ${postgres_pid}
+            
+    ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
  
  
  
