@@ -106,14 +106,8 @@ DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
     fi
 #fi
 
-/bin/echo "[mysqld]" >> /etc/mysql/my.cnf
-/bin/echo "port        = 2035" >> /etc/mysql/my.cnf
-/bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
-
-if ( [ -f ${HOME}/providerscripts/database/singledb/mariadb/mariadb.config ] )
-then
-    /bin/cat ${HOME}/providerscripts/database/singledb/mariadb/mariadb.config >> /etc/mysql/my.cnf
-fi
+/bin/cp ${HOME}/providerscripts/database/singledb/mariadb/mariadb.config /etc/mysql/my.cnf
+/bin/sed -i "s/XXXXDB_PORTXXXX/${DB_PORT}/g" /etc/mysql/my.cnf
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
 
