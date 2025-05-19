@@ -70,7 +70,7 @@ then
   #  /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
     /bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
 
-${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb start
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql start
 
     /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
 
