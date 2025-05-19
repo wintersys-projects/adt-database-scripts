@@ -33,7 +33,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-	${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
+	${HOME}/providerscripts/database/selfmanaged/postgres/InitialisePostgresDB.sh
 fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "A single node database has been started" "a single node database has been started and initialised" "INFO"
