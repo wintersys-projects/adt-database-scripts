@@ -35,86 +35,31 @@ fi
 
 IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mysql/mysql.sql ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/initialiseDB.sql
+
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
+
+#try with no password set
+/usr/bin/mysql -A < ${HOME}/runtime/initialiseDB.sql
+#make sure by trying with password
+if ( [ "$?" != "0" ] )
 then
-    /bin/echo 'use mysql;
-CREATE USER '${DB_U}'@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-CREATE USER '${DB_U}'@"127.0.0.1" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-CREATE USER '${DB_U}'@"'${HOST}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-CREATE USER '${DB_U}'@"'${IP_MASK}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-flush privileges;
-create database '${DB_N}';
-ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" WITH GRANT OPTION;
-GRANT SESSION_VARIABLES_ADMIN ON *.* TO "'${DB_U}'";
-DELETE FROM mysql.user WHERE User="";
-DELETE FROM mysql.user WHERE User="root" AND Host NOT IN ("localhost", "127.0.0.1", "::1");
-ALTER USER "root"@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-flush privileges;' > ${HOME}/runtime/initialiseDB.sql
-else
-    /bin/echo 'use mysql;
-CREATE USER '${DB_U}'@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-CREATE USER '${DB_U}'@"127.0.0.1" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-CREATE USER '${DB_U}'@"'${HOST}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-CREATE USER '${DB_U}'@"'${IP_MASK}'" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-flush privileges;
-create database '${DB_N}';
-ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" WITH GRANT OPTION;
-DELETE FROM mysql.user WHERE User="";
-DELETE FROM mysql.user WHERE User="root" AND Host NOT IN ("localhost", "127.0.0.1", "::1");
-ALTER USER "root"@"localhost" IDENTIFIED WITH caching_sha2_password BY "'${DB_P}'";
-flush privileges;' > ${HOME}/runtime/initialiseDB.sql
+    /usr/bin/mysql -A --force -u root -p${DB_P} < ${HOME}/runtime/initialiseDB.sql
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-    count="0"
-    /bin/sed -i '/GRANT SESSION/d' ${HOME}/runtime/initialiseDB.sql
-    /bin/sed -i '/DELETE FROM/d' ${HOME}/runtime/initialiseDB.sql
-    /bin/sed -i '/ALTER USER/d' ${HOME}/runtime/initialiseDB.sql    
-    /bin/sed -i '/CREATE USER/d' ${HOME}/runtime/initialiseDB.sql
-  
-    /usr/bin/mysql -f -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port="${DB_PORT}" < ${HOME}/runtime/initialiseDB.sql
-    
-    while ( [ "$?" != "0" ] && [ "${count}" -lt "10" ] )
-    do
-        /bin/sleep 30
-        count="`/usr/bin/expr ${count} + 1`"
-        /usr/bin/mysql -f -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port="${DB_PORT}" < ${HOME}/runtime/initialiseDB.sql
-    done
-else
-    #make sure database has been started and is available - this is local instance under our full control
-    ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
-    #try with no password set
-    /usr/bin/mysql -f -A < ${HOME}/runtime/initialiseDB.sql
-
-    #make sure by trying with password
-    if ( [ "$?" != "0" ] )
-    then
-        /usr/bin/mysql -f -A -u root -p${DB_P} < ${HOME}/runtime/initialiseDB.sql
-    fi
-fi
-
-/bin/echo "[mysqld]" >> /etc/mysql/my.cnf
-/bin/echo "port        = ${DB_PORT}" >> /etc/mysql/my.cnf
-/bin/echo "bind-address        = 0.0.0.0" >> /etc/mysql/my.cnf
-/bin/echo "skip-name-resolve" >> /etc/mysql/my.cnf
-
-if ( [ -f ${HOME}/providerscripts/database/singledb/mysql/mysql.config ] )
-then
-    /bin/cat ${HOME}/providerscripts/database/singledb/mysql/mysql.config >> /etc/mysql/my.cnf
-fi
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mysql/mysql.config /etc/mysql/my.cnf
+/bin/sed -i "s/XXXXDB_PORTXXXX/${DB_PORT}/g" /etc/mysql/my.cnf
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
