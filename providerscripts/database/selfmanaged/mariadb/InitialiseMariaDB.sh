@@ -42,21 +42,26 @@ DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAM
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
-/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb/mariadb.sql ${HOME}/runtime/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/initialiseDB.sql
-/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/initialiseDB.sql
-/bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/initialiseDB.sql
+if ( [ ! -d ${HOME}/runtime/mariadb-init ] )
+then
+    /bin/mkdir -p ${HOME}/runtime/mariadb-init
+fi
+
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb/mariadb.sql ${HOME}/runtime/mariadb-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
+/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
+/bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb start
 
 #try with no password set
-/usr/bin/mariadb -A < ${HOME}/runtime/initialiseDB.sql
+/usr/bin/mariadb -A < ${HOME}/runtime/mariadb-init/initialiseDB.sql
 #make sure by trying with password
 if ( [ "$?" != "0" ] )
 then
-    /usr/bin/mariadb -A --force -u root -p${DB_P} < ${HOME}/runtime/initialiseDB.sql
+    /usr/bin/mariadb -A --force -u root -p${DB_P} < ${HOME}/runtime/mariadb-init/initialiseDB.sql
 fi
 
 /bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb/mariadb.config /etc/mysql/my.cnf
