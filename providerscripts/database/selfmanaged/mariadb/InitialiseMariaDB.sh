@@ -47,7 +47,7 @@ then
     /bin/mkdir -p ${HOME}/runtime/mariadb-init
 fi
 
-/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb/mariadb.sql ${HOME}/runtime/mariadb-init/initialiseDB.sql
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb/live/mariadb.sql ${HOME}/runtime/mariadb-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mariadb-init/initialiseDB.sql
