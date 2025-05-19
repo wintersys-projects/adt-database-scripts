@@ -64,16 +64,16 @@ then
             
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
     
-    if ( [ "$?" != "0" ] )
-    then
-        /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl restart -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
-        if ( [ "$?" = "0" ] )
-        then
-           /bin/sed -i "s/trust/md5/g" ${postgres_config}
-           /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl reload -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
-        fi
-    else
-       /bin/sed -i "s/trust/md5/g" ${postgres_config}
-        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql reload
-    fi
+#    if ( [ "$?" != "0" ] )
+#    then
+#        /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl restart -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
+#        if ( [ "$?" = "0" ] )
+#        then
+#           /bin/sed -i "s/trust/md5/g" ${postgres_config}
+#           /usr/bin/su postgres -c "/usr/local/pgsql/bin/pg_ctl reload -D /usr/local/pgsql/data/ -l /home/postgres/logfile"   
+#        fi
+#    else
+#       /bin/sed -i "s/trust/md5/g" ${postgres_config}
+#        ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql reload
+#    fi
 fi
