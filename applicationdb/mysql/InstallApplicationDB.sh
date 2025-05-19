@@ -84,7 +84,7 @@ then
 
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
-	/bin/echo "Something went wrong with obtaining the DB archive, can't run without it..... The END" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+	/bin/echo "Something went wrong with obtaining the DB archive, can't run without it..... The END" 
 	${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS FAILED" "Please review your logs as the system has failed to install your database application" "ERROR"
 	exit
 fi
@@ -95,12 +95,12 @@ ${HOME}/applicationdb/mysql/EnforceEngineType.sh &
 #We can gain confidence that the installtion went OK by checking for our special marker table
 if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh 'show tables' | /bin/grep 'zzzz'`" != "" ] )
 then
-	/bin/echo "${0} `/bin/date` : An application has been installed in the database" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+	/bin/echo "${0} `/bin/date` : An application has been installed in the database" 
 	${HOME}/providerscripts/email/SendEmail.sh "A new application has been installed in your database" "A new application has been installed in your database" "INFO"
 	/bin/touch ${HOME}/runtime/DB_APPLICATION_INSTALLED
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
-	/bin/echo "${0} `/bin/date` : FAILED TO INSTALL DATABASE - Exiting build sequence" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+	/bin/echo "${0} `/bin/date` : FAILED TO INSTALL DATABASE - Exiting build sequence" 
 	${HOME}/providerscripts/email/SendEmail.sh "Failed to install a new application in your database" "Failed to install a new application in your database" "ERROR"
 	exit
 fi
