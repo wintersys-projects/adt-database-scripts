@@ -42,70 +42,60 @@ DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAM
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb/mariadb.sql ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/initialiseDB.sql
+/bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/initialiseDB.sql
 
 
-
-/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb ${HOME}/runtime/initialiseDB.sql
-
-
-use mysql;
-CREATE USER "'XXXXDB_UXXXX'" IDENTIFIED BY "'XXXXDB_PXXXX'";
-flush privileges;
-create database 'XXXXDB_NXXXX';
-ALTER DATABASE 'XXXXDB_NXXXX' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"localhost" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"127.0.0.1" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"'XXXXHOSTXXXX'" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"'XXXXIP_MASKXXXX'" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
-drop user "root"@"localhost";
-drop user "mysql"@"localhost";
-flush privileges;
 
 #Older style user setup where necessary, might have to change this with time
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-    /bin/echo 'use mysql;
-update user set user="'${DB_U}'" where user="root";
-flush privileges;
-create database '${DB_N}';
-ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT SESSION_VARIABLES_ADMIN ON *.* TO "'${DB_U}'";
-flush privileges;' > ${HOME}/runtime/initialiseDB.sql
-else
-    /bin/echo 'use mysql;
-CREATE USER "'${DB_U}'" IDENTIFIED BY "'${DB_P}'";
-flush privileges;
-create database '${DB_N}';
-ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
-drop user "root"@"localhost";
-drop user "mysql"@"localhost";
-flush privileges;' > ${HOME}/runtime/initialiseDB.sql
-fi
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+#then
+#    /bin/echo 'use mysql;
+#update user set user="'${DB_U}'" where user="root";
+#flush privileges;
+#create database '${DB_N}';
+#ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#GRANT SESSION_VARIABLES_ADMIN ON *.* TO "'${DB_U}'";
+#flush privileges;' > ${HOME}/runtime/initialiseDB.sql
+#else
+#    /bin/echo 'use mysql;
+#CREATE USER "'${DB_U}'" IDENTIFIED BY "'${DB_P}'";
+#flush privileges;
+#create database '${DB_N}';
+#ALTER DATABASE '${DB_N}' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"localhost" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"127.0.0.1" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${HOST}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#GRANT ALL PRIVILEGES ON '${DB_N}'.* TO "'${DB_U}'"@"'${IP_MASK}'" IDENTIFIED BY "'${DB_P}'" WITH GRANT OPTION;
+#drop user "root"@"localhost";
+#drop user "mysql"@"localhost";
+#flush privileges;' > ${HOME}/runtime/initialiseDB.sql
+#fi#
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-    count="0"
-    /bin/sed -i '/GRANT SESSION/d' ${HOME}/runtime/initialiseDB.sql
-    /bin/sed -i '/drop user/d' ${HOME}/runtime/initialiseDB.sql
-    /bin/sed -i '/CREATE USER/d' ${HOME}/runtime/initialiseDB.sql
-    
-    /usr/bin/mariadb -f -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port="${DB_PORT}" < ${HOME}/runtime/initialiseDB.sql
-    
-    while ( [ "$?" != "0" ] && [ "${count}" -lt "10" ] )
-    do
-        /bin/sleep 30
-        count="`/usr/bin/expr ${count} + 1`"
-        /usr/bin/mariadb -f -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port="${DB_PORT}" < ${HOME}/runtime/initialiseDB.sql
-    done
-else
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+#then
+#    count="0"
+#    /bin/sed -i '/GRANT SESSION/d' ${HOME}/runtime/initialiseDB.sql
+#    /bin/sed -i '/drop user/d' ${HOME}/runtime/initialiseDB.sql
+#    /bin/sed -i '/CREATE USER/d' ${HOME}/runtime/initialiseDB.sql
+#    
+#    /usr/bin/mariadb -f -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port="${DB_PORT}" < ${HOME}/runtime/initialiseDB.sql
+#    
+#    while ( [ "$?" != "0" ] && [ "${count}" -lt "10" ] )
+#    do
+#        /bin/sleep 30
+#        count="`/usr/bin/expr ${count} + 1`"
+#        /usr/bin/mariadb -f -A -u ${DB_U} -p${DB_P} --host="${HOST}" --port="${DB_PORT}" < ${HOME}/runtime/initialiseDB.sql
+#    done
+#else
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb start
     #try with no password set
     /usr/bin/mariadb -A < ${HOME}/runtime/initialiseDB.sql
@@ -114,7 +104,7 @@ else
     then
        /usr/bin/mariadb -A --force -u root -p${DB_P} < ${HOME}/runtime/initialiseDB.sql
     fi
-fi
+#fi
 
 /bin/echo "[mysqld]" >> /etc/mysql/my.cnf
 /bin/echo "port        = 2035" >> /etc/mysql/my.cnf
