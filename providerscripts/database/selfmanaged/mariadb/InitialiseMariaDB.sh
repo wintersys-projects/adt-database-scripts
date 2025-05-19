@@ -106,7 +106,7 @@ DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
     fi
 #fi
 
-/bin/cp ${HOME}/providerscripts/database/singledb/mariadb/mariadb.config /etc/mysql/my.cnf
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb/mariadb.config /etc/mysql/my.cnf
 /bin/sed -i "s/XXXXDB_PORTXXXX/${DB_PORT}/g" /etc/mysql/my.cnf
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb restart
