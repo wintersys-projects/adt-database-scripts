@@ -51,7 +51,7 @@ fi
 /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
+#/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
