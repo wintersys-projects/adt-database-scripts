@@ -43,6 +43,24 @@ DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWOR
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 
+
+
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mariadb ${HOME}/runtime/initialiseDB.sql
+
+
+use mysql;
+CREATE USER "'XXXXDB_UXXXX'" IDENTIFIED BY "'XXXXDB_PXXXX'";
+flush privileges;
+create database 'XXXXDB_NXXXX';
+ALTER DATABASE 'XXXXDB_NXXXX' CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"localhost" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"127.0.0.1" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"'XXXXHOSTXXXX'" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON 'XXXXDB_NXXXX'.* TO "'XXXXDB_UXXXX'"@"'XXXXIP_MASKXXXX'" IDENTIFIED BY "'XXXXDB_PXXXX'" WITH GRANT OPTION;
+drop user "root"@"localhost";
+drop user "mysql"@"localhost";
+flush privileges;
+
 #Older style user setup where necessary, might have to change this with time
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
