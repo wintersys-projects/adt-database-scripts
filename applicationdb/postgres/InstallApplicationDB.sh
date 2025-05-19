@@ -56,7 +56,7 @@ fi
 #We can gain confidence that our database has installed correctly if our special marker table is there
 if ( [ "`${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "select exists ( select 1 from information_schema.tables where table_name='zzzz');" | /bin/grep -v 'exist' | /bin/grep -v '\-\-\-\-'  | /bin/grep -v 'row' | /bin/sed 's/ //g'`" = "t" ] || [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 then
-	/bin/echo "${0} `/bin/date` : An application has been installed in the database, right on" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+	/bin/echo "${0} `/bin/date` : An application has been installed in the database, right on" 
 	${HOME}/providerscripts/email/SendEmail.sh "DATABASE INSTALLATION HAS COMPLETED" "An application has been installed in your postgres database" "INFO"
 	/bin/touch ${HOME}/runtime/DB_APPLICATION_INSTALLED
 else
