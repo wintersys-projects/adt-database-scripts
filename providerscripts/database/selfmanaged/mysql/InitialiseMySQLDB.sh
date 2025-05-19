@@ -47,7 +47,7 @@ then
     /bin/mkdir -p ${HOME}/runtime/mysql-init
 fi
 
-/bin/cp ${HOME}/providerscripts/database/selfmanaged/mysql/mysql.sql ${HOME}/runtime/mysql-init/initialiseDB.sql
+/bin/cp ${HOME}/providerscripts/database/selfmanaged/mysql/live/mysql.sql ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
