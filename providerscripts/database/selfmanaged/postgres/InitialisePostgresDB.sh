@@ -64,6 +64,13 @@ then
    fi
    
    /bin/cp ${HOME}/providerscripts/database/selfmanaged/postgres/live/postgres.psql ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+  #  /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mariadb start
 
     /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
 
