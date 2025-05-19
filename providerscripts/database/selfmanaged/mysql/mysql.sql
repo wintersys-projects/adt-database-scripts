@@ -11,7 +11,7 @@ GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,LOCK TABLES,INDEX ON XXXXDB_
 DELETE FROM mysql.user WHERE user='' AND host='%';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1');
 ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'XXXXDB_PXXXX';
-DROP database 'test';
-DROP USER '';
-DROP USER 'mysql';
+DROP DATABASE IF EXISTS test;
+DROP USER IF EXISTS '';
+DROP USER IF EXISTS 'mysql';
 flush privileges;
