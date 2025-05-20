@@ -58,6 +58,7 @@ fi
 /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 
 /bin/echo "here 1"
+/bin/cat ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/echo "here 2"
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB.sql
