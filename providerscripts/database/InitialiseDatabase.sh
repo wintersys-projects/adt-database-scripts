@@ -26,7 +26,7 @@ then
 	${HOME}/providerscripts/database/selfmanaged/mariadb/InitialiseMariaDB.sh
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
 	${HOME}/providerscripts/database/selfmanaged/mysql/InitialiseMySQLDB.sh
 fi
@@ -34,6 +34,11 @@ fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
 	${HOME}/providerscripts/database/selfmanaged/postgres/InitialisePostgresDB.sh
+fi
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+then
+	${HOME}/providerscripts/database/dbaas/mysql/InitialiseMySQLDB.sh
 fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "A single node database has been started" "a single node database has been started and initialised" "INFO"
