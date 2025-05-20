@@ -40,6 +40,24 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
+    if ( [ ! -d ${HOME}/runtime/postgres-init ] )
+   then
+      /bin/mkdir -p ${HOME}/runtime/postgres-init
+   fi
+   
+   /bin/cp ${HOME}/providerscripts/database/selfmanaged/postgres/live/postgres.psql ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+  #  /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+    /bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
+
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql start
+
+    /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
+            
+    ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
+
     postgres_config="`/usr/bin/find / -name pg_hba.conf -print | /usr/bin/tail -1`"
     postgres_pid="`/usr/bin/find / -name postmaster.pid -print | /usr/bin/tail -1`"
     postgres_sql_config="`/usr/bin/find / -name postgresql.conf -print | /bin/grep etc | /usr/bin/tail -1`"
@@ -56,27 +74,6 @@ then
     /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
     /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
     /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
-    
- 
-    if ( [ ! -d ${HOME}/runtime/postgres-init ] )
-   then
-      /bin/mkdir -p ${HOME}/runtime/postgres-init
-   fi
-   
-   /bin/cp ${HOME}/providerscripts/database/selfmanaged/postgres/live/postgres.psql ${HOME}/runtime/postgres-init/initialiseDB.psql
-    /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
-    /bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
-    /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
-  #  /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
-    /bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
-
-${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql start
-
-    /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
-
-    /bin/rm ${postgres_pid}
-            
-    ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
  
  
  
