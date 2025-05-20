@@ -51,9 +51,9 @@ fi
 /bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql-user.sql ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql-db.sql ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
+/bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
