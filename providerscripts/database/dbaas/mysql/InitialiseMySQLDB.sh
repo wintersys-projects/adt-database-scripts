@@ -63,7 +63,7 @@ then
     /usr/bin/mysql -A --force -u root -p${DB_P} < ${HOME}/runtime/mysql-init/initialiseDB.sql
 fi
 
-/bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql.config /etc/mysql/my.cnf
-/bin/sed -i "s/XXXXDB_PORTXXXX/${DB_PORT}/g" /etc/mysql/my.cnf
+#/bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql.config /etc/mysql/my.cnf
+#/bin/sed -i "s/XXXXDB_PORTXXXX/${DB_PORT}/g" /etc/mysql/my.cnf
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
