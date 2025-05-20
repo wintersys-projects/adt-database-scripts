@@ -38,7 +38,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-	${HOME}/providerscripts/database/dbaas/mysql/InitialiseMySQLDB.sh
+	${HOME}/providerscripts/database/dbaas/linode/mysql/InitialiseMySQLDB.sh
 fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "A single node database has been started" "a single node database has been started and initialised" "INFO"
