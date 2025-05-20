@@ -59,7 +59,11 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
 
+/bin/echo "here 1"
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
+
+/bin/echo "here 2"
+
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB.sql
 
 
