@@ -1,3 +1,4 @@
+SET sql_require_primary_key=0;
 use mysql;
 CREATE USER XXXXDB_UXXXX@"localhost" IDENTIFIED WITH caching_sha2_password BY "XXXXDB_PXXXX";
 CREATE USER XXXXDB_UXXXX@"127.0.0.1" IDENTIFIED WITH caching_sha2_password BY "XXXXDB_PXXXX";
