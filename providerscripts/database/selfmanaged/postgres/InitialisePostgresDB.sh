@@ -79,7 +79,8 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql res
     /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
     /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
 
- 
+ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
+
  
  
  
