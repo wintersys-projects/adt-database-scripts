@@ -40,6 +40,14 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
+    postgres_config="`/usr/bin/find / -name pg_hba.conf -print | /usr/bin/tail -1`"
+    postgres_pid="`/usr/bin/find / -name postmaster.pid -print | /usr/bin/tail -1`"
+    postgres_sql_config="`/usr/bin/find / -name postgresql.conf -print | /bin/grep etc | /usr/bin/tail -1`"
+
+    /bin/sed -i '/127.0.0.1/d' ${postgres_config}
+    /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
+
+    
     if ( [ ! -d ${HOME}/runtime/postgres-init ] )
    then
       /bin/mkdir -p ${HOME}/runtime/postgres-init
@@ -58,9 +66,7 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql sta
             
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
-    postgres_config="`/usr/bin/find / -name pg_hba.conf -print | /usr/bin/tail -1`"
-    postgres_pid="`/usr/bin/find / -name postmaster.pid -print | /usr/bin/tail -1`"
-    postgres_sql_config="`/usr/bin/find / -name postgresql.conf -print | /bin/grep etc | /usr/bin/tail -1`"
+
 
     /bin/rm ${postgres_pid}
     /bin/sed -i "/listen_addresses/c\        listen_addresses = '*'" ${postgres_sql_config}
@@ -69,11 +75,10 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql sta
 
     IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`"
     
-    /bin/sed -i '/127.0.0.1/d' ${postgres_config}
     /bin/sed -i '/128/d' ${postgres_config}
     /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
     /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
-    /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
+
  
  
  
