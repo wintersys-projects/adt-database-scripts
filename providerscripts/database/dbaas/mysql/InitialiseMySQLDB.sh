@@ -57,13 +57,9 @@ fi
 /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 
-${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
-
 /bin/echo "here 1"
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-
 /bin/echo "here 2"
-
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB.sql
 
 
