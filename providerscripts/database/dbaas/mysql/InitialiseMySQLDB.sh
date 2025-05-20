@@ -62,9 +62,3 @@ ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/m
 /bin/echo "here 2"
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB.sql
 
-
-
-#/bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql.config /etc/mysql/my.cnf
-#/bin/sed -i "s/XXXXDB_PORTXXXX/${DB_PORT}/g" /etc/mysql/my.cnf
-
-${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql restart
