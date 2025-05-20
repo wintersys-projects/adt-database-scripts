@@ -42,6 +42,20 @@ DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAM
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
+if ( [ "`/bin/echo ${DB_U} | /bin/grep '||'`" != "" ] )
+then
+    DB_U1="`/bin/echo ${DB_U} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $1}'`"
+    DB_U2="`/bin/echo ${DB_U} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $2}'`"
+    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
+fi
+
+if ( [ "`/bin/echo ${DB_P} | /bin/grep '||'`" != "" ] )
+then
+    DB_P1="`/bin/echo ${DB_P} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $1}'`"
+    DB_P2="`/bin/echo ${DB_P} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $2}'`"
+    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_P2}"       
+fi
+
 if ( [ ! -d ${HOME}/runtime/mysql-init ] )
 then
     /bin/mkdir -p ${HOME}/runtime/mysql-init
@@ -49,25 +63,12 @@ fi
 
 /bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql-user.sql ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql-db.sql ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U1}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_UXXXX/${DB_U}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-/bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-#/bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U1}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
+/bin/sed -i "s/XXXXDB_PXXXX/${DB_P1}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB.sql
-
-if ( [ "`/bin/echo ${DB_U} | /bin/grep '||'`" != "" ] )
-then
-    DB_U="`/bin/echo ${DB_U} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $NF}'`"
-    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U}"       
-fi
-
-if ( [ "`/bin/echo ${DB_P} | /bin/grep '||'`" != "" ] )
-then
-    DB_P="`/bin/echo ${DB_P} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $NF}'`"
-    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P}"       
-fi
 
