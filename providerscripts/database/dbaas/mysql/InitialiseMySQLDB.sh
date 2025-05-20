@@ -39,7 +39,7 @@ CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOU
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-DB_U="testuser99"
+DB_U="testuserpete"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
@@ -58,6 +58,7 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
 
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB.sql
 
 
