@@ -39,7 +39,7 @@ CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOU
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-DB_U="hellopete"
+DB_U="hellopeteworks"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
@@ -59,7 +59,7 @@ fi
 
 /bin/echo "here 1"
 /bin/cat ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/echo "here 2"
-${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB.sql
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB.sql
 
