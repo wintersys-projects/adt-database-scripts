@@ -21,6 +21,8 @@
 #####################################################################################
 #set -x
 
+CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ]  )
 then
 	${HOME}/providerscripts/database/selfmanaged/mariadb/InitialiseMariaDB.sh
@@ -38,7 +40,22 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-	${HOME}/providerscripts/database/dbaas/linode/mysql/InitialiseMySQLDB.sh
+	if ( [ "${CLOUDHOST}" = "digitalocean" ] )
+ 	then
+  		${HOME}/providerscripts/database/dbaas/digitalocean/mysql/InitialiseMySQLDB.sh
+    	fi
+     	if ( [ "${CLOUDHOST}" = "exoscale" ] )
+ 	then
+  		${HOME}/providerscripts/database/dbaas/exoscale/mysql/InitialiseMySQLDB.sh
+    	fi
+     	if ( [ "${CLOUDHOST}" = "linode" ] )
+ 	then
+  		${HOME}/providerscripts/database/dbaas/linode/mysql/InitialiseMySQLDB.sh
+    	fi
+     	if ( [ "${CLOUDHOST}" = "vultr" ] )
+ 	then
+  		${HOME}/providerscripts/database/dbaas/vultr/mysql/InitialiseMySQLDB.sh
+    	fi
 fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "A single node database has been started" "a single node database has been started and initialised" "INFO"
