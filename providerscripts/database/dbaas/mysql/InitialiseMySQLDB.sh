@@ -42,17 +42,17 @@ DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAM
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
-if ( [ "`/bin/echo ${DB_U} | /bin/grep '||'`" != "" ] )
+if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
 then
-    DB_U1="`/bin/echo ${DB_U} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $1}'`"
-    DB_U2="`/bin/echo ${DB_U} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $2}'`"
+    DB_U1="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
+    DB_U2="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $2}'`"
     ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
 fi
 
-if ( [ "`/bin/echo ${DB_P} | /bin/grep '||'`" != "" ] )
+if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
 then
-    DB_P1="`/bin/echo ${DB_P} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $1}'`"
-    DB_P2="`/bin/echo ${DB_P} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $2}'`"
+    DB_P1="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
+    DB_P2="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $2}'`"
     ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_P2}"       
 fi
 
