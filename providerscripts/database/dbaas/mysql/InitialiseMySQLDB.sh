@@ -55,13 +55,9 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh mysql start
 
-#try with no password set
-/usr/bin/mysql -A < ${HOME}/runtime/mysql-init/initialiseDB.sql
-#make sure by trying with password
-if ( [ "$?" != "0" ] )
-then
-    /usr/bin/mysql -A --force -u root -p${DB_P} < ${HOME}/runtime/mysql-init/initialiseDB.sql
-fi
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh < ${HOME}/runtime/mysql-init/initialiseDB.sql
+
+
 
 #/bin/cp ${HOME}/providerscripts/database/dbaas/mysql/live/mysql.config /etc/mysql/my.cnf
 #/bin/sed -i "s/XXXXDB_PORTXXXX/${DB_PORT}/g" /etc/mysql/my.cnf
