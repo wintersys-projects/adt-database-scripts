@@ -46,14 +46,12 @@ if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
 then
     DB_U1="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
     DB_U2="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $2}'`"
-    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
 fi
 
 if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
 then
     DB_P1="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
     DB_P2="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $2}'`"
-    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P2}"       
 fi
 
 if ( [ ! -d ${HOME}/runtime/mysql-init ] )
@@ -71,4 +69,8 @@ fi
 
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 ${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB.sql
+
+${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
+${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P2}"       
+
 
