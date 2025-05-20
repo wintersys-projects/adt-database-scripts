@@ -44,6 +44,7 @@ DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
 	DB_N=""
+ 	sql_command=""
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
