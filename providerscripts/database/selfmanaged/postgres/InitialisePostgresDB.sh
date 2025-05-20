@@ -45,8 +45,8 @@ then
     postgres_sql_config="`/usr/bin/find / -name postgresql.conf -print | /bin/grep etc | /usr/bin/tail -1`"
 
     /bin/sed -i '/127.0.0.1/d' ${postgres_config}
-    /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
-
+  #  /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
+    /bin/echo "host       ${DB_N}              postgres            127.0.0.1/32         trust" >> ${postgres_config}
     
     if ( [ ! -d ${HOME}/runtime/postgres-init ] )
    then
@@ -77,7 +77,7 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql res
     
     /bin/sed -i '/128/d' ${postgres_config}
     /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
-    /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
+   # /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
 
  ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
