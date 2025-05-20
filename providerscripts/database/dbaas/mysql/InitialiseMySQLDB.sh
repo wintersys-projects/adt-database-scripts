@@ -53,7 +53,7 @@ if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
 then
     DB_P1="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
     DB_P2="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $2}'`"
-    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_P2}"       
+    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P2}"       
 fi
 
 if ( [ ! -d ${HOME}/runtime/mysql-init ] )
