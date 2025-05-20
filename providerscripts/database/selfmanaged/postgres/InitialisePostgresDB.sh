@@ -46,7 +46,7 @@ then
 
     /bin/sed -i '/127.0.0.1/d' ${postgres_config}
   #  /bin/echo "host       all              postgres            127.0.0.1/32         trust" >> ${postgres_config}
-    /bin/echo "host       ${DB_N}              postgres            127.0.0.1/32         trust" >> ${postgres_config}
+    /bin/echo "host       template1              postgres            127.0.0.1/32         trust" >> ${postgres_config}
     
     if ( [ ! -d ${HOME}/runtime/postgres-init ] )
    then
@@ -76,6 +76,7 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql res
     IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`"
     
     /bin/sed -i '/128/d' ${postgres_config}
+    /bin/sed -i '/template1/d' ${postgres_config}
     /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
    # /bin/echo "host       all              ${DB_U}            127.0.0.1/32          trust" >> ${postgres_config}
 
