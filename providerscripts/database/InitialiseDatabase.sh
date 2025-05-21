@@ -58,5 +58,25 @@ then
 	fi
 fi
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
+then
+        if ( [ "${CLOUDHOST}" = "digitalocean" ] )
+        then
+                ${HOME}/providerscripts/database/dbaas/digitalocean/postgres/InitialisePostgres.sh
+        fi
+        if ( [ "${CLOUDHOST}" = "exoscale" ] )
+        then
+                ${HOME}/providerscripts/database/dbaas/exoscale/postgres/InitialisePostgres.sh
+        fi
+        if ( [ "${CLOUDHOST}" = "linode" ] )
+        then
+                ${HOME}/providerscripts/database/dbaas/linode/postgres/InitialisePostgres.sh
+        fi
+        if ( [ "${CLOUDHOST}" = "vultr" ] )
+        then
+                ${HOME}/providerscripts/database/dbaas/vultr/postgres/InitialisePostgres.sh
+        fi
+fi
+
 ${HOME}/providerscripts/email/SendEmail.sh "A single node database has been started" "a single node database has been started and initialised" "INFO"
 /bin/touch ${HOME}/runtime/DB_INITIALISED
