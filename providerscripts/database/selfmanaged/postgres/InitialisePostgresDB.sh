@@ -65,7 +65,7 @@ then
             
     /bin/rm ${postgres_pid}
    # /bin/sed -i '/listen_addresses/c\        listen_addresses = "'${IP_MASK}'"' ${postgres_sql_config}
-    /bin/sed -i '/listen_addresses/c\        listen_addresses = "*"' ${postgres_sql_config}
+    /bin/sed -i "/listen_addresses/c\        listen_addresses = '"${IP_MASK}"'" ${postgres_sql_config}
     /bin/sed -i "/^port/c\        port = ${DB_PORT}" ${postgres_sql_config}
     /bin/sed -i "/^#port/c\        port = ${DB_PORT}" ${postgres_sql_config}
 
