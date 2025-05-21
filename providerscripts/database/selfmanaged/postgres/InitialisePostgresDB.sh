@@ -64,8 +64,7 @@ then
     /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
             
     /bin/rm ${postgres_pid}
-   # /bin/sed -i '/listen_addresses/c\        listen_addresses = "'${IP_MASK}'"' ${postgres_sql_config}
-    /bin/sed -i "/listen_addresses/c\        listen_addresses = '"${IP_MASK}"'" ${postgres_sql_config}
+    /bin/sed -i "/listen_addresses/c\        listen_addresses = '*'" ${postgres_sql_config}
     /bin/sed -i "/^port/c\        port = ${DB_PORT}" ${postgres_sql_config}
     /bin/sed -i "/^#port/c\        port = ${DB_PORT}" ${postgres_sql_config}
 
