@@ -66,10 +66,12 @@ then
 
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
-    while ( [ "`/usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql | /bin/grep 'CREATE DATABASE'`" = "" ] )
-    do
-        /bin/sleep 5
-    done
+    /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
+
+ #   while ( [ "`/usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql | /bin/grep 'CREATE DATABASE'`" = "" ] )
+ #   do
+ #       /bin/sleep 5
+ #   done
 
 
     /bin/sed -i '/128/d' ${postgres_config}
