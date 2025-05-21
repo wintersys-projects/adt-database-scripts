@@ -24,7 +24,7 @@
 #set -x
 
 IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
-IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`/32"
+IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`/24"
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 
