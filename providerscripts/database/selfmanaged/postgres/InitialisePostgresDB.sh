@@ -24,7 +24,7 @@
 #set -x
 
 IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
-IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`
+IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`"
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 
@@ -64,7 +64,7 @@ then
     /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
             
     /bin/rm ${postgres_pid}
-    /bin/sed -i "/listen_addresses/c\        listen_addresses = '"${IP_MASK}"'" ${postgres_sql_config}
+    /bin/sed -i '/listen_addresses/c\        listen_addresses = "'${IP_MASK}'"' ${postgres_sql_config}
     /bin/sed -i "/^port/c\        port = ${DB_PORT}" ${postgres_sql_config}
     /bin/sed -i "/^#port/c\        port = ${DB_PORT}" ${postgres_sql_config}
 
