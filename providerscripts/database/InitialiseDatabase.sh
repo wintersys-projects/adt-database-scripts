@@ -19,7 +19,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #####################################################################################
 #####################################################################################
-#set -x
+set -x
 
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 
@@ -33,7 +33,7 @@ then
 	${HOME}/providerscripts/database/selfmanaged/mysql/InitialiseMySQLDB.sh
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
 	${HOME}/providerscripts/database/selfmanaged/postgres/InitialisePostgresDB.sh
 fi
@@ -62,19 +62,19 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDB
 then
         if ( [ "${CLOUDHOST}" = "digitalocean" ] )
         then
-                ${HOME}/providerscripts/database/dbaas/digitalocean/postgres/InitialisePostgres.sh
+                ${HOME}/providerscripts/database/dbaas/digitalocean/postgres/InitialisePostgresDB.sh
         fi
         if ( [ "${CLOUDHOST}" = "exoscale" ] )
         then
-                ${HOME}/providerscripts/database/dbaas/exoscale/postgres/InitialisePostgres.sh
+                ${HOME}/providerscripts/database/dbaas/exoscale/postgres/InitialisePostgresDB.sh
         fi
         if ( [ "${CLOUDHOST}" = "linode" ] )
         then
-                ${HOME}/providerscripts/database/dbaas/linode/postgres/InitialisePostgres.sh
+                ${HOME}/providerscripts/database/dbaas/linode/postgres/InitialisePostgresDB.sh
         fi
         if ( [ "${CLOUDHOST}" = "vultr" ] )
         then
-                ${HOME}/providerscripts/database/dbaas/vultr/postgres/InitialisePostgres.sh
+                ${HOME}/providerscripts/database/dbaas/vultr/postgres/InitialisePostgresDB.sh
         fi
 fi
 
