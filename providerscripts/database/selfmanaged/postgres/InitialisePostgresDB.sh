@@ -24,7 +24,7 @@
 #set -x
 
 IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
-IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`/16"
+IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`"
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 
@@ -72,7 +72,7 @@ then
     
     /bin/sed -i '/128/d' ${postgres_config}
     /bin/sed -i '/template1/d' ${postgres_config}
-    /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}          md5" >> ${postgres_config}
+    /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
 
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
