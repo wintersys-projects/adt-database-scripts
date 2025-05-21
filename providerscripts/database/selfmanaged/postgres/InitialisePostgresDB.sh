@@ -61,7 +61,10 @@ then
 
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
-    /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
+    while ( [ "`/usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql | /bin/grep 'CREATE DATABASE'`" = "" ] )
+    do
+        /bin/sleep 5
+    done
             
     /bin/rm ${postgres_pid}
     /bin/sed -i "/listen_addresses/c\        listen_addresses = '*'" ${postgres_sql_config}
