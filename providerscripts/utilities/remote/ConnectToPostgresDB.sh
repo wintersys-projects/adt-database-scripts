@@ -44,7 +44,7 @@ fi
 
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
-	DB_N=""
+	DB_N="defaultdb"
  	sql_command=""
   	if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
    	then
