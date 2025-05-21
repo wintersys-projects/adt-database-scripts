@@ -52,21 +52,21 @@ then
     DB_P2="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $2}'`"
 fi
 
-if ( [ ! -d ${HOME}/runtime/mysql-init ] )
+if ( [ ! -d ${HOME}/runtime/postgres-init ] )
 then
-    /bin/mkdir -p ${HOME}/runtime/mysql-init
+    /bin/mkdir -p ${HOME}/runtime/postgres-init
 fi
 
-/bin/cp ${HOME}/providerscripts/database/dbaas/linode/mysql/live/mysql-user.sql ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-/bin/cp ${HOME}/providerscripts/database/dbaas/linode/mysql/live/mysql-db.sql ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-/bin/sed -i "s/XXXXDB_PXXXX/${DB_P2}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
+/bin/cp ${HOME}/providerscripts/database/dbaas/linode/mysql/live/mysql-user.sql ${HOME}/runtime/postgres-init/initialiseDB-user.sql
+/bin/cp ${HOME}/providerscripts/database/dbaas/linode/mysql/live/mysql-db.sql ${HOME}/runtime/postgres-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/postgres-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/postgres-init/initialiseDB.sql
+/bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/postgres-init/initialiseDB.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.sql
+/bin/sed -i "s/XXXXDB_PXXXX/${DB_P2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.sql
 
-${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB.sql
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB-user.sql
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB.sql
 
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P2}"   
