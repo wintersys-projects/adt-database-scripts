@@ -49,9 +49,9 @@ then
     /bin/echo "host       template1              postgres            127.0.0.1/32         trust" >> ${postgres_config}
     
     if ( [ ! -d ${HOME}/runtime/postgres-init ] )
-   then
+    then
       /bin/mkdir -p ${HOME}/runtime/postgres-init
-   fi
+    fi
    
     /bin/cp ${HOME}/providerscripts/database/selfmanaged/postgres/live/postgres.psql ${HOME}/runtime/postgres-init/initialiseDB.psql
     /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
@@ -59,20 +59,19 @@ then
     /bin/sed -i "s/XXXXDB_PXXXX/${DB_P}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
     /bin/sed -i "s/XXXXIP_MASKXXXX/${IP_MASK}/g" ${HOME}/runtime/postgres-init/initialiseDB.psql
 
+    /bin/rm ${postgres_pid}
+    /bin/sed -i "/listen_addresses/c\        listen_addresses = '*'" ${postgres_sql_config}
+    /bin/sed -i "/^port/c\        port = ${DB_PORT}" ${postgres_sql_config}
+    /bin/sed -i "/^#port/c\        port = ${DB_PORT}" ${postgres_sql_config}
+
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
     while ( [ "`/usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql | /bin/grep 'CREATE DATABASE'`" = "" ] )
     do
         /bin/sleep 5
     done
-            
-    /bin/rm ${postgres_pid}
-    /bin/sed -i "/listen_addresses/c\        listen_addresses = '*'" ${postgres_sql_config}
-    /bin/sed -i "/^port/c\        port = ${DB_PORT}" ${postgres_sql_config}
-    /bin/sed -i "/^#port/c\        port = ${DB_PORT}" ${postgres_sql_config}
 
-    IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`"
-    
+
     /bin/sed -i '/128/d' ${postgres_config}
     /bin/sed -i '/template1/d' ${postgres_config}
     /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
