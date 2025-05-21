@@ -21,7 +21,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-set -x
+#set -x
 
 IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`"
@@ -67,12 +67,6 @@ then
     ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh postgresql restart
 
     /usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql
-
- #   while ( [ "`/usr/bin/sudo -u postgres /usr/bin/psql -h 127.0.0.1 -p ${DB_PORT} template1 < ${HOME}/runtime/postgres-init/initialiseDB.psql | /bin/grep 'CREATE DATABASE'`" = "" ] )
- #   do
- #       /bin/sleep 5
- #   done
-
 
     /bin/sed -i '/128/d' ${postgres_config}
     /bin/sed -i '/template1/d' ${postgres_config}
