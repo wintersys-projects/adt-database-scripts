@@ -41,21 +41,21 @@ fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
 	if ( [ "${CLOUDHOST}" = "digitalocean" ] )
- 	then
-  		${HOME}/providerscripts/database/dbaas/digitalocean/mysql/InitialiseMySQLDB.sh
-    	fi
-     	if ( [ "${CLOUDHOST}" = "exoscale" ] )
- 	then
-  		${HOME}/providerscripts/database/dbaas/exoscale/mysql/InitialiseMySQLDB.sh
-    	fi
-     	if ( [ "${CLOUDHOST}" = "linode" ] )
- 	then
-  		${HOME}/providerscripts/database/dbaas/linode/mysql/InitialiseMySQLDB.sh
-    	fi
-     	if ( [ "${CLOUDHOST}" = "vultr" ] )
- 	then
-  		${HOME}/providerscripts/database/dbaas/vultr/mysql/InitialiseMySQLDB.sh
-    	fi
+	then
+		${HOME}/providerscripts/database/dbaas/digitalocean/mysql/InitialiseMySQLDB.sh
+	fi
+	if ( [ "${CLOUDHOST}" = "exoscale" ] )
+	then
+		${HOME}/providerscripts/database/dbaas/exoscale/mysql/InitialiseMySQLDB.sh
+	fi
+	if ( [ "${CLOUDHOST}" = "linode" ] )
+	then
+		${HOME}/providerscripts/database/dbaas/linode/mysql/InitialiseMySQLDB.sh
+	fi
+	if ( [ "${CLOUDHOST}" = "vultr" ] )
+	then
+		${HOME}/providerscripts/database/dbaas/vultr/mysql/InitialiseMySQLDB.sh
+	fi
 fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "A single node database has been started" "a single node database has been started and initialised" "INFO"
