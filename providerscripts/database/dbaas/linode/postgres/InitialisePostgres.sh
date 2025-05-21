@@ -57,16 +57,16 @@ then
     /bin/mkdir -p ${HOME}/runtime/postgres-init
 fi
 
-/bin/cp ${HOME}/providerscripts/database/dbaas/linode/postgres/live/postgres-user.sql ${HOME}/runtime/postgres-init/initialiseDB-user.sql
-/bin/cp ${HOME}/providerscripts/database/dbaas/linode/postgres/live/postgres-db.sql ${HOME}/runtime/postgres-init/initialiseDB.sql
+/bin/cp ${HOME}/providerscripts/database/dbaas/linode/postgres/live/postgres-user.psql ${HOME}/runtime/postgres-init/initialiseDB-user.psql
+/bin/cp ${HOME}/providerscripts/database/dbaas/linode/postgres/live/postgres-db.psql ${HOME}/runtime/postgres-init/initialiseDB.psql
 /bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/postgres-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_NXXXX/${DB_N}/g" ${HOME}/runtime/postgres-init/initialiseDB.sql
 /bin/sed -i "s/XXXXHOSTXXXX/${HOST}/g" ${HOME}/runtime/postgres-init/initialiseDB.sql
-/bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.sql
-/bin/sed -i "s/XXXXDB_PXXXX/${DB_P2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.sql
+/bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.psql
+/bin/sed -i "s/XXXXDB_PXXXX/${DB_P2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.psql
 
-${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB-user.sql
-${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB.sql
+${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB-user.psql
+${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB.psql
 
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P2}"   
