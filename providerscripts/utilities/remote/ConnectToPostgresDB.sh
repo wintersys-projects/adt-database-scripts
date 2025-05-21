@@ -42,6 +42,20 @@ else
 	HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databasepublicip/*"`"
 fi
 
+if ( [ "${sql_command}" = "dbaas-init" ] )
+then
+	DB_N=""
+ 	sql_command=""
+  	if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
+   	then
+      		DB_U="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
+	fi
+   	if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
+   	then
+      		DB_P="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
+	fi
+fi
+
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 
 export PGPASSWORD=${DB_P}
