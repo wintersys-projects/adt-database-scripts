@@ -46,10 +46,10 @@ then
 	/bin/sed -i "s/${olduser}/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
 	export PGPASSWORD="${DB_P}"
         
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-	then
-		${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
-	fi
+	#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+	#then
+#		${HOME}/providerscripts/database/singledb/postgres/InitialisePostgresDB.sh
+#	fi
 	${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh < ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
 fi
 
