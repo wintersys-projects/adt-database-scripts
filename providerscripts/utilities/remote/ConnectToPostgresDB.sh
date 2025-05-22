@@ -48,7 +48,7 @@ if ( [ "${sql_command}" = "dbaas-init" ] )
 then
 	if ( [ "${override_db}" != "" ] )
  	then
-		DB_N="defaultdb"
+		DB_N="${override_db}"
   	fi
    
  	sql_command=""
