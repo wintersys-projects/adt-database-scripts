@@ -74,7 +74,7 @@ if ( [ ! -d ${HOME}/backups/installDB ] )
 then
         /bin/mkdir -p ${HOME}/backups/installDB
 else
-        /bin/rm -r ${HOME}/backups/installDB/*
+        /bin/rm -r ${HOME}/backups/installDB/* 2>/dev/null
 fi
 
 cd ${HOME}/backups/installDB
