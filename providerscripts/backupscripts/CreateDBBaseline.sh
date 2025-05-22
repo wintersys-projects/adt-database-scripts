@@ -131,12 +131,12 @@ cd ${HOME}/backups
 IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 
 /bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.sql
-/bin/tar cvfz ${websiteDB} applicationDB.sql
-/bin/rm applicationDB.sql
-/usr/bin/split -b 10M -d ${websiteDB} "application-db-"
-/bin/rm ${websiteDB}
-/bin/mkdir baseline
-/bin/mv application-db* baseline
+#/bin/tar cvfz ${websiteDB} applicationDB.sql
+#/bin/rm applicationDB.sql
+#/usr/bin/split -b 10M -d ${websiteDB} "application-db-"
+#/bin/rm ${websiteDB}
+#/bin/mkdir baseline
+#/bin/mv application-db* baseline
 /bin/rm -r .git
 /usr/bin/git init
 /usr/bin/git config --global --add safe.directory ${HOME}/backups
