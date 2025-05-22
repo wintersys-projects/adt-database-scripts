@@ -25,10 +25,12 @@
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
+
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
 sql_command="$1"
 raw="$2"
+override_db="${3}"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
@@ -44,7 +46,11 @@ fi
 
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
-	DB_N="defaultdb"
+	if ( [ "${override_db}" != "" ] )
+ 	then
+		DB_N="defaultdb"
+  	fi
+   
  	sql_command=""
   	if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
    	then
