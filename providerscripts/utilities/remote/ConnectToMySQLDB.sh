@@ -35,7 +35,8 @@ else
 fi
 
 sql_command="$1"
-raw="$2"        
+raw="$2"  
+override_db="$3"
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
@@ -43,7 +44,10 @@ DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
-	DB_N=""
+	if ( [ "${override_db}" != "" ] )
+ 	then
+		DB_N="${override_db}"
+  	fi
  	sql_command=""
   	if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
    	then
