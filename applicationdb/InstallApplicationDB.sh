@@ -70,108 +70,32 @@ then
         BUILD_ARCHIVE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
 fi
 
-#if ( [ -d ${HOME}/installer ] )
-#then
-#        /bin/rm -r ${HOME}/installer/*
-#fi
-
-if ( [ ! -d ${HOME}/installer/${BUILD_ARCHIVE_CHOICE} ] )
+if ( [ ! -d ${HOME}/backups/installDB ] )
 then
-        /bin/mkdir -p ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}
-fi
-
-while ( [ "`/bin/ls ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/ | /usr/bin/wc -l 2>/dev/null`" -lt "1" ] && [ ! -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
-do
-        if ( [ -f ${HOME}/installer/.git ] )
-        then
-                /bin/rm -r ${HOME}/installer/.git
-                /bin/rm -r ${HOME}/installer/.git*
-        fi
-    
-        if ( [ -d ${HOME}/installer ] )
-        then
-                /bin/rm -r ${HOME}/installer/*
-        fi
-    
-        cd ${HOME}/installer
-
-        #We don't do anything if we are a virgin, but, if we are a baseline then clone the database archvive and prepare it in the installer directory
-        if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
-        then
-                ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" .
-                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db-?? > ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db
-                /bin/mv ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db-00
-        elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
-        then
-                #if we are here then we are a temporal backup so get the database archive fron the datastore and prepare it
-                if ( [ ! -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-* ] )
-                then
-                        ${HOME}/providerscripts/datastore/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
-                elif ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-00 ] )
-                then
-                        /bin/mv ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-00 ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
-                fi
-       
-                if ( [ -f  ${HOME}/installer/${WEBSITE_NAME}-DB-backup.tar.gz ] && [ ! -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
-                then
-                        /bin/mv ${HOME}/installer/${WEBSITE_NAME}-DB-backup.tar.gz ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
-                fi
-                if ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-* ] )
-                then
-                        /bin/rm ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db-*
-                fi
-        fi
-done
-
-/bin/mkdir -p ${HOME}/backups/installDB/
-
-#If we are virgin, do nothing otherwise extract the archive so we can "get at" the actual SQL that is going to populate our database
-if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
-then
-        if ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db* ] )
-        then
-                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/application-db* > ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
-        fi
-
-        if ( [ "`/bin/ls ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz | /usr/bin/wc -l`" = "1" ] )
-        then
-                /bin/tar xvfz ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
-                /bin/mv ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz  ${HOME}/backups/installDB/latestDB.tar.gz
-        fi
-elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
-then
-        if ( [ -f ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* ] )
-        then
-                /bin/cat ${HOME}/installer/${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-db* > ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
-        fi
-
-        if ( [ -f ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz ] )
-        then
-                /bin/tar xvfz ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz
-                /bin/mv ${HOME}/installer/${WEBSITE_NAME}-DB-full.tar.gz  ${HOME}/backups/installDB/latestDB.tar.gz
-        fi
+        /bin/mkdir -p ${HOME}/backups/installDB
+else
+        /bin/rm -r ${HOME}/backups/installDB/*
 fi
 
 cd ${HOME}/backups/installDB
 
-if ( [ "`/bin/ls ${HOME}/backups/installDB/latestDB.tar.gz`" != "" ] )
+if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
-        /bin/tar xvfz latestDB.tar.gz
-        /bin/mv application* ${WEBSITE_NAME}DB.sql
-        if ( [ "`/bin/cat ${WEBSITE_NAME}DB.sql | /bin/wc -l`" -lt "10" ] && [ "`/bin/grep 'zzzz' ${WEBSITE_NAME}DB.sql`" = "" ] )
+        ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" 
+        /bin/mv ${HOME}/backups/installDB/*baseline*/applicationDB.sql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+        /bin/rm -r ${HOME}/backups/installDB/*baseline*
+        if ( [ ! -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] || [ "`/bin/cat ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /bin/wc -l`" -lt "10" ] || [ "`/bin/grep 'zzzz' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql`" = "" ] )
         then
-                /bin/echo "Counldn't find a suitable database file. having to exit... The END"
+                /bin/echo "Counldn't find a suitable database file. have got to die"
                 ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database dump file to install" "ERROR"
                 exit
         fi
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
-        ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database dump file to install" "ERROR"
-        exit
-fi
+        ${HOME}/providerscripts/datastore/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
+done
 
 cd ${HOME}
-/bin/rm -r ${HOME}/installer
 
 #Apply the application branding that we need for this deployment and then install the archive we have obtained as our database 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
