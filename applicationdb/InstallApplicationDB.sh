@@ -84,15 +84,25 @@ then
         ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" 
         /bin/mv ${HOME}/backups/installDB/*baseline*/applicationDB.sql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
         /bin/rm -r ${HOME}/backups/installDB/*baseline*
-        if ( [ ! -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] || [ "`/bin/cat ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /bin/wc -l`" -lt "10" ] || [ "`/bin/grep 'zzzz' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql`" = "" ] )
-        then
-                /bin/echo "Counldn't find a suitable database file. have got to die"
-                ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database dump file to install" "ERROR"
-                exit
-        fi
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
         ${HOME}/providerscripts/datastore/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
+        if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}-DB-backup.tar.gz ] )
+        then
+                /bin/tar xvfz ${HOME}/backups/installDB/${WEBSITE_NAME}-DB-backup.tar.gz -C ${HOME}/backups/installDB
+                /bin/rm ${HOME}/backups/installDB/${WEBSITE_NAME}-DB-backup.tar.gz
+        fi
+        if ( [ -f ${HOME}/backups/installDB/applicationDB.sql ] )
+        then
+                /bin/mv ${HOME}/backups/installDB/applicationDB.sql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+        fi
+fi
+
+if ( [ ! -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] || [ "`/bin/cat ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /bin/wc -l`" -lt "10" ] || [ "`/bin/grep 'zzzz' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql`" = "" ] )
+then
+        /bin/echo "Counldn't find a suitable database file. have got to die"
+        ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database dump file to install" "ERROR"
+        exit
 fi
 
 cd ${HOME}
