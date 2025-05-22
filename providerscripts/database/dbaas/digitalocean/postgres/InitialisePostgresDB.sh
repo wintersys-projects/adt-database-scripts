@@ -65,8 +65,8 @@ fi
 /bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.psql
 /bin/sed -i "s/XXXXDB_PXXXX/${DB_P2}/g" ${HOME}/runtime/postgres-init/initialiseDB-user.psql
 
-${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB-user.psql
-${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" < ${HOME}/runtime/postgres-init/initialiseDB.psql
+${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" "notraw" "defaultdb" < ${HOME}/runtime/postgres-init/initialiseDB-user.psql
+${HOME}/providerscripts/utilities/remote/ConnectToPostgresDB.sh "dbaas-init" "notraw" "defaultdb" < ${HOME}/runtime/postgres-init/initialiseDB.psql
 
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P2}"   
