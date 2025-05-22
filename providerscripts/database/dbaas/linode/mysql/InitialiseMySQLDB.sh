@@ -65,8 +65,8 @@ fi
 /bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/sed -i "s/XXXXDB_PXXXX/${DB_P2}/g" ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 
-${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
-${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init" < ${HOME}/runtime/mysql-init/initialiseDB.sql
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init"  "notraw" "" < ${HOME}/runtime/mysql-init/initialiseDB-user.sql
+${HOME}/providerscripts/utilities/remote/ConnectToMySQLDB.sh "dbaas-init"  "notraw" "" < ${HOME}/runtime/mysql-init/initialiseDB.sql
 
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U2}"       
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P2}"       
