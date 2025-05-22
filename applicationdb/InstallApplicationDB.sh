@@ -93,7 +93,7 @@ then
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
         ${HOME}/providerscripts/datastore/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
-done
+fi
 
 cd ${HOME}
 
