@@ -43,15 +43,18 @@ then
         /bin/mkdir -p ${HOME}/logs/backups
 fi
 
-#The log files for the server build are written here...
-log_file="baseline_out_`/bin/date | /bin/sed 's/ //g'`"
-err_file="baseline_err_`/bin/date | /bin/sed 's/ //g'`"
+if ( [ "${1}" != "" ] )
+then
+	#The log files for the server build are written here...
+	log_file="baseline_out_`/bin/date | /bin/sed 's/ //g'`"
+	err_file="baseline_err_`/bin/date | /bin/sed 's/ //g'`"
 
-/bin/echo "Log file is at: ${HOME}/logs/backups/${log_file}"
-/bin/echo "Error file is at: ${HOME}/logs/backups/${err_file}"
+	/bin/echo "Log file is at: ${HOME}/logs/backups/${log_file}"
+	/bin/echo "Error file is at: ${HOME}/logs/backups/${err_file}"
 
-exec 1>>${HOME}/logs/backups/${log_file}
-exec 2>>${HOME}/logs/backups/${err_file}
+	exec 1>>${HOME}/logs/backups/${log_file}
+	exec 2>>${HOME}/logs/backups/${err_file}
+fi
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_DISPLAY_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
@@ -76,7 +79,7 @@ APPLICATION_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/Extra
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
 APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
 APPLICATION_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
-websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
+#websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
 
 if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" != "" ] )
 then
