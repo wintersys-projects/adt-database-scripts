@@ -129,7 +129,7 @@ cd ${HOME}/backups
 
 . ${HOME}/providerscripts/database/PlainDumpDatabase.sh
 
-. ${HOME}/providerscripts/application/branding/RemoveApplicationBranding.sh
+${HOME}/providerscripts/application/branding/RemoveApplicationBranding.sh
 
 #/bin/tar cvfz ${websiteDB} applicationDB.sql
 #/bin/rm applicationDB.sql
