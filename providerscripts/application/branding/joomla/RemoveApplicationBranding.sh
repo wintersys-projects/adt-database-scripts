@@ -32,7 +32,6 @@ WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME}  | /bin/sed 's/_/
 WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 WEBSITE_DISPLAY_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
 IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
-/bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" ${target}
 
 target=""
 
@@ -54,3 +53,4 @@ domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i 
 /bin/sed -i "s/${WEBSITE_DISPLAY_NAME_LOWER}-online/application-online/g" ${target}
 /bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" ${target}
 /bin/sed -i "s/@@mail/@mail/g" ${target}
+/bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" ${target}
