@@ -82,7 +82,17 @@ cd ${HOME}/backups/installDB
 if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
         ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" 
-        /bin/mv ${HOME}/backups/installDB/*baseline*/applicationDB.sql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+        if ( [ -f ${HOME}/backups/installDB/*baseline*/applicationDB.sql ] )
+        then
+                /bin/mv ${HOME}/backups/installDB/*baseline*/applicationDB.sql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+        elif ( [ -f ${HOME}/backups/installDB/*baseline*/applicationDB.psql ] )
+        then
+                /bin/mv ${HOME}/backups/installDB/*baseline*/applicationDB.psql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql
+        else
+                /bin/echo "Counldn't find a suitable database file baseline. Have got to die"
+                ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database file baseline" "ERROR"
+                exit
+        fi
         /bin/rm -r ${HOME}/backups/installDB/*baseline*
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
@@ -95,6 +105,13 @@ then
         if ( [ -f ${HOME}/backups/installDB/applicationDB.sql ] )
         then
                 /bin/mv ${HOME}/backups/installDB/applicationDB.sql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+        elif ( [ -f ${HOME}/backups/installDB/applicationDB.psql ] )
+        then
+                /bin/mv ${HOME}/backups/installDB/applicationDB.psql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql
+        else
+                /bin/echo "Counldn't find a suitable database file backup. Have got to die"
+                ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database file backup" "ERROR"
+                exit
         fi
 fi
 
