@@ -35,24 +35,33 @@ WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
 WEBSITE_DISPLAY_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/cut -d'.' -f2-`"
 
+target=""
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+then
+	target="${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql"
+else
+	target="${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql"
+fi
+
 
 if ( [ "`/bin/ls ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql`" != "" ] )
 then
 	domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`"
-	/bin/sed -i "s/ApplicationDomainSpec/${domainspecifier}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/https:\/\/@/https:\/\//g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/www.applicationdomain.tld/${WEBSITE_URL}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/@applicationdomain.tld/@${ROOT_DOMAIN}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/applicationdomain.tld/${ROOT_DOMAIN}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/http:\/\/mail.applicationdomain.tld/http:\/\/mail.${ROOT_DOMAIN}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/https:\/\/@/https:\/\//g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/The GreatApplication/${WEBSITE_DISPLAY_NAME}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/GreatApplication/${WEBSITE_DISPLAY_NAME}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/GREATAPPLICATION/${WEBSITE_DISPLAY_NAME_UPPER}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/THE GREATAPPLICATION/${WEBSITE_DISPLAY_NAME_UPPER}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/XXX@YYY/${FROM_EMAIL}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/XXXXXXXXXX/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/YYYYYYYYYY/${IP_MASK}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/THE THE/THE/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
-	/bin/sed -i "s/The The/The/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
+	/bin/sed -i "s/ApplicationDomainSpec/${domainspecifier}/g" ${target}
+	/bin/sed -i "s/https:\/\/@/https:\/\//g" ${target}
+	/bin/sed -i "s/www.applicationdomain.tld/${WEBSITE_URL}/g" ${target}
+	/bin/sed -i "s/@applicationdomain.tld/@${ROOT_DOMAIN}/g" ${target}
+	/bin/sed -i "s/applicationdomain.tld/${ROOT_DOMAIN}/g" ${target}
+	/bin/sed -i "s/http:\/\/mail.applicationdomain.tld/http:\/\/mail.${ROOT_DOMAIN}/g" ${target}
+	/bin/sed -i "s/https:\/\/@/https:\/\//g" ${target}
+	/bin/sed -i "s/The GreatApplication/${WEBSITE_DISPLAY_NAME}/g" ${target}
+	/bin/sed -i "s/GreatApplication/${WEBSITE_DISPLAY_NAME}/g" ${target}
+	/bin/sed -i "s/GREATAPPLICATION/${WEBSITE_DISPLAY_NAME_UPPER}/g" ${target}
+	/bin/sed -i "s/THE GREATAPPLICATION/${WEBSITE_DISPLAY_NAME_UPPER}/g" ${target}
+	/bin/sed -i "s/XXX@YYY/${FROM_EMAIL}/g" ${target}
+	/bin/sed -i "s/XXXXXXXXXX/${DB_U}/g" ${target}
+	/bin/sed -i "s/YYYYYYYYYY/${IP_MASK}/g" ${target}
+	/bin/sed -i "s/THE THE/THE/g" ${target}
+	/bin/sed -i "s/The The/The/g" ${target}
 fi
