@@ -115,14 +115,14 @@ then
         fi
 fi
 
-if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] || [ "`/usr/bin/tail -n 1 ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /bin/grep 'zzzz'`" = "" ] )
+if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql ] && [ "`/usr/bin/tail -n 1 ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql | /bin/grep 'zzzz'`" = "" ] )
 then
         /bin/echo "Counldn't find a suitable database file. have got to die"
         ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database dump file to install" "ERROR"
         exit
 fi
 
-if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql ] || [ "`/usr/bin/tail -n 1 ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql | /bin/grep 'zzzz'`" = "" ] )
+if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql ] && [ "`/usr/bin/tail -n 1 ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql | /bin/grep 'zzzz'`" = "" ] )
 then
         /bin/echo "Counldn't find a suitable database file. have got to die"
         ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR" "Couldn't find a suitable database dump file to install" "ERROR"
