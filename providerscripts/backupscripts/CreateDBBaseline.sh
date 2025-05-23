@@ -131,9 +131,6 @@ cd ${HOME}/backups
 
 . ${HOME}/providerscripts/application/branding/RemoveApplicationBranding.sh
 
-IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
-
-/bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.sql
 #/bin/tar cvfz ${websiteDB} applicationDB.sql
 #/bin/rm applicationDB.sql
 #/usr/bin/split -b 10M -d ${websiteDB} "application-db-"
