@@ -33,14 +33,23 @@ WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ 
 WEBSITE_DISPLAY_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/cut -d'.' -f2-`"
 
+target=""
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+then
+	target="applicationDB.sql"
+else
+	target="application.psql"
+fi
+
 domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`"
       
-/bin/sed -i "s/${domainspecifier}/ApplicationDomainSpec/g" applicationDB.sql
-/bin/sed -i "s/${WEBSITE_URL}/www.applicationdomain.tld/g" applicationDB.sql
-/bin/sed -i "s/@${ROOT_DOMAIN}/@applicationdomain.tld/g" applicationDB.sql
-/bin/sed -i "s/${ROOT_DOMAIN}/applicationdomain.tld/g" applicationDB.sql
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME}/GreatApplication/g" applicationDB.sql
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_UPPER}/GREATAPPLICATION/g" applicationDB.sql
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_LOWER}-online/application-online/g" applicationDB.sql
-/bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" applicationDB.sql
-/bin/sed -i "s/@@mail/@mail/g" applicationDB.sql
+/bin/sed -i "s/${domainspecifier}/ApplicationDomainSpec/g" ${target}
+/bin/sed -i "s/${WEBSITE_URL}/www.applicationdomain.tld/g" ${target}
+/bin/sed -i "s/@${ROOT_DOMAIN}/@applicationdomain.tld/g" ${target}
+/bin/sed -i "s/${ROOT_DOMAIN}/applicationdomain.tld/g" ${target}
+/bin/sed -i "s/${WEBSITE_DISPLAY_NAME}/GreatApplication/g" ${target}
+/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_UPPER}/GREATAPPLICATION/g" ${target}
+/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_LOWER}-online/application-online/g" ${target}
+/bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" ${target}
+/bin/sed -i "s/@@mail/@mail/g" ${target}
