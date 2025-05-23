@@ -94,6 +94,6 @@ then
 	then
 		/usr/bin/sudo -su postgres /usr/bin/pg_dump -h ${HOST} -p ${DB_PORT} -d ${DB_N} > applicationDB.psql
 	fi
-	/bin/echo "DROP TABLE IF EXISTS public.zzzz;" >> applicationDB.sql
-	/bin/echo "CREATE TABLE public.zzzz ( idxx serial PRIMARY KEY );" >> applicationDB.sql
+	/bin/echo "DROP TABLE IF EXISTS public.zzzz;" >> applicationDB.psql
+	/bin/echo "CREATE TABLE public.zzzz ( idxx serial PRIMARY KEY );" >> applicationDB.psql
 fi
