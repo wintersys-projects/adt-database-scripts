@@ -37,7 +37,7 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
 	target="applicationDB.sql"
 else
-	target="application.psql"
+	target="applicationDB.psql"
 fi
 
 domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`"
