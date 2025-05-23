@@ -98,22 +98,22 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-	/bin/echo "DROP TABLE zzzz;" > applicationDB.sql
-	export PGPASSWORD="${DB_P}" && /usr/bin/pg_dump -U ${DB_U} -h ${HOST} -p ${DB_PORT} -d ${DB_N} > applicationDB.sql
+	/bin/echo "DROP TABLE zzzz;" > applicationDB.psql
+	export PGPASSWORD="${DB_P}" && /usr/bin/pg_dump -U ${DB_U} -h ${HOST} -p ${DB_PORT} -d ${DB_N} > applicationDB.psql
 
 	if ( [ "$?" != "0" ] )
 	then
-		/usr/bin/sudo -su postgres /usr/bin/pg_dump -h ${HOST} -p ${DB_PORT} -d ${DB_N} > applicationDB.sql
+		/usr/bin/sudo -su postgres /usr/bin/pg_dump -h ${HOST} -p ${DB_PORT} -d ${DB_N} > applicationDB.psql
 	fi
     
-	/bin/echo "DROP TABLE IF EXISTS public.zzzz;" >> applicationDB.sql
-	/bin/echo "CREATE TABLE public.zzzz ( idxx serial PRIMARY KEY );" >> applicationDB.sql
-	/bin/sed -i -- 's/http:\/\//https:\/\//g' applicationDB.sql
-	/bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" applicationDB.sql
+	/bin/echo "DROP TABLE IF EXISTS public.zzzz;" >> applicationDB.psql
+	/bin/echo "CREATE TABLE public.zzzz ( idxx serial PRIMARY KEY );" >> applicationDB.psql
+	/bin/sed -i -- 's/http:\/\//https:\/\//g' applicationDB.psql
+	/bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" applicationDB.psql
 	IP_MASK="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
-	/bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.sql
+	/bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" applicationDB.psql
 	/bin/echo "${0} `/bin/date`: replaced all http with https in the SQL file" 
 	/bin/echo "${0} `/bin/date`: Taring the database dump"
-	/bin/tar cvfz ${websiteDB} applicationDB.sql
-	/bin/rm applicationDB.sql
+	/bin/tar cvfz ${websiteDB} applicationDB.psql
+	/bin/rm applicationDB.psql
 fi
