@@ -25,7 +25,6 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 IP_MASK="`${HOME}/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 FROM_EMAIL="`${HOME}/utilities/config/ExtractConfigValue.sh 'EMAILUSERNAME'`"
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
