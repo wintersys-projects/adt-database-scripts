@@ -29,9 +29,9 @@ HOME="`/bin/cat /home/homedir.dat`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/cut -d'.' -f2-`"
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME}  | /bin/sed 's/_/ /g' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
-WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-WEBSITE_DISPLAY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
+WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITENAME' | /bin/sed 's/_/ /g'`"
+WEBSITE_NAME_UPPER="`/bin/echo ${WEBSITE_NAME}  | /bin/sed 's/_/ /g' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
+WEBSITE_NAME_LOWER="`/bin/echo ${WEBSITE_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 IP_MASK="`${HOME}/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 
 target=""
@@ -49,9 +49,9 @@ domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i 
 /bin/sed -i "s/${WEBSITE_URL}/www.applicationdomain.tld/g" ${target}
 /bin/sed -i "s/@${ROOT_DOMAIN}/@applicationdomain.tld/g" ${target}
 /bin/sed -i "s/${ROOT_DOMAIN}/applicationdomain.tld/g" ${target}
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME}/GreatApplication/g" ${target}
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_UPPER}/GREATAPPLICATION/g" ${target}
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_LOWER}-online/application-online/g" ${target}
+/bin/sed -i "s/${WEBSITE_NAME}/GreatApplication/g" ${target}
+/bin/sed -i "s/${WEBSITE_NAME_UPPER}/GREATAPPLICATION/g" ${target}
+/bin/sed -i "s/${WEBSITE_NAME_LOWER}-online/application-online/g" ${target}
 /bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" ${target}
 /bin/sed -i "s/@@mail/@mail/g" ${target}
 /bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" ${target}
