@@ -29,10 +29,10 @@ WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 IP_MASK="`${HOME}/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 FROM_EMAIL="`${HOME}/utilities/config/ExtractConfigValue.sh 'EMAILUSERNAME'`"
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME}  | /bin/sed 's/_/ /g' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
-WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
-WEBSITE_DISPLAY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITENAME' | /bin/sed 's/_/ /g'`"
+WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITENAME' | /bin/sed 's/_/ /g'`"
+WEBSITE_NAME_UPPER="`/bin/echo ${WEBSITE_NAME}  | /bin/sed 's/_/ /g' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
+WEBSITE_NAME_LOWER="`/bin/echo ${WEBSITE_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/cut -d'.' -f2-`"
 
 target=""
@@ -55,10 +55,10 @@ then
 	/bin/sed -i "s/applicationdomain.tld/${ROOT_DOMAIN}/g" ${target}
 	/bin/sed -i "s/http:\/\/mail.applicationdomain.tld/http:\/\/mail.${ROOT_DOMAIN}/g" ${target}
 	/bin/sed -i "s/https:\/\/@/https:\/\//g" ${target}
-	/bin/sed -i "s/The GreatApplication/${WEBSITE_DISPLAY_NAME}/g" ${target}
-	/bin/sed -i "s/GreatApplication/${WEBSITE_DISPLAY_NAME}/g" ${target}
-	/bin/sed -i "s/GREATAPPLICATION/${WEBSITE_DISPLAY_NAME_UPPER}/g" ${target}
-	/bin/sed -i "s/THE GREATAPPLICATION/${WEBSITE_DISPLAY_NAME_UPPER}/g" ${target}
+	/bin/sed -i "s/The GreatApplication/${WEBSITE_NAME}/g" ${target}
+	/bin/sed -i "s/GreatApplication/${WEBSITE_NAME}/g" ${target}
+	/bin/sed -i "s/GREATAPPLICATION/${WEBSITE_NAME_UPPER}/g" ${target}
+	/bin/sed -i "s/THE GREATAPPLICATION/${WEBSITE_NAME_UPPER}/g" ${target}
 	/bin/sed -i "s/XXX@YYY/${FROM_EMAIL}/g" ${target}
 	/bin/sed -i "s/XXXXXXXXXX/${DB_U}/g" ${target}
 	/bin/sed -i "s/YYYYYYYYYY/${IP_MASK}/g" ${target}
