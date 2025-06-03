@@ -34,7 +34,7 @@ then
 fi
 
 FROM_ADDRESS="`${HOME}/utilities/config/ExtractConfigValue.sh 'SYSTEMFROMEMAILADDRESS'`"
-FROM_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITENAME | /usr/bin/sed 's/_//g''`"
+FROM_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME | /usr/bin/sed 's/_//g''`"
 TO_ADDRESS="`${HOME}/utilities/config/ExtractConfigValue.sh 'SYSTEMTOEMAILADDRESS'`"
 
 if ( [ "${to_address}" != "" ] )
