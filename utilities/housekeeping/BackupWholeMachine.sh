@@ -31,16 +31,6 @@ SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
 machine_type="database"
 
-if ( [ ! -d /home/backup ] )
-then
-        /bin/mkdir /home/backup
-fi
-
-/bin/cp -r ${HOME}/* /home/backup
-
-/bin/rm /home/backup/runtime/webserver_configuration_settings.dat
-/bin/rm /home/backup/runtime/buildstyles.dat
-
 backup_bucket="`/bin/echo "${WEBSITE_URL}"-whole-machine-backup | /bin/sed 's/\./-/g'`-${machine_type}"
 
 ${HOME}/providerscripts/datastore/MountDatastore.sh ${backup_bucket}
