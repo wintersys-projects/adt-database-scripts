@@ -76,7 +76,7 @@ then
         if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
         then    
                 /bin/echo "${0} Installing bespoke application"
-                ${HOME}/application/db/InstallApplicationDB.sh 
+                ${HOME}/application/db/InstallApplicationDB.sh &
         fi
 fi
 
