@@ -26,19 +26,7 @@ SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
-machine_type=""
-
-if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" ] )
-then
-        machine_type="proxy"
-elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" ] )
-then
-        machine_type="webserver"
-elif ( [ "`/usr/bin/hostname | /bin/grep '^auth-'`" ] )
-then
-        machine_type="authenticator"
-fi
-
+machine_type="database"
 
 backup_bucket="`/bin/echo "${WEBSITE_URL}"-whole-machine-backup | /bin/sed 's/\./-/g'`-${machine_type}"
 
