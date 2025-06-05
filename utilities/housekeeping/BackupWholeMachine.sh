@@ -85,4 +85,8 @@ cd /home/${SERVER_USER}/runtime
 /usr/bin/tar -cvp -f /tmp/dump/runtime.tar  --exclude="*webserver_configuration_settings.dat*" --exclude="buildstyles.dat" .
 ${HOME}/providerscripts/datastore/PutToDatastore.sh /tmp/dump/runtime.tar  ${backup_bucket}
 
+/bin/echo "MACHINE:${SERVER_USER}:::${SERVER_USER_PASSWORD}" > /tmp/dump/credentials.dat
+/bin/echo "DATABASE:"
+${HOME}/providerscripts/datastore/PutToDatastore.sh /tmp/dump/credentials.dat  ${backup_bucket}
+
 /bin/rm -r /tmp/dump
