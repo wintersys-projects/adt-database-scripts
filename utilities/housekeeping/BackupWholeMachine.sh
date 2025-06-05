@@ -85,6 +85,12 @@ cd /home/${SERVER_USER}/runtime
 /usr/bin/tar -cvp -f /tmp/dump/runtime.tar  --exclude="*webserver_configuration_settings.dat*" --exclude="buildstyles.dat" .
 ${HOME}/providerscripts/datastore/PutToDatastore.sh /tmp/dump/runtime.tar  ${backup_bucket}
 
+backup_bucket="`/bin/echo "${WEBSITE_URL}"-whole-machine-backup | /bin/sed 's/\./-/g'`-crendentials"
+
+${HOME}/providerscripts/datastore/MountDatastore.sh ${backup_bucket}
+
+${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${backup_bucket}
+
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
