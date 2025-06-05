@@ -58,13 +58,6 @@ do
         /usr/bin/tar -xvf ${archive} --keep-newer-files -C / &
 done
 
-/bin/cat /tmp/dump/*symlink* | while read link target
-do
-        /usr/bin/ln -s ${target} ${link}
-done
-
-/bin/rm /tmp/dump/*symlink*
-
 /usr/bin/tar -xvf /tmp/dump/*runtime* -C ${HOME}/runtime
 
 /usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
