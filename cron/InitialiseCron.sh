@@ -19,6 +19,11 @@
 #####################################################################################
 #Setup crontab
 
+if ( [ -f /var/spool/cron/crontabs/root ] )
+then
+        /bin/rm /var/spool/cron/crontabs/root
+fi
+
 /bin/echo "MAILTO=''" > /var/spool/cron/crontabs/root
 HOME="`/bin/cat /home/homedir.dat`"
 
