@@ -44,14 +44,6 @@ else
         /bin/rm -r /tmp/dump/*
 fi
 
-links=`/usr/bin/find / -type l`
-
-for link in ${links}
-do
-        target="`/usr/bin/readlink -f ${link}`"
-        /bin/echo "${link} ${target}" >> /tmp/dump/symlinks-backup
-done
-
 excludes="dev proc sys tmp run mnt media lost+found"
 
 includes="`/usr/bin/ls /`"
