@@ -37,7 +37,7 @@ else
         /bin/rm -r /tmp/dump/* 2>/dev/null
 fi
 
-archives="`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_bucket}`"
+archives="`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_bucket}/backup*`"
 
 for archive in ${archives}
 do
