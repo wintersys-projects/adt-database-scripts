@@ -160,8 +160,5 @@ then
    		archive_name="autoscaler"
 	fi
 
-	SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
-	SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
-
-	/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_backup.tar.gz --exclude="${archive_name)_backup.tar.gz" --exclude='dev/*' --exclude='proc/*' --exclude='sys/*' --exclude='tmp/*' --exclude='run/*' --exclude='mnt/*' --exclude='media/*' --exclude='lost+found/*' / &
+	/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_backup.tar.gz --exclude="${archive_name}_backup.tar.gz" --exclude='dev/*' --exclude='proc/*' --exclude='sys/*' --exclude='tmp/*' --exclude='run/*' --exclude='mnt/*' --exclude='media/*' --exclude='lost+found/*' / &
 fi
