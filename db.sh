@@ -161,4 +161,14 @@ then
 	fi
 
 	/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_backup.tar.gz --exclude="${archive_name}_backup.tar.gz" --exclude='dev/*' --exclude='proc/*' --exclude='sys/*' --exclude='tmp/*' --exclude='run/*' --exclude='mnt/*' --exclude='media/*' --exclude='lost+found/*' / &
+
+	DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+	DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
+	DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+
+ 	/bin/echo "DATABASE_USERNAME:${DB_U}" > ${HOME}/machinedump/credentials.dat
+   	/bin/echo "DATABASE_NAME:${DB_N}" >> ${HOME}/machinedump/credentials.dat
+       	/bin/echo "DATABASE_PASSWORD:${DB_P}" >> ${HOME}/machinedump/credentials.dat
+
+  
 fi
