@@ -160,7 +160,7 @@ then
    		archive_name="database"
 	fi
 
-	/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_backup.tar.gz --exclude="${archive_name}_backup.tar.gz"  --exclude="${HOME}/.ssh/*" --exclude="${HOME}/runtime/database_configuration.dat" --exclude="${HOME}/runtime/buildstyles.dat" --exclude='dev/*' --exclude='proc/*' --exclude='sys/*' --exclude='tmp/*' --exclude='run/*' --exclude='mnt/*' --exclude='media/*' --exclude='lost+found/*' / &
+	/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_backup.tar.gz --exclude="${archive_name}_backup.tar.gz"  --exclude="${HOME}" --exclude='dev/*' --exclude='proc/*' --exclude='sys/*' --exclude='tmp/*' --exclude='run/*' --exclude='mnt/*' --exclude='media/*' --exclude='lost+found/*' / &
 
 	DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 	DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
