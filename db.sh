@@ -155,9 +155,9 @@ then
   		/bin/mkdir ${HOME}/machinedump
 	fi
 
- 	if ( [ "`/usr/bin/hostname | /bin/grep '^db-'`" != "" ] )
+ 	if ( [ "`/usr/bin/hostname | /bin/grep '\-db-'`" != "" ] )
   	then
-   		archive_name="autoscaler"
+   		archive_name="database"
 	fi
 
 	/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_backup.tar.gz --exclude="${archive_name}_backup.tar.gz" --exclude='dev/*' --exclude='proc/*' --exclude='sys/*' --exclude='tmp/*' --exclude='run/*' --exclude='mnt/*' --exclude='media/*' --exclude='lost+found/*' / &
