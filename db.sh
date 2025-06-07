@@ -166,9 +166,8 @@ then
 	DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 	DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 
- 	/bin/echo "DATABASE_USERNAME:${DB_U}" > ${HOME}/machinedump/credentials.dat
-   	/bin/echo "DATABASE_NAME:${DB_N}" >> ${HOME}/machinedump/credentials.dat
-       	/bin/echo "DATABASE_PASSWORD:${DB_P}" >> ${HOME}/machinedump/credentials.dat
+	/bin/echo "DATABASE_USERNAME:${DB_U}" > ${HOME}/machinedump/credentials.dat
+	/bin/echo "DATABASE_NAME:${DB_N}" >> ${HOME}/machinedump/credentials.dat
+	/bin/echo "DATABASE_PASSWORD:${DB_P}" >> ${HOME}/machinedump/credentials.dat
 
-  
 fi
