@@ -155,7 +155,7 @@ then
   		/bin/mkdir ${HOME}/machinedump
 	fi
 
- 	if ( [ "`/usr/bin/hostname | /bin/grep '\-db-'`" != "" ] )
+ 	if ( [ "`/usr/bin/hostname | /bin/grep 'db-'`" != "" ] )
   	then
    		archive_name="database"
 	fi
