@@ -139,8 +139,6 @@ ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUI
 
 ${HOME}/utilities/security/EnforcePermissions.sh
 
-GENERATE_WHOLE_MACHINE_DUMP="1"
-
 /bin/echo "${0} Updating Software"
 if ( [ "${GENERATE_WHOLE_MACHINE_DUMP}" = "0" ] )
 then
