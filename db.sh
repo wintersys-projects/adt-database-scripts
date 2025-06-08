@@ -27,6 +27,8 @@ USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
 /bin/chmod 644 /home/${USER_HOME}/.bashrc
 /bin/chown ${USER_HOME}:root /home/${USER_HOME}/.bashrc
 
+SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+
 /bin/echo "set mouse=r" > /root/.vimrc
 
 #Set the intialial permissions for the build
