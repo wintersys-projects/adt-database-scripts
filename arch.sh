@@ -86,6 +86,10 @@ BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BA
 ${HOME}/providerscripts/database/InitialiseDatabase.sh
 
 BYPASS_DB_LAYER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
+
+if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
+then
+	/bin/rm ${HOME}/runtime/DB_APPLICATION_INSTALLED
 if ( [ "${BYPASS_DB_LAYER}" != "1" ] )
 then
 	#...and install the application
