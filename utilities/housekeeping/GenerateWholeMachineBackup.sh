@@ -3,6 +3,8 @@ then
   /bin/mkdir ${HOME}/machinedump
 fi
 
+archive_name="database"
+
 count="1"
 /bin/ls /tmp/dusty.$$
  
