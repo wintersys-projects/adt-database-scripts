@@ -106,6 +106,30 @@ then
 	fi
 fi
 
+details=""
+for directory in `/bin/ls /home | /bin/grep "X*X"`
+do
+        details="${details} ${directory}:`/usr/bin/stat -c %Y ${directory}`"
+done
+youngest_record_age="0"
+for record in ${details}
+do
+        age="`/bin/echo ${record} | /usr/bin/awk -F':' '{print $2}'`"
+        if ( [ ${age} -gt ${youngest_record_age} ] )
+        then
+                youngest_record_age="${age}"
+                youngest_record="`/bin/echo ${record} | /usr/bin/awk -F':' '{print $1}'`"
+        fi
+done
+
+for directory in `/bin/ls /home | /bin/grep "X*X"`
+do
+        if ( [ "${directory}" != "${youngest_record}" ] )
+        then
+                /bin/echo "deleting ${directory}" > /home/DELETE
+        fi
+done
+
 
 
 
