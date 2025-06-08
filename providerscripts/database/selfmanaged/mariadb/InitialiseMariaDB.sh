@@ -47,7 +47,7 @@ then
     DB_U="`/bin/grep DATABASE_USERNAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
     DB_P="`/bin/grep DATABASE_PASSWORD /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
     DB_N="`/bin/grep DATABASE_NAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
-    /bin/rm /tmp/original_credentials.dat
+ #   /bin/rm /tmp/original_credentials.dat
 else
     DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
     DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
