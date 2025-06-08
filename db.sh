@@ -80,7 +80,6 @@ BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BA
 GIT_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed 's/#/ /g'`"
 GIT_EMAIL_ADDRESS="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITEMAILADDRESS'`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-GENERATE_WHOLE_MACHINE_DUMP="`${HOME}/utilities/config/ExtractConfigValue.sh 'GENERATEWHOLEMACHINEDUMP'`"
 
 #Initialise Git
 /usr/bin/git config --global user.name "${GIT_USER}"
