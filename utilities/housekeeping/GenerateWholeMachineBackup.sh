@@ -3,11 +3,6 @@ then
   /bin/mkdir ${HOME}/machinedump
 fi
 
-if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
-then
-  archive_name="webserver"
-fi
-
 count="1"
 /bin/ls /tmp/dusty.$$
  
