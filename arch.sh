@@ -72,6 +72,10 @@ exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
 
+/bin/echo "${0} Initialising Datastore"
+${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
+
 MYSQL_USER="mysql"
 MYSQL_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 /usr/sbin/adduser --disabled-password --gecos "" ${MYSQL_USER}
