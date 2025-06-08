@@ -94,6 +94,8 @@ BYPASS_DB_LAYER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'
 if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
 then
 	/bin/rm ${HOME}/runtime/DB_APPLICATION_INSTALLED
+fi
+
 if ( [ "${BYPASS_DB_LAYER}" != "1" ] )
 then
 	#...and install the application
