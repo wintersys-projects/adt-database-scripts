@@ -72,6 +72,8 @@ exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
 
+/bin/echo "${0} Installing Database"
+${HOME}/installscripts/InstallDatabase.sh
 
 BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BASELINEDBREPOSITORY'`"
 
