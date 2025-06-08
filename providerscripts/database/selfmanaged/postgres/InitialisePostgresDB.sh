@@ -28,9 +28,17 @@ IP_MASK="`/bin/echo ${IP_MASK} | /bin/sed 's/%/0/g'`"
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 CLOUDHOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 
-DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
+if ( [ -f /tmp/original_credentials.dat ] )
+then
+    DB_U="`/bin/grep DATABASE_USERNAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
+    DB_P="`/bin/grep DATABASE_PASSWORD /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
+    DB_N="`/bin/grep DATABASE_NAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
+    /bin/rm /tmp/original_credentials.dat
+else
+    DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+    DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+    DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
+fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
