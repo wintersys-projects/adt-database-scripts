@@ -40,6 +40,10 @@ BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ -f /tmp/original_credentials.dat ] )
 then
+    MYSQL_USER="mysql"
+    MYSQL_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
+    /usr/sbin/adduser --disabled-password --gecos "" ${MYSQL_USER}
+    /bin/echo ${MYSQL_USER}:${MYSQL_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd
     DB_U="`/bin/grep DATABASE_USERNAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
     DB_P="`/bin/grep DATABASE_PASSWORD /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
     DB_N="`/bin/grep DATABASE_NAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
