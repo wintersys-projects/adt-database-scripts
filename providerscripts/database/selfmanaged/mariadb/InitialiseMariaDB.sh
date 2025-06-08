@@ -38,21 +38,10 @@ DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 CLOUDHOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-if ( [ -f /tmp/original_credentials.dat ] )
-then
-    MYSQL_USER="mysql"
-    MYSQL_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
-    /usr/sbin/adduser --disabled-password --gecos "" ${MYSQL_USER}
-    /bin/echo ${MYSQL_USER}:${MYSQL_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd
-    DB_U="`/bin/grep DATABASE_USERNAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
-    DB_P="`/bin/grep DATABASE_PASSWORD /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
-    DB_N="`/bin/grep DATABASE_NAME /tmp/original_credentials.dat | /usr/bin/awk -F':' '{print $NF}'`"
- #   /bin/rm /tmp/original_credentials.dat
-else
-    DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-    DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-    DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
-fi
+
+DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 if ( [ ! -d ${HOME}/runtime/mariadb-init ] )
 then
