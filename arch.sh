@@ -19,7 +19,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 #Get ourselves orientated so that we know where our home is
 USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
@@ -109,11 +109,6 @@ fi
 /bin/echo "${0} Initialising crontab"
 ${HOME}/cron/InitialiseCron.sh
 
-cd /home
-while ( [ `/bin/ls -1 X*X | wc -l` -gt 1 ] )
-do
-	/bin/rm -r `/bin/ls -cr1 X*X | /usr/bin/head -1`
-done
 
 
 
