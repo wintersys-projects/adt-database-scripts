@@ -109,28 +109,10 @@ fi
 /bin/echo "${0} Initialising crontab"
 ${HOME}/cron/InitialiseCron.sh
 
-details=""
-for directory in `/bin/ls /home | /bin/grep "X*X"`
+cd /home
+while ( [ `/bin/ls -1 X*X | wc -l` -gt 1 ] )
 do
-        details="${details} ${directory}:`/usr/bin/stat -c %Y /home/${directory}`"
-done
-youngest_record_age="0"
-for record in ${details}
-do
-        age="`/bin/echo ${record} | /usr/bin/awk -F':' '{print $2}'`"
-        if ( [ ${age} -gt ${youngest_record_age} ] )
-        then
-                youngest_record_age="${age}"
-                youngest_record="`/bin/echo ${record} | /usr/bin/awk -F':' '{print $1}'`"
-        fi
-done
-
-for directory in `/bin/ls /home | /bin/grep "X*X"`
-do
-        if ( [ "${directory}" != "${youngest_record}" ] )
-        then
-                /bin/echo "deleting ${directory}" > /home/DELETE
-        fi
+	/bin/rm -r `/bin/ls -cr1 X*X | /usr/bin/head -1`
 done
 
 
