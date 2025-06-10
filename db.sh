@@ -142,46 +142,5 @@ ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUI
 ${HOME}/utilities/security/EnforcePermissions.sh
 
 /bin/echo "${0} Updating Software"
-#if ( [ "${GENERATE_WHOLE_MACHINE_DUMP}" = "0" ] )
-#then
-	${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
-#if ( [ "${GENERATE_WHOLE_MACHINE_DUMP}" = "1" ] )
-#then
-#	${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
- #	/bin/echo "${0} Generating Whole Machine Backup"
-#
-#	if ( [ ! -d ${HOME}/machinedump ] )
- #	then
-  #		/bin/mkdir ${HOME}/machinedump
-#	fi
-#
- #	if ( [ "`/usr/bin/hostname | /bin/grep '^db-'`" != "" ] )
-  #	then
-   #		archive_name="database"
-	#fi
-#
- # 	count="1"
-#	/bin/ls /tmp/dusty.$$
- #
-#	while ( [ "$?" != "0" ] && [ "${count}" -lt "5" ] )
- #	do	
-  #		count="`/usr/bin/expr ${count} + 1`"
-   # 		cd ${HOME}/backups
-    #		/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_runtime.tar.gz . 
-	#	/usr/bin/tar -cvpzf ${HOME}/machinedump/${archive_name}_backup.tar.gz --exclude="${archive_name}_backup.tar.gz" --exclude='dev/*' --exclude='proc/*' --exclude='sys/*' --exclude='tmp/*' --exclude='run/*' --exclude='mnt/*' --exclude='media/*' --exclude='lost+found/*' / 
-#	done
-#
- #	if ( [ "${count}" = "5" ] )
-  #	then
-#		${HOME}/providerscripts/email/SendEmail.sh "FAILED TO GENERATE WHOLE MACHINE BACKUP on the webserver" "It hasn't been possible to generate a whole machine backup on the webserverr machine" "ERROR"
- #  	fi
+${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
-	DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-	DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
-	DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-
-	/bin/echo "DATABASE_USERNAME:${DB_U}" > ${HOME}/machinedump/credentials.dat
-	/bin/echo "DATABASE_NAME:${DB_N}" >> ${HOME}/machinedump/credentials.dat
-	/bin/echo "DATABASE_PASSWORD:${DB_P}" >> ${HOME}/machinedump/credentials.dat
-
-#fi
