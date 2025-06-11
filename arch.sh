@@ -3,7 +3,7 @@
 # Author: Peter Winter
 # Date  : 10/4/2016
 # Description : This script is the main script for building a database server. It is called by "cloud-init" when
-# a new database server is built
+# a new database server is built using a whole machine backup archive
 #################################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
