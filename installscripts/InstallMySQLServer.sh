@@ -61,7 +61,7 @@ then
 			
    			for package in ${packages}
 			do
-        			/usr/bin/yes | /usr/bin/dpkg --purge ${package}
+        			DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg --purge ${package}
 			done
    		fi
   
@@ -94,7 +94,7 @@ then
 			
    			for package in ${packages}
 			do
-        			/usr/bin/yes | /usr/bin/dpkg --purge ${package}
+        			DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg --purge ${package}
 			done
    		fi
   
