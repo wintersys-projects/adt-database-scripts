@@ -61,7 +61,7 @@ then
 			
    			for package in ${packages}
 			do
-        			/usr/bin/dpkg --purge ${package}
+        			/usr/bin/yes | /usr/bin/dpkg --purge ${package}
 			done
    		fi
   
@@ -94,7 +94,7 @@ then
 			
    			for package in ${packages}
 			do
-        			/usr/bin/dpkg --purge ${package}
+        			/usr/bin/yes | /usr/bin/dpkg --purge ${package}
 			done
    		fi
   
