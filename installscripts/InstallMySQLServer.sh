@@ -57,9 +57,9 @@ then
 	then
   		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
    		then
-			packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
-
-			for package in ${packages}
+                        packages="mysql-server mysql-community-server mysql-client mysql-community-client mysql-common  mysql-community-client-core mysql-community-client-plugins"
+			
+   			for package in ${packages}
 			do
         			/usr/bin/dpkg --purge ${package}
 			done
@@ -90,9 +90,9 @@ then
 	then
   		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
    		then
-			packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
-
-			for package in ${packages}
+                        packages="mysql-server mysql-community-server mysql-client mysql-community-client mysql-common  mysql-community-client-core mysql-community-client-plugins"
+			
+   			for package in ${packages}
 			do
         			/usr/bin/dpkg --purge ${package}
 			done
