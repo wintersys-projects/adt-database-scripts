@@ -56,6 +56,7 @@ then
 	  	if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
    		then
 			/bin/rm -r /etc/postgresql-common
+   			/bin/rm -r /usr/share/postgresql-common
 			${purge_command} postgresql*
    		fi
                 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
@@ -79,13 +80,14 @@ then
 		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
    		then
                        /bin/rm -r /etc/postgresql-common
+			/bin/rm -r /usr/share/postgresql-common
 			${purge_command} postgresql*
    		fi
                 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
                 then
                         postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
                         ${install_command} postgresql-common
-                        /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+                        /usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
                         ${install_command} curl ca-certificates
                         /usr/bin/install -d /usr/share/postgresql-common/pgdg
                         /usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
