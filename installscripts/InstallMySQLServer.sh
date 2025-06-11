@@ -34,6 +34,8 @@ else
 fi
 
 BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
+BUILD_FROM_BACKUP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDFROMBACKUP'`"
+
 
 apt=""
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
@@ -48,17 +50,20 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
+
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
+  		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
+   		then
+			packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
 
-		packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
-
-		for package in ${packages}
-		do
-        		/usr/bin/dpkg --purge ${package}
-		done
+			for package in ${packages}
+			do
+        			/usr/bin/dpkg --purge ${package}
+			done
+   		fi
   
  		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
    		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
@@ -83,12 +88,15 @@ then
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
- 		packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
+  		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
+   		then
+			packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
 
-		for package in ${packages}
-		do
-        		/usr/bin/dpkg --purge ${package}
-		done
+			for package in ${packages}
+			do
+        			/usr/bin/dpkg --purge ${package}
+			done
+   		fi
   
   		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
    		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
