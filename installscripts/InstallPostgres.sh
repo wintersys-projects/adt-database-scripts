@@ -32,6 +32,8 @@ else
         BUILDOS="${buildos}"
 fi
 
+BUILD_FROM_BACKUP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDFROMBACKUP'`"
+
 apt=""
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
@@ -50,8 +52,11 @@ if ( [ "${apt}" != "" ] )
 then
         #For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
         if ( [ "${BUILDOS}" = "ubuntu" ] )
-        then    
-		${purge_command} postgresql*
+        then  
+	  	if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
+   		then
+			${purge_command} postgresql*
+   		fi
                 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
                 then
                         postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
@@ -70,6 +75,10 @@ then
   
         if ( [ "${BUILDOS}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
         then  
+		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
+   		then
+			${purge_command} postgresql*
+   		fi
                 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
                 then
                         postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
