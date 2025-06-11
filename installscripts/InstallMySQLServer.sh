@@ -52,6 +52,14 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
+
+		packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
+
+		for package in ${packages}
+		do
+        		/usr/bin/dpkg --purge ${package}
+		done
+  
  		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
    		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 
@@ -75,6 +83,13 @@ then
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
+ 		packages="mysql-community-server mysql-community-client mysql-client mysql-common mysql-community-client-core mysql-community-client-plugins" 
+
+		for package in ${packages}
+		do
+        		/usr/bin/dpkg --purge ${package}
+		done
+  
   		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
    		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
   		cwd="`/usr/bin/pwd`"
