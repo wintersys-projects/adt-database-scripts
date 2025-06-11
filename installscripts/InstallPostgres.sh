@@ -32,8 +32,8 @@ else
         BUILDOS="${buildos}"
 fi
 
-BUILD_FROM_BACKUP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDFROMBACKUP'`"
-
+#BUILD_FROM_BACKUP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDFROMBACKUP'`"
+BUILD_FROM_BACKUP="0"
 apt=""
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
