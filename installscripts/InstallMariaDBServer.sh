@@ -48,6 +48,8 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 purge_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y purge " 
+auto_remove_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y autoremove " 
+auto_clean_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y autoclean " 
 
 if ( [ "${apt}" != "" ] )
 then
@@ -56,6 +58,8 @@ then
  		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
    		then
 			eval ${purge_command} mariadb-server
+   			eval ${auto_remove_command}
+      			eval ${auto_clean_command}
    		fi
      		
 		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] || [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
@@ -74,9 +78,11 @@ then
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-  		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
+ 		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
    		then
 			eval ${purge_command} mariadb-server
+   			eval ${auto_remove_command}
+      			eval ${auto_clean_command}
    		fi
      
 		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] || [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
