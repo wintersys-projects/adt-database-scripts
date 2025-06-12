@@ -21,8 +21,12 @@
 #######################################################################################################
 #set -x
 
+HOME="`/bin/cat /home/homedir.dat`"
 
-/bin/rm ${HOME}/logs/*
+if ( [ -d ${HOME}/logs ] )
+then
+	/bin/rm ${HOME}/logs/*
+fi
 
 out_file="initialbuild/database-build-out-`/bin/date | /bin/sed 's/ //g'`"
 exec 1>>${HOME}/logs/${out_file}
