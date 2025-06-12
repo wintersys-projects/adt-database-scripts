@@ -7,6 +7,9 @@ USER_NAME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
 
 original_user="`/bin/ls -l /home | /bin/grep "X*X" | /usr/bin/awk '{print $NF}' | /bin/grep -v "${USER_NAME}"`"
 
+/usr/bin/rsync -avrP /home/${original_user} ${HOME} --exclude=".ssh" --include='.*' --ignore-existing 
+
+
 /bin/rm -r /home/${original_user}
 
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
