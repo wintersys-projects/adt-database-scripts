@@ -19,7 +19,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
 /bin/echo 'export HOME="/home/'${USER_HOME}'"' >> /home/${USER_HOME}/.bashrc
@@ -28,6 +28,11 @@ HOME="/home/${USER_HOME}"
 if ( [ -d ${HOME}/logs ] )
 then
 	/bin/rm ${HOME}/logs/*
+fi
+
+if ( [ ! -d ${HOME}/logs//initialbuild ] )
+then
+	/bin/mkdir ${HOME}/logs//initialbuild
 fi
 
 out_file="initialbuild/database-build-out-`/bin/date | /bin/sed 's/ //g'`"
