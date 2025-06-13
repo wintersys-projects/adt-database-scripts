@@ -12,9 +12,9 @@ DB_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 
-/bin/echo "USERNAME: ${DB_USERNAME}" > ${HOME}/machinedump/db_credentials.dat
-/bin/echo "PASSWORD: ${DB_PASSWORD}" >> ${HOME}/machinedump/db_credentials.dat
-/bin/echo "DBNAME: ${DB_NAME}" >> ${HOME}/machinedump/db_credentials.dat
+/bin/echo "USERNAME:${DB_USERNAME}" > ${HOME}/machinedump/db_credentials.dat
+/bin/echo "PASSWORD:${DB_PASSWORD}" >> ${HOME}/machinedump/db_credentials.dat
+/bin/echo "DBNAME:${DB_NAME}" >> ${HOME}/machinedump/db_credentials.dat
 
 count="1"
 success="0"
