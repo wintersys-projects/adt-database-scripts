@@ -45,15 +45,15 @@ MYSQL_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSW
 /usr/sbin/adduser --disabled-password --gecos "" ${MYSQL_USER}
 /bin/echo ${MYSQL_USER}:${MYSQL_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd
 
-#/bin/echo "${0} Installing Database"
-#${HOME}/installscripts/InstallDatabase.sh
+/bin/echo "${0} Installing Database"
+${HOME}/installscripts/InstallDatabase.sh
 
-#BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BASELINEDBREPOSITORY'`"
+BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BASELINEDBREPOSITORY'`"
 
-#/bin/echo "${0} Initialising Database"
-#${HOME}/providerscripts/database/InitialiseDatabase.sh
+/bin/echo "${0} Initialising Database"
+${HOME}/providerscripts/database/InitialiseDatabase.sh
 
-#BYPASS_DB_LAYER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
+BYPASS_DB_LAYER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
 
 if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
 then
