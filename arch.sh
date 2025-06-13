@@ -45,6 +45,11 @@ MYSQL_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSW
 /usr/sbin/adduser --disabled-password --gecos "" ${MYSQL_USER}
 /bin/echo ${MYSQL_USER}:${MYSQL_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd
 
+
+${HOME}/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/utilities/processing/GetIP.sh | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`.%.%"
+${HOME}/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/utilities/processing/GetIP.sh`"
+${HOME}/utilities/config/StoreConfigValue.sh 'MYPUBLICIP' "`${HOME}/utilities/processing/GetPublicIP.sh`"
+
 /bin/echo "${0} Installing Database"
 ${HOME}/installscripts/InstallDatabase.sh
 
