@@ -136,42 +136,18 @@ cd ${HOME}
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
         ${HOME}/application/branding/ApplyApplicationBranding.sh
-        count="1" 
-        while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
-        do
-                #Install the application db into a maria database
-                ${HOME}/application/db/maria/InstallApplicationDB.sh
-                count="`/usr/bin/expr ${count} + 1`"
-        done
 fi
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
         ${HOME}/application/branding/ApplyApplicationBranding.sh
-        count="1" 
-        while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
-        do
-                #Install the application db into a MySQL database
-                ${HOME}/application/db/mysql/InstallApplicationDB.sh
-                count="`/usr/bin/expr ${count} + 1`"
-        done
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
         ${HOME}/application/branding/ApplyApplicationBranding.sh
-        count="1" 
-        while ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] && [ "${count}" -lt "5" ] )
-        do
-                #Install the application db into a Postgres database
-                ${HOME}/application/db/postgres/InstallApplicationDB.sh
-                count="`/usr/bin/expr ${count} + 1`"
-        done
 fi
 
-if ( [ "${count}" = "5" ] )
-then
-        ${HOME}/providerscripts/email/SendEmail.sh "POTENTIAL DATABASE INSTALLATION FAILURE" "Might have failed to install a new application in your database please double check" "ERROR"
-fi
+${HOME}/application/db/postgres/InstallApplicationDB.sh
 
 # We reckon all is good if this file exists
 if ( [ ! -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
