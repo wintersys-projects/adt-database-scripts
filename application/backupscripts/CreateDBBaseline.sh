@@ -36,6 +36,12 @@ else
 	baseline_name="${1}"
 fi
 
+if ( [ "${baseline_name}" = "" ] )
+then
+	/bin/echo "Identifier can't be blank"
+ 	exit
+fi
+
 /bin/echo "Creating baseline of your database"
 
 if ( [ ! -d ${HOME}/logs/backups ] )
