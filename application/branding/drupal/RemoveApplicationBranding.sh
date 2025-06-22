@@ -24,34 +24,39 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
+#set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
-WEBSITE_NAME_UPPER="`/bin/echo ${WEBSITE_NAME}  | /bin/sed 's/_/ /g' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
-WEBSITE_NAME_LOWER="`/bin/echo ${WEBSITE_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/cut -d'.' -f2-`"
+DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+WEBSITE_DISPLAY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
+WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME}  | /bin/sed 's/_/ /g' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
+WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /bin/sed 's/_/ /g' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 IP_MASK="`${HOME}/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 
 target=""
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-	target="applicationDB.sql"
+        target="applicationDB.sql"
 else
-	target="applicationDB.psql"
+        target="applicationDB.psql"
 fi
 
 domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`"
-      
-/bin/sed -i "s/${domainspecifier}/ApplicationDomainSpec/g" ${target}
-/bin/sed -i "s/${WEBSITE_URL}/www.applicationdomain.tld/g" ${target}
-/bin/sed -i "s/@${ROOT_DOMAIN}/@applicationdomain.tld/g" ${target}
-/bin/sed -i "s/${ROOT_DOMAIN}/applicationdomain.tld/g" ${target}
-/bin/sed -i "s/${WEBSITE_NAME}/GreatApplication/g" ${target}
-/bin/sed -i "s/${WEBSITE_NAME_UPPER}/GREATAPPLICATION/g" ${target}
-/bin/sed -i "s/${WEBSITE_NAME_LOWER}-online/application-online/g" ${target}
-/bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" ${target}
-/bin/sed -i "s/@@mail/@mail/g" ${target}
-/bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" ${target}
+
+if ( [ -f ${target} ] )
+then
+        /bin/sed -i "s/${domainspecifier}/ApplicationDomainSpec/g" ${target}
+        /bin/sed -i "s/${WEBSITE_URL}/www.applicationdomain.tld/g" ${target}
+        /bin/sed -i "s/@${ROOT_DOMAIN}/@applicationdomain.tld/g" ${target}
+        /bin/sed -i "s/${ROOT_DOMAIN}/applicationdomain.tld/g" ${target}
+        /bin/sed -i "s/${WEBSITE_DISPLAY_NAME}/GreatApplication/g" ${target}
+        /bin/sed -i "s/${WEBSITE_DISPLAY_NAME_UPPER}/GREATAPPLICATION/g" ${target}
+        /bin/sed -i "s/${WEBSITE_DISPLAY_NAME_LOWER}-online/application-online/g" ${target}
+        /bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" ${target}
+        /bin/sed -i "s/@@mail/@mail/g" ${target}
+        /bin/sed -i "s/${IP_MASK}/YYYYYYYYYY/g" ${target}
+fi
