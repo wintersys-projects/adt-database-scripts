@@ -21,6 +21,7 @@
 #set -x #THIS MUST NOT BE SWITCHED ON DURING NORMAL USE, SCRIPT BREAK
 #####################################################################
 
+export HOME="`/bin/cat /home/homedir.dat`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
