@@ -57,8 +57,6 @@ then
 	${HOME}/utilities/remote/ConnectToPostgres.sh "DROP DATABASE ${DB_N};" 
 fi
 
-
-
 ${HOME}/application/db/InstallApplicationDB.sh 
 
 
