@@ -54,7 +54,7 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-	${HOME}/utilities/remote/ConnectToMyPostgres.sh "drop database ${DB_N}" 
+	${HOME}/utilities/remote/ConnectToPostgres.sh "drop database ${DB_N}" 
 fi
 
 
