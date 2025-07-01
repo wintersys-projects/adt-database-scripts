@@ -42,6 +42,11 @@ DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
+if ( [ "`/bin/echo ${sql_command} | /bin/grep -i 'CREATE DATABASE'`" != "" ] )
+then
+        DB_N=""
+fi
+
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
 	if ( [ "${override_db}" != "" ] )
