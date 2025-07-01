@@ -44,22 +44,30 @@ DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
-	${HOME}/utilities/remote/ConnectToMySQLDB.sh "drop database ${DB_N}" 
+        if ( [ "`${HOME}/utilities/remote/ConnectToMySQLDB.sh "show databases" | /bin/grep "${DB_N}"`" != "" ] )
+        then
+                ${HOME}/utilities/remote/ConnectToMySQLDB.sh "drop database if exists ${DB_N}" 
+        fi
+        ${HOME}/utilities/remote/ConnectToMySQLDB.sh "create database ${DB_N}" 
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-	${HOME}/utilities/remote/ConnectToMySQLDB.sh "drop database ${DB_N}" 
+        if ( [ "`${HOME}/utilities/remote/ConnectToMySQLDB.sh "show databases" | /bin/grep "${DB_N}"`" != "" ] )
+        then
+                ${HOME}/utilities/remote/ConnectToMySQLDB.sh "drop database if exists ${DB_N}" 
+        fi
+        ${HOME}/utilities/remote/ConnectToMySQLDB.sh "create database ${DB_N}" 
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-	${HOME}/utilities/remote/ConnectToPostgres.sh "DROP DATABASE ${DB_N};" 
+        ${HOME}/utilities/remote/ConnectToPostgres.sh "DROP DATABASE ${DB_N};" 
 fi
 
 if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
 then
-	/bin/rm ${HOME}/runtime/DB_APPLICATION_INSTALLED
+        /bin/rm ${HOME}/runtime/DB_APPLICATION_INSTALLED
 fi
 
 ${HOME}/application/db/InstallApplicationDB.sh 
