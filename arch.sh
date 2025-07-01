@@ -42,7 +42,8 @@ exec 2>>${HOME}/logs/${err_file}
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
-	${HOME}/utilities/
+	${HOME}/utilities/remote/ConnectToMySQLDB.sh 'drop database' 
+fi
 
 ${HOME}/application/db/InstallApplicationDB.sh 
 
