@@ -40,25 +40,9 @@ exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
 
-MYSQL_USER="mysql"
-MYSQL_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
-/usr/sbin/adduser --disabled-password --gecos "" ${MYSQL_USER}
-/bin/echo ${MYSQL_USER}:${MYSQL_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd
 
 
-${HOME}/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/utilities/processing/GetIP.sh | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`.%.%"
-${HOME}/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/utilities/processing/GetIP.sh`"
-${HOME}/utilities/config/StoreConfigValue.sh 'MYPUBLICIP' "`${HOME}/utilities/processing/GetPublicIP.sh`"
 
-/bin/echo "${0} Installing Database"
-${HOME}/installscripts/InstallDatabase.sh
-
-BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BASELINEDBREPOSITORY'`"
-
-/bin/echo "${0} Initialising Database"
-${HOME}/providerscripts/database/InitialiseDatabase.sh
-
-BYPASS_DB_LAYER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
 
 if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
 then
