@@ -40,10 +40,19 @@ exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
 
+DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
+
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
-	${HOME}/utilities/remote/ConnectToMySQLDB.sh 'drop database' 
+	${HOME}/utilities/remote/ConnectToMySQLDB.sh "drop database ${DB_N}" 
 fi
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+then
+	${HOME}/utilities/remote/ConnectToMySQLDB.sh "drop database ${DB_N}" 
+fi
+
+
 
 ${HOME}/application/db/InstallApplicationDB.sh 
 
