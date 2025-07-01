@@ -40,11 +40,6 @@ exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
 
+${HOME}/application/db/InstallApplicationDB.sh 
 
 
-
-
-if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
-then
-	/bin/rm ${HOME}/runtime/DB_APPLICATION_INSTALLED
-fi
