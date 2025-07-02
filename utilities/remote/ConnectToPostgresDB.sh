@@ -28,38 +28,43 @@ SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSE
 
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
-sql_command="$1"
-raw="$2"
+sql_command="${1}"
+raw="${2}"
 override_db="${3}"
 
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
+if ( [ "`/bin/echo ${sql_command} | /bin/grep -i 'CREATE DATABASE'`" != "" ] || [ "`/bin/echo ${sql_command} | /bin/grep -i 'DROP DATABASE'`" != "" ] )
+then
+        DB_N="template1"
+fi
+
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-	HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-	HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databaseip/*"`"
-	HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databasepublicip/*"`"
+        HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databaseip/*"`"
+        HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databasepublicip/*"`"
 fi
 
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
-	if ( [ "${override_db}" != "" ] )
- 	then
-		DB_N="${override_db}"
-  	fi
+        if ( [ "${override_db}" != "" ] )
+        then
+                DB_N="${override_db}"
+        fi
    
- 	sql_command=""
-  	if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
-   	then
-      		DB_U="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
-	fi
-   	if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
-   	then
-      		DB_P="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
-	fi
+        sql_command=""
+        if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
+        then
+                DB_U="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
+        fi
+        if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
+        then
+                DB_P="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
+        fi
 fi
 
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
@@ -68,33 +73,33 @@ export PGPASSWORD=${DB_P}
 
 if ( [ "${raw}" != "raw" ] )
 then
-	if ( [ "${sql_command}" != "" ]  )
-	then
-		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		fi
-	else
-		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N}
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N}
-		fi
-	fi
+        if ( [ "${sql_command}" != "" ]  )
+        then
+                /usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+                if ( [ "$?" != "0" ] )
+                then
+                        /usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+                fi
+        else
+                /usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N}
+                if ( [ "$?" != "0" ] )
+                then
+                        /usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N}
+                fi
+        fi
 else
-	if ( [ "${sql_command}" != "" ]  )
-	then
-		/usr/bin/psql -t -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -t -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		fi
-	else
-		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} 
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} 
-		fi
-	fi
+        if ( [ "${sql_command}" != "" ]  )
+        then
+                /usr/bin/psql -t -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+                if ( [ "$?" != "0" ] )
+                then
+                        /usr/bin/psql -t -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
+                fi
+        else
+                /usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} 
+                if ( [ "$?" != "0" ] )
+                then
+                        /usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} 
+                fi
+        fi
 fi
