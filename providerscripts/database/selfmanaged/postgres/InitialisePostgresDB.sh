@@ -78,7 +78,7 @@ then
 
     /bin/sed -i '/128/d' ${postgres_config}
     /bin/sed -i '/template1/d' ${postgres_config}
-    /bin/echo "host       ${DB_N}              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
+    /bin/echo "host       all              ${DB_U}            ${IP_MASK}/16          md5" >> ${postgres_config}
 
     ${HOME}/utilities/processing/RunServiceCommand.sh postgresql restart
 
