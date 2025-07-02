@@ -62,7 +62,8 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-        ${HOME}/utilities/remote/ConnectToPostgres.sh "DROP DATABASE ${DB_N};" 
+        ${HOME}/utilities/remote/ConnectToPostgresDB.sh "DROP DATABASE IF EXISTS ${DB_N};" 
+	${HOME}/utilities/remote/ConnectToPostgresDB.sh "CREATE DATABASE ${DB_N}"
 fi
 
 if ( [ -f ${HOME}/runtime/DB_APPLICATION_INSTALLED ] )
