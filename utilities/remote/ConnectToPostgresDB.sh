@@ -49,6 +49,11 @@ else
         HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "databasepublicip/*"`"
 fi
 
+if ( [ "${HOST}" = "" ] && [ "${HOST2}" = "" ] )
+then
+        HOST="127.0.0.1"
+fi
+
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
         if ( [ "${override_db}" != "" ] )
@@ -68,7 +73,6 @@ then
 fi
 
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-
 export PGPASSWORD=${DB_P}
 
 if ( [ "${raw}" != "raw" ] )
