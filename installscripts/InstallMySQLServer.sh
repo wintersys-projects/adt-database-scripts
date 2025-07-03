@@ -34,7 +34,6 @@ else
 fi
 
 BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
-BUILD_FROM_BACKUP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDFROMBACKUP'`"
 
 
 apt=""
@@ -55,16 +54,6 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-  		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
-   		then
-                        packages="mysql-server mysql-community-server mysql-client mysql-community-client mysql-common  mysql-community-client-core mysql-community-client-plugins"
-			
-   			for package in ${packages}
-			do
-        			DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg --purge ${package}
-			done
-   		fi
-  
  		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
    		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 
@@ -88,16 +77,6 @@ then
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-  		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
-   		then
-                        packages="mysql-server mysql-community-server mysql-client mysql-community-client mysql-common  mysql-community-client-core mysql-community-client-plugins"
-			
-   			for package in ${packages}
-			do
-        			DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg --purge ${package}
-			done
-   		fi
-  
   		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
    		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
   		cwd="`/usr/bin/pwd`"
