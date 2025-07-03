@@ -32,8 +32,6 @@ else
         BUILDOS="${buildos}"
 fi
 
-#BUILD_FROM_BACKUP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDFROMBACKUP'`"
-BUILD_FROM_BACKUP="0"
 apt=""
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
@@ -48,15 +46,6 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 purge_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y purge " 
 
-if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
-then
-	/bin/rm -r /etc/postgresql-common
-	/bin/rm -r /usr/share/postgresql-common
-	/bin/rm -r /usr/lib/postgresql
-	/bin/rm /etc/apt/sources.list.d/pgdg.sources
-	/bin/rm /etc/apt/sources.list.d/pgdg.list*
-	${purge_command} postgresql*
-fi
 
 if ( [ "${apt}" != "" ] )
 then
