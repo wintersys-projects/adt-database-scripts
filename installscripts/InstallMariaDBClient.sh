@@ -52,14 +52,8 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-  		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
-   		then
-			eval ${purge_command} mariadb-client
-   			eval ${auto_remove_command}
-      			eval ${auto_clean_command}
-   		fi
      
-		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] || [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
 			mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"                         
 			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
@@ -68,15 +62,8 @@ then
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-   		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
-   		then
-			eval ${purge_command} mariadb-client
-   			eval ${auto_remove_command}
-      			eval ${auto_clean_command}
-   		fi
-     
-		if ( [ "${BUILD_FROM_BACKUP}" = "1" ] || [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+	then     
+		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
 			mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
 			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
