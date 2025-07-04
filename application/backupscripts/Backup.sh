@@ -34,6 +34,7 @@ fi
 
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+BUILD_ARCHIVCE_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVCECHOICE'`"
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
