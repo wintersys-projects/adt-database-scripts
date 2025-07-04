@@ -141,6 +141,6 @@ ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUI
 
 ${HOME}/utilities/security/EnforcePermissions.sh
 
-/bin/echo "${0} Updating Software"
-${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+#/bin/echo "${0} Updating Software"
+#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
