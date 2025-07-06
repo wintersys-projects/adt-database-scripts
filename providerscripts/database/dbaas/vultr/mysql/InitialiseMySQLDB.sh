@@ -57,6 +57,9 @@ then
     /bin/mkdir -p ${HOME}/runtime/mysql-init
 fi
 
+${HOME}/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U1}"       
+${HOME}/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P1}" 
+
 /bin/cp ${HOME}/providerscripts/database/dbaas/linode/mysql/live/mysql-user.sql ${HOME}/runtime/mysql-init/initialiseDB-user.sql
 /bin/cp ${HOME}/providerscripts/database/dbaas/linode/mysql/live/mysql-db.sql ${HOME}/runtime/mysql-init/initialiseDB.sql
 /bin/sed -i "s/XXXXDB_UXXXX/${DB_U2}/g" ${HOME}/runtime/mysql-init/initialiseDB.sql
