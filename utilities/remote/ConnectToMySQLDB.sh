@@ -49,19 +49,8 @@ fi
 
 if ( [ "${sql_command}" = "dbaas-init" ] )
 then
-	if ( [ "${override_db}" != "" ] )
- 	then
-		DB_N="${override_db}"
-  	fi
- 	sql_command=""
-  	if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
-   	then
-      		DB_U="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
-	fi
-   	if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
-   	then
-      		DB_P="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $1}'`"
-	fi
+        DB_N=""
+        sql_command=""
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
