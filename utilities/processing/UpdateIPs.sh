@@ -31,7 +31,6 @@ publicip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 /bin/touch /tmp/${publicip}
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${publicip} databasepublicip/${publicip} "no"
 
-
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
