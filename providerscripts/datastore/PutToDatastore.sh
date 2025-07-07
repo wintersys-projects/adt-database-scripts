@@ -22,6 +22,7 @@
 
 file_to_put="$1"
 datastore_to_put_in="$2"
+delete="${3}"
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
@@ -30,6 +31,12 @@ elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" =
 then
 	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
 	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} cp "
+fi
+
+if ( [ ! -f ${file_to_put} ] )
+then
+        file_to_put="/tmp/${file_to_put}"
+        /bin/touch ${file_to_put}
 fi
 
 count="0"
