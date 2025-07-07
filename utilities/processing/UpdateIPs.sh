@@ -20,6 +20,9 @@
 ##########################################################################################
 #set -x
 
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+
 localip="`${HOME}/utilities/processing/GetIP.sh`" 
 /bin/touch /tmp/${localip}
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${localip} databaseip/${localip} "no"
