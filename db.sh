@@ -130,6 +130,9 @@ then
 		/bin/echo "${0} Installing bespoke application"
 		${HOME}/application/db/InstallApplicationDB.sh 
 	fi
+elif ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "0" ] )
+then
+	${HOME}/providerscripts/database/dbaas/AdjustCredentialsForRegion.sh
 fi
 
 # Configure the crontab
