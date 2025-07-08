@@ -80,6 +80,8 @@ BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BA
 GIT_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed 's/#/ /g'`"
 GIT_EMAIL_ADDRESS="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITEMAILADDRESS'`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+PRIMARY_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRIMARYREGION'`"
 
 #Initialise Git
 /usr/bin/git config --global user.name "${GIT_USER}"
@@ -116,8 +118,11 @@ then
 	${HOME}/providerscripts/email/SendEmail.sh "A DATABASE DID NOT INSTALL" "The database server ran out of time to install" "ERROR"
 fi
 
-/bin/echo "${0} Initialising Database"
-${HOME}/providerscripts/database/InitialiseDatabase.sh
+if ( [ "${MULTI_REGION}" = "0" ] || ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "1" ] ) )
+then
+	/bin/echo "${0} Initialising Database"
+	${HOME}/providerscripts/database/InitialiseDatabase.sh
+fi
 
 BYPASS_DB_LAYER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
 if ( [ "${BYPASS_DB_LAYER}" != "1" ] )
