@@ -71,4 +71,4 @@ SERVER_TIMEZONE_CITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIM
 #Reload cron
 /usr/bin/crontab /var/spool/cron/crontabs/root
 
-${HOME}/utilities/processing/RunServiceCommand.sh "cron" restart'
+${HOME}/utilities/processing/RunServiceCommand.sh "cron" restart
