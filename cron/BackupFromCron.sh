@@ -24,7 +24,34 @@
 ####################################################################################
 #set -x
 
-period="${1}"
+periodicity="${1}"
 
-${HOME}/application/backupscripts/Backup.sh "${period}" 
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 
+if ( [ "${MULTI_REGION}" = "1" ] )
+then
+  if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh DB_BACKUP_RUNNING`" != "" ] )
+  then
+	  if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh DB_BACKUP_RUNNING`" -gt "300" ] )
+	  then
+		  ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh DB_BACKUP_RUNNING
+	  fi
+  fi
+
+  /bin/sleep "`/usr/bin/shuf -i1-60 -n1`"
+
+  if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh DB_BACKUP_RUNNING`" != "" ] )
+  then
+	  exit
+  else
+	  ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh DB_BACKUP_RUNNING
+  fi
+fi
+
+${HOME}/application/backupscripts/Backup.sh "${periodicity}"
+
+if ( [ "${MULTI_REGION}" = "1" ] )
+then
+  /bin/sleep 300
+  ${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh DB_BACKUP_RUNNING
+fi
