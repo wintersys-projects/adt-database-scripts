@@ -41,6 +41,8 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+cwd="`/usr/bin/pwd`"
+
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
@@ -55,10 +57,12 @@ then
  		then
   			eval ${install_command} python3 python3-dateutil
 			/usr/bin/ln -s /usr/bin/python3 /usr/bin/python
+   			cd /opt
    			/usr/bin/git clone https://github.com/s3tools/s3cmd.git
-			/bin/cp ./s3cmd/s3cmd /usr/bin/s3cmd
-			/bin/cp -r ./s3cmd/S3 /usr/bin/
-			/bin/rm -r ./s3tools
+			/bin/cp /opt/s3cmd/s3cmd /usr/bin/s3cmd
+			/bin/cp -r /opt/s3cmd/S3 /usr/bin/
+			/bin/rm -r /opt/s3tools
+   			cd ${cwd}
 		fi
   	fi
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -70,10 +74,12 @@ then
 		then
   			eval ${install_command} python3 python3-dateutil
 			/usr/bin/ln -s /usr/bin/python3 /usr/bin/python
+   			cd /opt
    			/usr/bin/git clone https://github.com/s3tools/s3cmd.git
-			/bin/cp ./s3cmd/s3cmd /usr/bin/s3cmd
-			/bin/cp -r ./s3cmd/S3 /usr/bin/
-			/bin/rm -r ./s3tools
+			/bin/cp /opt/s3cmd/s3cmd /usr/bin/s3cmd
+			/bin/cp -r /opt/s3cmd/S3 /usr/bin/
+			/bin/rm -r /opt/s3tools
+   			cd ${cwd}
 		fi
 	fi
 fi
