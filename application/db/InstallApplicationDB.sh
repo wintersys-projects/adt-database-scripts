@@ -62,7 +62,6 @@ APPLICATION_REPOSITORY_OWNER="`${HOME}/utilities/config/ExtractConfigValue.sh 'A
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
 APPLICATION_REPOSITORY_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
 BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BASELINEDBREPOSITORY'`"
-BUILD_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDCHOICE'`"
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 
 
