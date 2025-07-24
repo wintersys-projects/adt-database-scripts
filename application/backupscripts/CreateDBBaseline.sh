@@ -25,7 +25,7 @@ DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 
 if ( [ "${1}" = "" ] )
 then
-	/bin/echo "Your application type is set to: `${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
+	/bin/echo "Your application type is set to: `${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 	/bin/echo "Please make very sure this is correct for your application otherwise things will break"
 	/bin/echo "Press <enter> when you are sure"
 	read x
