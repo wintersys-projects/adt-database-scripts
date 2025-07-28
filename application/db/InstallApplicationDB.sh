@@ -81,7 +81,7 @@ cd ${HOME}/backups/installDB
 
 if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
-	${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" 
+	${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} "${BASELINE_DB_REPOSITORY_NAME}" ${APPLICATION_REPOSITORY_PASSWORD}
 	if ( [ -f ${HOME}/backups/installDB/*baseline*/applicationDB.sql ] )
 	then
 		/bin/mv ${HOME}/backups/installDB/*baseline*/applicationDB.sql ${HOME}/backups/installDB/${WEBSITE_NAME}DB.sql
