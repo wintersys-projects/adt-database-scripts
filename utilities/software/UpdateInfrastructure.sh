@@ -22,7 +22,7 @@
 
 cd ${HOME}
 
-if ( [ -d adt-webserver-scripts ] )
+if ( [ -d adt-database-scripts ] )
 then
 	/bin/rm -r adt-database-scripts
 fi
