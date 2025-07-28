@@ -22,11 +22,11 @@
 #set -x
 
 repository_username="${1}"
-repository_password="${2}"
-website_name="${3}"
-period="${4}"
-build_identifier="${5}"
-provider_name="${6}"
+website_name="${2}"
+period="${3}"
+build_identifier="${4}"
+provider_name="${5}"
+repository_password="${6}"
 
 repository_name="${website_name}-db-${period}-${build_identifier}"
 REPOSITORY_PROVIDER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
