@@ -24,7 +24,7 @@ cd ${HOME}
 
 if ( [ -d adt-webserver-scripts ] )
 then
-	/bin/rm -r adt-webserver-scripts
+	/bin/rm -r adt-database-scripts
 fi
 
 INFRASTRUCTURE_REPOSITORY_OWNER="`${HOME}/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
