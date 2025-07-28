@@ -21,9 +21,9 @@
 #set -x
 
 repository_username="${1}"
-repository_password="${2}"
-repository_name="${3}"
-provider_name="${4}"
+repository_name="${2}"
+provider_name="${3}"
+repository_password="${4}"
 
 if ( [ "${provider_name}" = "bitbucket" ] )
 then
