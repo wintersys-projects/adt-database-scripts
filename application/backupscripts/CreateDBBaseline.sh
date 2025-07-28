@@ -88,7 +88,7 @@ APPLICATION_REPOSITORY_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh
 APPLICATION_REPOSITORY_OWNER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
 #websiteDB="${HOME}/backups/${WEBSITE_NAME}-DB-backup".tar.gz
 
-if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" != "" ] )
+if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1 | /bin/grep 'Repository not found'`" != "" ] )
 then
 	if ( [ "${1}" = "" ] )
 	then
@@ -97,8 +97,8 @@ then
 		if ( [ "`/bin/echo "Y y" | /bin/grep ${response}`" != "" ] )
 		then
 			/bin/echo "Creating a new repository"
-			${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PROVIDER}
-			if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
+			${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_PASSWORD}
+			if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
 			then
 				/bin/echo "Repository (${baseline_name}-db-baseline) successfully created"
 				/bin/echo "Press <enter> to continue"
@@ -109,8 +109,8 @@ then
 			fi
 		fi
 	else
-		${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PROVIDER}
-		if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
+		${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_PASSWORD}
+		if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
 		then
 			/bin/echo "Repository (${baseline_name}-db-baseline) successfully created"
 		else
@@ -118,11 +118,11 @@ then
 			exit 1
 		fi
 	fi
-elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1`" = "" ] )
+elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PASSWORD }2>&1`" = "" ] )
 then
 	/bin/echo "Suitable repo (${baseline_name}-db-baseline) found, press <enter> to continue"
 	read x
-elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline 2>&1 | /bin/grep 'HEAD'`" != "" ] )
+elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-db-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1 | /bin/grep 'HEAD'`" != "" ] )
 then
 	/bin/echo "repository (${baseline_name}-db-baseline) found but its not empty. Please either empty the repository or delete it or rename it and allow this script to create a fresh one. Will exit now, please rerun me once this is actioned"
 	exit 1
