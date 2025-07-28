@@ -24,8 +24,8 @@ repository_provider="${1}"
 repository_username="${2}"
 repository_ownername="${3}"
 repository_name="${4}"
-directory="${5}"
-repository_password="${6}"
+repository_password="${5}"
+directory="${6}"
 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
