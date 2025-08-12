@@ -109,12 +109,14 @@ then
 	then
 		if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${BUILD_MACHINE_IP}`" = "" ] )
 		then
-			/usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport ${SSH_PORT} -j ACCEPT
-			/usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p ICMP --icmp-type 8 -j ACCEPT
+            /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+            /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport ${SSH_PORT} -m conntrack --ctstate ESTABLISHED -j ACCEPT
+            /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p ICMP --icmp-type 8 -j ACCEPT
 			updated="1"
 		fi
 	fi
 fi
+
 
 if ( [ "${firewall}" = "ufw" ] )
 then
@@ -129,8 +131,8 @@ elif ( [ "${firewall}" = "iptables" ] )
 then
 	if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${VPC_IP_RANGE}`" = "" ] )
 	then
-		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
-		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${DB_PORT} -j ACCEPT
+    	/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    	/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${DB_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
 		updated="1"
 	fi
