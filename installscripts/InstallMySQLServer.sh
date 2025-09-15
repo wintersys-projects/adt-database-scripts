@@ -57,25 +57,14 @@ then
 		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
 		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 
-		cwd="`/usr/bin/pwd`"
-		cd /opt
 
-		#####https://downloads.mysql.com/archives/get/p/23/file/mysql-server_9.3.0-1ubuntu25.04_amd64.deb-bundle.tar	
-		#When new versions of operating systems get built there's often not version specific packages available which causes us issues
-  		#So if that seems to be the case, we fall back to an earlier version and try that
-		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
-		
-  		if ( [ "$?" != "0" ] )
-  		then
-			if ( [ "${BUILDOS_VERSION}" = "26.04" ] )
-			then
-  				BUILDOS_VERSION="24.04"
-				/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
-	 		fi
-		fi
-		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
+		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar		
+		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
+  		/bin/rm ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		${install_command} libmecab2
+  
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
+  
 		/usr/bin/dpkg -i /opt/mysql-common_*.deb
 		/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
 		/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
@@ -83,8 +72,8 @@ then
 		/usr/bin/dpkg -i /opt/mysql-client_*.deb
 		/usr/bin/dpkg -i /opt/mysql-community-server-core_*.deb
 		/usr/bin/dpkg -i /opt/mysql-community-server_*.deb
-		/usr/bin/dpkg -i /opt/mysql-server_*.deb		
-		cd ${cwd}
+		/usr/bin/dpkg -i /opt/mysql-server_*.deb	
+  
 		/bin/rm /opt/*mysql*
 	fi
 
@@ -93,9 +82,7 @@ then
 		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
         major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 
-        #######  https://downloads.mysql.com/archives/get/p/23/file/mysql-community-client_9.3.0-1debian12_amd64.deb
-        #When new versions of operating systems get built there's often not version specific packages available which causes us issues
-        #So if that seems to be the case, we fall back to an earlier version and try that
+
 
         /usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 
@@ -110,8 +97,19 @@ then
 
         /usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
         /bin/rm ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
-        ${install_command} libmecab2 libnuma1 psmisc libaio-dev libaio1t64
+
+		if ( [ "${BUILDOS_VERSION}" = "13" ] )
+		then
+			${install_command} libaio-dev libaio1t64
+   		elif ( [ "${BUILDOS_VERSION}" = "12" ] )
+	 	then
+			${install_command} libaio1
+   		fi
+	 
+        ${install_command} libmecab2 libnuma1 psmisc 
+		
         DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure /opt/mysql-community-server_*.deb
+		
         /usr/bin/dpkg -i /opt/mysql-common_*.deb
         /usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
         /usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
@@ -120,6 +118,7 @@ then
         /usr/bin/dpkg -i /opt/mysql-community-server-core_*.deb
         /usr/bin/dpkg -i /opt/mysql-community-server_*.deb
         /usr/bin/dpkg -i /opt/mysql-server_*.deb
+		
         /bin/rm /opt/*mysql*
     fi
 fi
