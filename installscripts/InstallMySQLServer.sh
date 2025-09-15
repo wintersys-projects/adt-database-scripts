@@ -82,7 +82,16 @@ then
 		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
         major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 
-
+		if ( [ "${BUILDOS_VERSION}" = "13" ] )
+		then
+  			#workaround until there's versions released of mysql with trixie support when there is comment this and uncomment the below
+    		/usr/bin/wget https://deb.debian.org/debian/pool/main/liba/libaio/libaio1_0.3.113-4_amd64.deb -C /opt
+			${install_command} /opt/libaio1_0.3.113-4_amd64.deb
+			#${install_command} libaio-dev libaio1t64
+   		elif ( [ "${BUILDOS_VERSION}" = "12" ] )
+	 	then
+			${install_command} libaio1
+   		fi
 
         /usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 
@@ -98,13 +107,9 @@ then
         /usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
         /bin/rm ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 
-		if ( [ "${BUILDOS_VERSION}" = "13" ] )
-		then
-			${install_command} libaio-dev libaio1t64
-   		elif ( [ "${BUILDOS_VERSION}" = "12" ] )
-	 	then
-			${install_command} libaio1
-   		fi
+
+
+
 	 
         ${install_command} libmecab2 libnuma1 psmisc 
 		
