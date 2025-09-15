@@ -59,6 +59,8 @@ then
 
 		cwd="`/usr/bin/pwd`"
 		cd /opt
+
+#####https://downloads.mysql.com/archives/get/p/23/file/mysql-server_9.3.0-1ubuntu25.04_amd64.deb-bundle.tar		
 		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		${install_command} libmecab2
@@ -81,6 +83,13 @@ then
 		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 		cwd="`/usr/bin/pwd`"
 		cd /opt
+
+#######  https://downloads.mysql.com/archives/get/p/23/file/mysql-community-client_9.3.0-1debian12_amd64.deb
+		# There's no debian 13 bundles yet so if we are debian 13 we have to make do with debian 12, I will update this as bundles for 13 become available
+  		if ( [ "${BUILDOS_VERSION}" = "12" ] )
+		then
+  			BUILDOS_VERSION="12"
+	 	fi
 		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		${install_command} libmecab2 libaio1 libnuma1 psmisc
