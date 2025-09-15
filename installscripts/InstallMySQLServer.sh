@@ -110,7 +110,7 @@ then
 
         /usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
         /bin/rm ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
-        ${install_command} libmecab2 libnuma1 psmisc libaio1t64
+        ${install_command} libmecab2 libnuma1 psmisc libaio-dev libaio1t64
         DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure /opt/mysql-community-server_*.deb
         /usr/bin/dpkg -i /opt/mysql-common_*.deb
         /usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
