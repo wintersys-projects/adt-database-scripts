@@ -60,8 +60,19 @@ then
 		cwd="`/usr/bin/pwd`"
 		cd /opt
 
-#####https://downloads.mysql.com/archives/get/p/23/file/mysql-server_9.3.0-1ubuntu25.04_amd64.deb-bundle.tar		
+		#####https://downloads.mysql.com/archives/get/p/23/file/mysql-server_9.3.0-1ubuntu25.04_amd64.deb-bundle.tar	
+		#When new versions of operating systems get built there's often not version specific packages available which causes us issues
+  		#So if that seems to be the case, we fall back to an earlier version and try that
 		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
+		
+  		if ( [ "$?" != "0" ] )
+  		then
+			if ( [ "${BUILDOS_VERSION}" = "26.04" ] )
+			then
+  				BUILDOS_VERSION="24.04"
+				/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+	 		fi
+		fi
 		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		${install_command} libmecab2
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
@@ -85,13 +96,21 @@ then
 		cd /opt
 
 #######  https://downloads.mysql.com/archives/get/p/23/file/mysql-community-client_9.3.0-1debian12_amd64.deb
-		# There's no debian 13 bundles yet so if we are debian 13 we have to make do with debian 12, I will update this as bundles for 13 become available
-  		if ( [ "${BUILDOS_VERSION}" = "12" ] )
-		then
-  			BUILDOS_VERSION="12"
-	 	fi
-		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
-		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+		#When new versions of operating systems get built there's often not version specific packages available which causes us issues
+  		#So if that seems to be the case, we fall back to an earlier version and try that
+		
+  		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+		
+  		if ( [ "$?" != "0" ] )
+  		then
+			if ( [ "${BUILDOS_VERSION}" = "13" ] )
+			then
+  				BUILDOS_VERSION="12"
+				/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+	 		fi
+		fi
+  
+  		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 		${install_command} libmecab2 libaio1 libnuma1 psmisc
 		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
 		/usr/bin/dpkg -i /opt/mysql-common_*.deb
