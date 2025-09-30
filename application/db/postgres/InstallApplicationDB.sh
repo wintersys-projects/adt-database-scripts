@@ -42,7 +42,10 @@ then
 	/bin/sed -i "s/XXXXXXXXXX/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql
 	IP_MASK="`${HOME}/utilities/config/ExtractConfigValue.sh 'IPMASK'`"
 	/bin/sed -i "s/YYYYYYYYYY/${IP_MASK}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql
-	olduser="`/bin/grep 'u........u' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql | /bin/sed 's/ /\n/g' | grep '^u........u$' | /usr/bin/head -1`"
+	if ( [ "${olduser}" != "" ] )
+	then
+		olduser="`/bin/grep 'u........u' ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql | /bin/sed 's/ /\n/g' | grep '^u........u$' | /usr/bin/head -1`"
+	fi
 	/bin/sed -i "s/${olduser}/${DB_U}/g" ${HOME}/backups/installDB/${WEBSITE_NAME}DB.psql
 	export PGPASSWORD="${DB_P}"
 
