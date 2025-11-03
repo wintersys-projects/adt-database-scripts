@@ -21,7 +21,7 @@
 ########################################################################################
 #set -x
 
-PushInfrastructureScriptsUpdates.sh
+
 
 commit_message="${1}"
 branch="${2}"
