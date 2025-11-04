@@ -1,9 +1,9 @@
 #!/bin/sh
-#########################################################################################
-# Author: Peter Winter
-# Date  : 04/07/2016
-# Description : This is a script which does a git clone
-#########################################################################################
+##################################################################################
+# Author : Peter Winter
+# Date   : 13/06/2016
+# Description : This script will clone a repository from git
+##################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
-#####################################################################################
-#####################################################################################
+######################################################################################
+######################################################################################
 #set -x
 
 repository_provider="${1}"
@@ -26,55 +26,68 @@ repository_ownername="${3}"
 repository_name="${4}"
 repository_password="${5}"
 
-if ( [ "${repository_provider}" = "bitbucket" ] )
-then
-	if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
+count="0" 
+/bin/ls /tmp/test.$$
+while ( [ $? != "0" ] && [ "${count}" -lt "5" ] )
+do
+	count="`/usr/bin/expr ${count} + 1`"
+	if ( [ "${repository_provider}" = "bitbucket" ] )
 	then
-		/usr/bin/git clone https://bitbucket.org/${repository_ownername}/${repository_name}.git
-	elif ( [ "${repository_password}" = "none" ] )
-	then
-		/usr/bin/git clone https://${repository_username}@bitbucket.org/${repository_ownername}/${repository_name}.git 
-	else
-		if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+		if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
 		then
-			/usr/bin/git clone https://${repository_username}:${repository_password}@bitbucket.org/${repository_ownername}/${repository_name}.git
+			/usr/bin/git clone https://bitbucket.org/${repository_ownername}/${repository_name}.git
 		else
-			/usr/bin/git clone git@bitbucket.org:${repository_ownername}/${repository_name}.git
-		fi	
+			if ( [ "${repository_password}" = "none" ] )
+			then
+				/usr/bin/git clone https://${repository_username}@bitbucket.org/${repository_ownername}/${repository_name}.git
+			else
+				if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+				then
+					/usr/bin/git clone https://${repository_username}:${repository_password}@bitbucket.org/${repository_ownername}/${repository_name}.git
+				else
+					/usr/bin/git clone git@bitbucket.org:${repository_ownername}/${repository_name}.git
+				fi		
+			fi
+		fi
 	fi
-fi
-if ( [ "${repository_provider}" = "github" ] )
-then
-	if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
-	then
-		/usr/bin/git clone https://github.com/${repository_ownername}/${repository_name}.git
-	elif ( [ "${repository_password}" = "none" ] )
-	then
-		/usr/bin/git clone https://${repository_username}@github.com/${repository_ownername}/${repository_name}.git 
-	else
-		if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
-		then
-			/usr/bin/git clone https://${repository_username}:${repository_password}@github.com/${repository_ownername}/${repository_name}.git
-		else
-			/usr/bin/git clone git@github.com:${repository_ownername}/${repository_name}.git
-		fi		
-	fi
-fi
 
-if ( [ "${repository_provider}" = "gitlab" ] )
-then
-	if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
+	if ( [ "${repository_provider}" = "github" ] )
 	then
-		/usr/bin/git clone https://gitlab.com/${repository_ownername}/${repository_name}.git
-	elif ( [ "${repository_password}" = "none" ] )
-	then
-		/usr/bin/git clone https://${repository_username}@gitlab.com/${repository_ownername}/${repository_name}.git 
-	else
-		if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+		if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
 		then
-			/usr/bin/git clone https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git
+			/usr/bin/git clone https://github.com/${repository_ownername}/${repository_name}.git
 		else
-			/usr/bin/git clone git@gitlab.com:${repository_ownername}/${repository_name}.git
-		fi	
+			if ( [ "${repository_password}" = "none" ] )
+			then
+				/usr/bin/git clone https://${repository_username}@github.com/${repository_ownername}/${repository_name}.git
+			else
+				if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+				then
+					/usr/bin/git clone https://${repository_username}:${repository_password}@github.com/${repository_ownername}/${repository_name}.git
+				else
+					/usr/bin/git clone git@github.com:${repository_ownername}/${repository_name}.git
+				fi		
+			fi
+		fi
 	fi
-fi
+
+	if ( [ "${repository_provider}" = "gitlab" ] )
+	then
+		if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
+		then
+			/usr/bin/git clone https://@gitlab.com/${repository_ownername}/${repository_name}.git
+		else
+			if ( [ "${repository_password}" = "none" ] )
+			then
+				/usr/bin/git clone https://${repository_username}@gitlab.com/${repository_ownername}/${repository_name}.git
+			else
+				if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+				then
+					/usr/bin/git clone https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git
+				else
+					/usr/bin/git clone git@gitlab.com:${repository_ownername}/${repository_name}.git
+				fi		
+			fi
+		fi
+	fi
+done
