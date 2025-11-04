@@ -50,7 +50,12 @@ then
 	then
 		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@bitbucket.org/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
 	else
-		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@bitbucket.org/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+		if ( [ "`/bin/echo ${INFRASTRUCTURE_REPOSITORY_PASSWORD} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+		then
+			/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@bitbucket.org/${INFRASTRUCTURE_REPOSITORY_OWNER}/${INFRASTRUCTURE_REPOSITORY_NAME}.git
+		else
+			/usr/bin/git remote add origin git@bitbucket.org:${INFRASTRUCTURE_REPOSITORY_OWNER}/${INFRASTRUCTURE_REPOSITORY_NAME}.git
+		fi
 	fi
 fi
 if ( [ "${repository_provider}" = "github" ] )
@@ -59,7 +64,12 @@ then
 	then
 		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
 	else
-		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+		if ( [ "`/bin/echo ${INFRASTRUCTURE_REPOSITORY_PASSWORD} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+		then
+			/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/${INFRASTRUCTURE_REPOSITORY_NAME}.git
+		else
+			/usr/bin/git remote add origin git@github.com:${INFRASTRUCTURE_REPOSITORY_OWNER}/${INFRASTRUCTURE_REPOSITORY_NAME}.git
+		fi
 	fi
 fi
 if ( [ "${repository_provider}" = "gitlab" ] )
@@ -68,7 +78,12 @@ then
 	then
 		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}@gitlab.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
 	else
-		/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@gitlab.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-database-scripts.git
+		if ( [ "`/bin/echo ${INFRASTRUCTURE_REPOSITORY_PASSWORD} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+		then
+			/usr/bin/git remote add origin https://${INFRASTRUCTURE_REPOSITORY_USERNAME}:${INFRASTRUCTURE_REPOSITORY_PASSWORD}@gitlab.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/${INFRASTRUCTURE_REPOSITORY_NAME}.git
+		else
+			/usr/bin/git remote add origin git@gitlab.com:${INFRASTRUCTURE_REPOSITORY_OWNER}/${ANFRASTRUCTURE_REPOSITORY_NAME}.git
+		fi
 	fi
 fi
 
