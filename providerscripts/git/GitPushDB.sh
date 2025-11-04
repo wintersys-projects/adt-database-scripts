@@ -47,7 +47,12 @@ fi
 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
-	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@bitbucket.org/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	if ( [ "`/bin/echo ${APPLICATION_REPOSITORY_PASSWORD} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+	then
+		/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@bitbucket.org/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	else
+		/usr/bin/git remote add origin git@bitbucket.org:${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	fi
 fi
 if ( [ "${repository_provider}" = "github" ] )
 then
