@@ -56,11 +56,22 @@ then
 fi
 if ( [ "${repository_provider}" = "github" ] )
 then
-	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@github.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	if ( [ "`/bin/echo ${APPLICATION_REPOSITORY_PASSWORD} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+	then
+		/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@github.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	else
+		/usr/bin/git remote add origin git@github.com:${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	fi
 fi
 if ( [ "${repository_provider}" = "gitlab" ] )
 then
-	/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@gitlab.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	if ( [ "`/bin/echo ${APPLICATION_REPOSITORY_PASSWORD} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
+	then
+		/usr/bin/git remote add origin https://${APPLICATION_REPOSITORY_USERNAME}:${APPLICATION_REPOSITORY_PASSWORD}@gitlab.com/${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	else
+		/usr/bin/git remote add origin git@gitlab.com:${APPLICATION_REPOSITORY_OWNER}/${APPLICATION_REPOSITORY_NAME}.git
+	fi
 fi
+
 /usr/bin/git push -u -f origin main
 
