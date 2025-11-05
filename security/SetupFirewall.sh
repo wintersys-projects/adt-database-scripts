@@ -173,7 +173,8 @@ then
 		/usr/sbin/ufw reload
 	elif ( [ "${firewall}" = "iptables" ] )
 	then
-		/usr/sbin/netfilter-persistent save
+        /usr/sbin/iptables-save > /etc/iptables/rules.v4
+        /usr/sbin/ip6tables-save > /etc/iptables/rules.v6
 	fi
 
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
