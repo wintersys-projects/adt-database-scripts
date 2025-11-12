@@ -23,21 +23,22 @@
 file_to_list="$1"
 
 REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'REGION'`"
+REGION="nl-ams-1"
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	config_file="`/bin/grep -H ${REGION} /root/.s3cfg-* | /usr/bin/awk -F':' '{print $1}'`"
-	datastore_tool="/usr/bin/s3cmd --config=${config_file} ls "
+        config_file="`/bin/grep -H ${REGION} /root/.s3cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+        datastore_tool="/usr/bin/s3cmd --config=${config_file} ls "
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-	config_file="`/bin/grep -H ${REGION} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
-	host_base="`/bin/grep host_base ${config_file} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-	datastore_tool="/usr/bin/s5cmd --credentials-file ${config_file} --endpoint-url https://${host_base}  ls "
+        config_file="`/bin/grep -H ${REGION} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+        host_base="`/bin/grep host_base ${config_file} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+        datastore_tool="/usr/bin/s5cmd --credentials-file ${config_file} --endpoint-url https://${host_base}  ls "
 fi
 
 if ( [ "${file_to_list}" = "" ] )
 then
-        ${datastore_tool} | /usr/bin/awk '{print $NF}' | /usr/bin/awk -F'/' '{print $NF}'
+        ${datastore_tool} 2>/dev/null | /usr/bin/awk '{print $NF}' | /usr/bin/awk -F'/' '{print $NF}'
 else
-        ${datastore_tool} s3://${file_to_list} | /usr/bin/awk '{print $NF}' | /usr/bin/awk -F'/' '{print $NF}'
+        ${datastore_tool} s3://${file_to_list} 2>/dev/null | /usr/bin/awk '{print $NF}' | /usr/bin/awk -F'/' '{print $NF}'
 fi
