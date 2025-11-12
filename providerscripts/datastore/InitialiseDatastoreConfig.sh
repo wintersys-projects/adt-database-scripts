@@ -30,6 +30,17 @@ S3_SECRET_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY'`"
 S3_LOCATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3LOCATION'`"
 S3_HOST_BASE="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE' | /usr/bin/awk -F':' '{print $1}'`"
 
+
+##############TEMPORARY ####################
+if ( [ "`/bin/grep '|' ${S3_ACCESS_KEY}`" != "" ] )
+then
+        S3_ACCESS_KEY="`/bin/echo ${S3_ACCESS_KEY} | /usr/bin/awk -F'|' '{print $1}'`"
+        S3_SECRET_KEY="`/bin/echo ${S3_SECRET_KEY} | /usr/bin/awk -F'|' '{print $1}'`"
+        S3_LOCATION="`/bin/echo ${S3_LOCATION} | /usr/bin/awk -F'|' '{print $1}'`"
+        S3_HOST_BASE="`/bin/echo ${S3_HOST_BASE} | /usr/bin/awk -F'|' '{print $1}'`"
+fi
+##############TEMPORARY#####################
+
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
 	datastore_tool="/usr/bin/s3cmd"
