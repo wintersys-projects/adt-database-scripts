@@ -32,7 +32,7 @@ S3_HOST_BASE="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE' | /us
 
 
 ##############TEMPORARY ####################
-if ( [ "`/bin/grep '|' ${S3_ACCESS_KEY}`" != "" ] )
+if ( [ "`/bin/echo ${S3_ACCESS_KEY} | /bin/grep '|'`" != "" ] )
 then
         S3_ACCESS_KEY="`/bin/echo ${S3_ACCESS_KEY} | /usr/bin/awk -F'|' '{print $1}'`"
         S3_SECRET_KEY="`/bin/echo ${S3_SECRET_KEY} | /usr/bin/awk -F'|' '{print $1}'`"
