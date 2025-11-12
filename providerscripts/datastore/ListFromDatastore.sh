@@ -23,7 +23,6 @@
 file_to_list="$1"
 
 REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'REGION'`"
-REGION="nl-ams-1"
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
