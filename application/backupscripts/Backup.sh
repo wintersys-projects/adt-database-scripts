@@ -94,4 +94,4 @@ then
 	${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
 fi
 
-/bin/rm ./${backup_name} ${websiteDB}
+/bin/rm ./${backup_name}
