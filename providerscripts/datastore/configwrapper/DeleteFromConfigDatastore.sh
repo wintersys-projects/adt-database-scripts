@@ -3,7 +3,6 @@
 # Author: Peter Winter
 # Date :  24/02/2022
 # Description: This script will delete the given file from the configuration datastore.
-# A wildcard '*' will delete all files in a particular directory
 #######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -23,21 +22,32 @@
 
 export HOME=`/bin/cat /home/homedir.dat`
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+
 configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
 
+datastore_tool=""
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd --force del "
+	datastore_tool="/usr/bin/s3cmd"
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
+	datastore_tool="/usr/bin/s5cmd"
+fi
+
+if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
+then
+	datastore_cmd="${datastore_tool} --force del "
+elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
+then
 	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} rm "
+	datastore_cmd="${datastore_tool}--credentials-file /root/.s5cfg --endpoint-url https://${host_base} rm "
 fi
 
 count="0"
-while ( [ "`${datastore_tool} s3://${configbucket}/$1 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_cmd} s3://${configbucket}/$1 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
 	/bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
 	/bin/sleep 5
