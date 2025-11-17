@@ -135,7 +135,7 @@ then
 	
 	if ( [ "${firewall}" = "ufw" ] )
 	then
-		if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${BUILD_MACHINE_IP} | /bin/grep ALLOW`" = "" ] )
+	    if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${BUILD_MACHINE_IP}|${SSH_PORT}|ALLOW)"`" = "" ] )
 		then
 			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_MACHINE_IP} to any port ${SSH_PORT}
 			/bin/sleep 2
@@ -143,7 +143,7 @@ then
 		fi
 	elif ( [ "${firewall}" = "iptables" ] )
 	then
-		if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${BUILD_MACHINE_IP}`" = "" ] )
+		if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep -E "(${BUILD_MACHINE_IP}|${SSH_PORT}|ACCEPT)"`" = "" ] )
 		then
             /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
             /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport ${SSH_PORT} -m conntrack --ctstate ESTABLISHED -j ACCEPT
@@ -156,7 +156,7 @@ fi
 
 if ( [ "${firewall}" = "ufw" ] )
 then
-	if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${VPC_IP_RANGE}" | /bin/grep ALLOW`" = "" ] )
+	if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${VPC_IP_RANGE}|${SSH_PORT}|ALLOW)"`" = "" ] )
 	then
 		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${SSH_PORT}
 		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${DB_PORT}
@@ -165,7 +165,7 @@ then
 	fi
 elif ( [ "${firewall}" = "iptables" ] )
 then
-	if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${VPC_IP_RANGE}`" = "" ] )
+	if ( [ "`/usr/sbin/iptables --list-rules  | /bin/grep -E "(${VPC_IP_RANGE}|${SSH_PORT}|ACCEPT)"`" = "" ] )
 	then
     	/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     	/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${DB_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
@@ -191,12 +191,12 @@ do
 
         if ( [ "${firewall}" = "ufw" ] )
         then
-                if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${port} | /bin/grep ALLOW`" = "" ] && [ "${delete}" != "yes" ] )
+                if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${ip_address}|${port}|ALLOW)"`" = "" ] && [ "${delete}" != "yes" ] )
                 then
                         /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address} to any port ${port}
                         updated="1"
                 else
-                        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${port} | /bin/grep ALLOW`" != "" ] && [ "${delete}" = "yes" ] )
+                        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${port}|ALLOW)"`" != "" ] && [ "${delete}" = "yes" ] )
                         then
                                 /usr/bin/yes | /usr/sbin/ufw delete `/usr/sbin/ufw status numbered | /bin/grep ${port} | /usr/bin/awk -F"[\[\]]" '{print $2}' | /bin/sed 's/ //g'`
                                 updated="1"
@@ -205,13 +205,13 @@ do
                 fi
         elif ( [ "${firewall}" = "iptables" ] )
         then
-                if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${port}`" = "" ] && [ "${delete}" != "yes" ] )
+                if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep | /bin/grep -E "(${ip_address}|${port}|ACCEPT)"`" = "" ] && [ "${delete}" != "yes" ] )
                 then
                         /usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
                         /usr/sbin/iptables -A OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate ESTABLISHED -j ACCEPT
                         updated="1"
                 else
-                        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${port}`" != "" ] && [ "${delete}" = "yes" ] )
+                        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep -E "(${port}|ACCEPT)"`" != "" ] && [ "${delete}" = "yes" ] )
                         then
                                 /usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
                                 /usr/sbin/iptables -D OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate ESTABLISHED -j ACCEPT
