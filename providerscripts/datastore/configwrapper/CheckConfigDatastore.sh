@@ -25,6 +25,7 @@ WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+
 configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
 
 if ( [ "${1}" = "" ] )
@@ -33,16 +34,25 @@ then
 	exit
 fi
 
+datastore_tool=""
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd "
+	datastore_tool="/usr/bin/s3cmd"
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
+	datastore_tool="/usr/bin/s5cmd"
 fi
 
-if ( [ "`${datastore_tool} ls s3://${configbucket}/$1`" = "" ] )
+if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
+then
+	datastore_cmd="${datastore_tool} ls "
+elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
+then
+	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+	datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg --endpoint-url https://${host_base} ls "
+fi
+
+if ( [ "`${datastore_cmd} s3://${configbucket}/$1`" = "" ] )
 then
 	/bin/echo "0"
 else
