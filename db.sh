@@ -135,7 +135,6 @@ cd ${HOME}
 
 /bin/echo "${0} Initialising Datastore"
 ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
-${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
 
 cd ${HOME}
 
