@@ -39,19 +39,21 @@ fi
 
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
-        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-${count} ls s3://"
-        datastore_cmd1="${datastore_tool} --config=/root/.s3cfg-${count} mv s3://"
+        host_base="`/bin/grep ^host_base /root/.s3cfg-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-${count} --host=https://${host_base} ls s3://"
+        datastore_cmd1="${datastore_tool} --config=/root/.s3cfg-${count} --host=https://${host_base} mv s3://"
         second_prefix="s3://"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
-        host_base="`/bin/grep host_base /root/.s5cfg-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+        host_base="`/bin/grep ^host_base /root/.s5cfg-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} ls s3://"
         datastore_cmd1="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} mv s3://"
         second_prefix="s3://"
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
-        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} ls s3:"
-        datastore_cmd1="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} moveto s3:"
+        host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-${count} | /bin/grep "^endpoint" | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} --s3-endpoint ${host_base} ls s3:"
+        datastore_cmd1="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} --s3-endpoint ${host_base} moveto s3:"
         second_prefix="s3:"
 fi
 
