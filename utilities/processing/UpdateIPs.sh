@@ -25,16 +25,16 @@ MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 
 localip="`${HOME}/utilities/processing/GetIP.sh`" 
 /bin/touch /tmp/${localip}
-${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${localip} databaseip 
+${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${localip} databaseip "" "yes"
 
 publicip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 /bin/touch /tmp/${publicip}
-${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${publicip} databasepublicip 
+${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /tmp/${publicip} databasepublicip "" "yes"
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-	${HOME}/providerscripts/datastore/PutToDatastore.sh ${publicip} ${multi_region_bucket}/dbaas_ips 
+	${HOME}/providerscripts/datastore/PutToDatastore.sh ${publicip} ${multi_region_bucket}/dbaas_ips "" "yes"
 fi
 
 
