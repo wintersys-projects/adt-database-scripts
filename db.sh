@@ -160,7 +160,10 @@ then
 	if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
 	then    
 		/bin/echo "${0} Installing bespoke application"
-		${HOME}/application/db/InstallApplicationDB.sh 
+		while ( [ "`${HOME}/application/db/mysql/VerifyApplicationDBInstallation.sh`" = "0" ] )
+		do
+			${HOME}/application/db/InstallApplicationDB.sh
+		done
 	fi
 elif ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "0" ] )
 then
