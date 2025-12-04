@@ -160,10 +160,17 @@ then
 	if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
 	then    
 		/bin/echo "${0} Installing bespoke application"
-		while ( [ "`${HOME}/application/db/mysql/VerifyApplicationDBInstallation.sh`" = "0" ] )
+		count="0"
+		while ( [ "`${HOME}/application/db/mysql/VerifyApplicationDBInstallation.sh`" = "0" ] && [ "${count}" -lt "5" ] )
 		do
 			${HOME}/application/db/InstallApplicationDB.sh
+			count="`/usr/bin/expr ${count} + 1`"
 		done
+		if ( [ "${count}" = "5" ] )
+		then
+			${HOME}/providerscripts/email/SendEmail.sh "APPLICATION INSTALLATION FAILED" "I have not been able to successfully install your application database" "ERROR"
+			exit
+		fi	
 	fi
 elif ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "0" ] )
 then
