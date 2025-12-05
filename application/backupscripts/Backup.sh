@@ -36,6 +36,9 @@ DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 BUILD_ARCHIVCE_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVCECHOICE'`"
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+PRIMARY_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRIMARYREGION'`"
+
 
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 allowed_periods="hourly daily weekly monthly bimonthly shutdown"
@@ -69,7 +72,14 @@ fi
 
 cd ${HOME}/backups/
 
-db_backup="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}"
+provider_id=""
+
+if ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "0" ] )
+then
+        provider_id="-${CLOUDHOST}"
+fi
+
+db_backup="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}${provider_id}"
 
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${db_backup}"
 
