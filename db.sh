@@ -96,7 +96,7 @@ GIT_EMAIL_ADDRESS="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITEMAILADDR
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 PRIMARY_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRIMARYREGION'`"
-BYPASS_DB_LAYER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BYPASSDBLAYER'`"
+DB_INSTALL_MODE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBINSTALLMODE'`"
 
 #Initialise Git
 /usr/bin/git config --global user.name "${GIT_USER}"
