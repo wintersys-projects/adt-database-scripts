@@ -151,7 +151,7 @@ then
 	${HOME}/providerscripts/email/SendEmail.sh "A DATABASE DID NOT INSTALL" "The database server ran out of time to install" "ERROR"
 fi
 
-if ( ( [ "${MULTI_REGION}" = "0" ] || ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "1" ] ) ) ||  [ "${BYPASS_DB_LAYER}" != "1" ] )
+if ( ( [ "${MULTI_REGION}" = "0" ] || ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "1" ] ) ) &&  [ "${DB_INSTALL_MODE}" != "2" ] )
 then
 	/bin/echo "${0} Initialising Database"
 	${HOME}/providerscripts/database/InitialiseDatabase.sh
