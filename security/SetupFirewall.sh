@@ -179,7 +179,10 @@ then
 	if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${VPC_IP_RANGE}|${SSH_PORT}|${DB_PORT}|ALLOW)"`" = "" ] )
 	then
 		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${SSH_PORT}
-		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${DB_PORT}
+		if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] )
+		then
+			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${DB_PORT}
+		fi
 		/bin/sleep 5
 		updated="1"
 	fi
@@ -188,12 +191,14 @@ then
 	if ( [ "`/usr/sbin/iptables --list-rules  | /bin/grep -E "(${VPC_IP_RANGE}|${SSH_PORT}|ACCEPT)"`" = "" ] )
 	then
     	/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-    	/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${DB_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+		if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] )
+		then
+    		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${DB_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+		fi
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
 		updated="1"
 	fi
 fi
-
 
 if ( [ -f ${HOME}/runtime/firewallports.dat ] )
 then
