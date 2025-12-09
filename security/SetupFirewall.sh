@@ -83,6 +83,7 @@ then
 	firewall="iptables"
 fi
 
+initialised="0"
 if ( [ ! -f ${HOME}/runtime/FIREWALL-INITIALISED ] )
 then
 	if ( [ "${firewall}" = "ufw" ] )
@@ -92,6 +93,7 @@ then
 		/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
 		/usr/sbin/ufw logging off
 		/usr/sbin/ufw reload
+		initialised="1"
 		/bin/touch ${HOME}/runtime/FIREWALL-INITIALISED 
 	elif ( [ "${firewall}" = "iptables" ] )
 	then
@@ -111,6 +113,7 @@ then
 		/usr/sbin/ip6tables -P OUTPUT ACCEPT
 		/usr/sbin/ip6tables -A INPUT -i lo -j ACCEPT
 		/usr/sbin/ip6tables -A OUTPUT -o lo -j ACCEPT
+		initialised="1"
 		/bin/touch ${HOME}/runtime/FIREWALL-INITIALISED 
 	fi
 fi
@@ -243,7 +246,7 @@ then
 	done
 fi
 
-if ( [ "${updated}" = "1" ] )
+if ( [ "${updated}" = "1" ] || [ "${initialised}" = "1" ] )
 then
 	if ( [ "${firewall}" = "ufw" ] )
 	then
