@@ -50,7 +50,7 @@ then
 	fi
 fi
 
-if ( [ -f ${HOME}/runtime/customfirewallports.dat ] && [ "`/usr/bin/find ${HOME}/runtime/customfirewallports.dat -mmin -1 -print`" != "" ] )
+if ( [ -f ${HOME}/runtime/firewallports.dat ] && [ "`/usr/bin/find ${HOME}/runtime/firewallports.dat -mmin -1 -print`" != "" ] )
 then
         /bin/rm ${HOME}/runtime/FIREWALL-ACTIVE
 fi
@@ -193,18 +193,18 @@ then
 fi
 
 
-if ( [ -f ${HOME}/runtime/customfirewallports.dat ] )
+if ( [ -f ${HOME}/runtime/firewallports.dat ] )
 then
-	custom_ports="`/bin/grep "^DATABASECUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
+	ports="`/bin/grep "^DATABASEPORTS" ${HOME}/runtime/firewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
-	for custom_port_token in ${custom_ports}
+	for port_token in ${ports}
 	do
         delete="no"
-        if ( [ "`/bin/echo ${custom_port_token} | /bin/grep 'ipv4'`" != "" ] )
+        if ( [ "`/bin/echo ${port_token} | /bin/grep 'ipv4'`" != "" ] )
         then
-                port="`/bin/echo ${custom_port_token} | /usr/bin/awk -F'|' '{print $1}'`"
-                ip_address="`/bin/echo ${custom_port_token} | /usr/bin/awk -F'|' '{print $3}'`"
-                if ( [ "`/bin/echo ${custom_port_token} | /usr/bin/awk -F'|' '{print $4}'`" = "DELETE" ] )
+                port="`/bin/echo ${port_token} | /usr/bin/awk -F'|' '{print $1}'`"
+                ip_address="`/bin/echo ${port_token} | /usr/bin/awk -F'|' '{print $3}'`"
+                if ( [ "`/bin/echo ${port_token} | /usr/bin/awk -F'|' '{print $4}'`" = "DELETE" ] )
                 then
                         delete="yes"
                 fi
