@@ -46,52 +46,57 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 purge_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y purge " 
 
-
-if ( [ "${apt}" != "" ] )
-then
-	#For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
-	then  
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-		then
-			postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-			${install_command} postgresql-common
-			/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-			${install_command} curl ca-certificates
-			/usr/bin/install -d /usr/share/postgresql-common/pgdg
-			/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-			. /etc/os-release
-			#   /bin/sh -c '/bin/echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-			${update_command}
-			${install_command} postgresql-${postgres_version}                          
-		fi
-		${HOME}/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
-	fi
-
-	if ( [ "${BUILDOS}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
-	then  
-
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-		then
-			postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-			${install_command} postgresql-common
-			/usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-			${install_command} curl ca-certificates
-			/usr/bin/install -d /usr/share/postgresql-common/pgdg
-			/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-			. /etc/os-release
-			if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
+count="0"
+while ( [ ! -f /usr/bin/psql ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
+	then
+		#For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then  
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				/bin/sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+				${install_command} postgresql-common
+				/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+				${install_command} curl ca-certificates
+				/usr/bin/install -d /usr/share/postgresql-common/pgdg
+				/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+				. /etc/os-release
+				#   /bin/sh -c '/bin/echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+				${update_command}
+				${install_command} postgresql-${postgres_version}                          
 			fi
-			${update_command}
-			${install_command} postgresql-${postgres_version}
+			${HOME}/utilities/processing/RunServiceCommand.sh postgresql restart                                                   
 		fi
-		${HOME}/utilities/processing/RunServiceCommand.sh postgresql restart
-	fi
-fi
 
-if ( [ ! -f /usr/bin/psql ] )
+		if ( [ "${BUILDOS}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
+		then  
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+			then
+				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+				${install_command} postgresql-common
+				/usr/bin/yes | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+				${install_command} curl ca-certificates
+				/usr/bin/install -d /usr/share/postgresql-common/pgdg
+				/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+				. /etc/os-release
+			
+				if ( [ "${BUILD_FROM_BACKUP}" = "1" ] )
+				then
+					/bin/sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+				fi
+				
+				${update_command}
+				${install_command} postgresql-${postgres_version}
+			fi
+			${HOME}/utilities/processing/RunServiceCommand.sh postgresql restart
+		fi
+	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
+
+if ( [ ! -f /usr/bin/psql ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR POSTGRES SERVER" "I believe that postgres server hasn't installed correctly, please investigate" "ERROR"
 else
