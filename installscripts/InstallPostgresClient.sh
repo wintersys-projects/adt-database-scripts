@@ -45,45 +45,50 @@ export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 
-if ( [ "${apt}" != "" ] )
-then
-	#For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
-	then    
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-		then
-			postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-			${install_command} postgresql-common
-			/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-			${install_command} curl ca-certificates
-			/usr/bin/install -d /usr/share/postgresql-common/pgdg
-			/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-			. /etc/os-release
-			#    /bin/sh -c '/bin/echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-			${update_command}
-			${install_command} postgresql-client-${postgres_version}                          
+count="0"
+while ( [ ! -f /usr/bin/psql ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
+	then
+		#For postgres if it is already installed on the OS we default to the installed version otherwise we install the user's requested version
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then    
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+			then
+				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+				${install_command} postgresql-common
+				/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+				${install_command} curl ca-certificates
+				/usr/bin/install -d /usr/share/postgresql-common/pgdg
+				/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+				. /etc/os-release
+				#    /bin/sh -c '/bin/echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+				${update_command}
+				${install_command} postgresql-client-${postgres_version}                          
+			fi
+		fi
+
+		if ( [ "${BUILDOS}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
+		then  
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+			then
+				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+				${install_command} postgresql-common
+				/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+				${install_command} curl ca-certificates
+				/usr/bin/install -d /usr/share/postgresql-common/pgdg
+				/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+				. /etc/os-release
+				/bin/sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+				${update_command}
+				${install_command} postgresql-client-${postgres_version}
+			fi
 		fi
 	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-	if ( [ "${BUILDOS}" = "debian" ] && [ ! -f /usr/lib/postgresql ] )
-	then  
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-		then
-			postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
-			${install_command} postgresql-common
-			/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-			${install_command} curl ca-certificates
-			/usr/bin/install -d /usr/share/postgresql-common/pgdg
-			/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-			. /etc/os-release
-			/bin/sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
-			${update_command}
-			${install_command} postgresql-client-${postgres_version}
-		fi
-	fi
-fi
-
-if ( [ ! -f /usr/bin/psql ] )
+if ( [ ! -f /usr/bin/psql ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR POSTGRES" "I believe that postgres client hasn't installed correctly, please investigate" "ERROR"
 else
