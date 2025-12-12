@@ -43,31 +43,36 @@ fi
 
 cwd="`/usr/bin/pwd`"
 
-if ( [ "${BUILDOS}" = "ubuntu" ] )
-then
-	tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
-	cd /opt
-	/usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz 
-	cd /opt/astock*
-	/usr/bin/go build serfix.go
-	/bin/mv serfix /usr/local/bin
-	/bin/chmod 755 /usr/local/bin/serfix
-	cd ${cwd}
-fi
+count="0"
+while ( [ ! -f usr/local/bin/serfix ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
+	then
+		tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
+		cd /opt
+		/usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz 
+		cd /opt/astock*
+		/usr/bin/go build serfix.go
+		/bin/mv serfix /usr/local/bin
+		/bin/chmod 755 /usr/local/bin/serfix
+		cd ${cwd}
+	fi
 
-if ( [ "${BUILDOS}" = "debian" ] )
-then
-	tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
-	cd /opt
-	/usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz 
-	cd /opt/astock*
-	/usr/bin/go build serfix.go
-	/bin/mv serfix /usr/local/bin
-	/bin/chmod 755 /usr/local/bin/serfix
-	cd ${cwd}
-fi
+	if ( [ "${BUILDOS}" = "debian" ] )
+	then
+		tarball_url="`/usr/bin/curl -L https://api.github.com/repos/astockwell/serfix/releases/latest | /usr/bin/jq -r '.tarball_url'`"
+		cd /opt
+		/usr/bin/wget -c ${tarball_url} -O- | /usr/bin/tar -xz 
+		cd /opt/astock*
+		/usr/bin/go build serfix.go
+		/bin/mv serfix /usr/local/bin
+		/bin/chmod 755 /usr/local/bin/serfix
+		cd ${cwd}
+	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/local/bin/serfix ] )
+if ( [ ! -f /usr/local/bin/serfix ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR SERFIX" "I believe that serfix hasn't installed correctly, please investigate" "ERROR"
 else
