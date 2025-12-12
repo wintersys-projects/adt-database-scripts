@@ -50,42 +50,47 @@ purge_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y purge 
 auto_remove_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y autoremove " 
 auto_clean_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y autoclean " 
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/mariadbd-safe ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-			mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
-			eval ${install_command} mariadb-server
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+			then
+				mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+				/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
+				eval ${install_command} mariadb-server
+			fi
+
+			/bin/mkdir /var/log/mysql
+			/bin/chown mysql:mysql /var/log/mysql                            
+
+			${HOME}/utilities/processing/RunServiceCommand.sh mariadb enable
+			${HOME}/utilities/processing/RunServiceCommand.sh mariadb restart
 		fi
 
-		/bin/mkdir /var/log/mysql
-		/bin/chown mysql:mysql /var/log/mysql                            
-
-		${HOME}/utilities/processing/RunServiceCommand.sh mariadb enable
-		${HOME}/utilities/processing/RunServiceCommand.sh mariadb restart
-	fi
-
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "${BUILDOS}" = "debian" ] )
 		then
-			mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
-			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
-			eval ${install_command} mariadb-server     
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+			then
+				mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"
+				/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"    
+				eval ${install_command} mariadb-server     
+			fi
+
+			/bin/mkdir /var/log/mysql
+			/bin/chown mysql:mysql /var/log/mysql                         
+
+			${HOME}/utilities/processing/RunServiceCommand.sh mariadb enable
+			${HOME}/utilities/processing/RunServiceCommand.sh mariadb restart
 		fi
-
-		/bin/mkdir /var/log/mysql
-		/bin/chown mysql:mysql /var/log/mysql                         
-
-		${HOME}/utilities/processing/RunServiceCommand.sh mariadb enable
-		${HOME}/utilities/processing/RunServiceCommand.sh mariadb restart
 	fi
-fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/bin/mariadbd-safe ] )
+if ( [ ! -f /usr/bin/mariadbd-safe ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MARIADB" "I believe that mariadb server hasn't installed correctly, please investigate" "ERROR"
 else
