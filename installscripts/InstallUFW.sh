@@ -46,18 +46,23 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/ufw ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		eval ${install_command} ufw        
-	fi
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			eval ${install_command} ufw        
+		fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		eval ${install_command} ufw        
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			eval ${install_command} ufw        
+		fi
 	fi
-fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
 /usr/sbin/ufw disable
 
@@ -66,7 +71,7 @@ then
 	/usr/bin/ln -s /usr/sbin/ufw /usr/bin/ufw
 fi
 
-if ( [ ! -f /usr/bin/ufw ] )
+if ( [ ! -f /usr/bin/ufw ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR UFW" "I believe that ufw hasn't installed correctly, please investigate" "ERROR"
 else
