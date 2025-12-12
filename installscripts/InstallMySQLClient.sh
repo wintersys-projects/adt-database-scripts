@@ -48,77 +48,73 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/mysql ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
-		major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
-
-
-		/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar		
-		/usr/bin/tar -xvf ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
-  	/bin/rm ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
-		${install_command} libmecab2
-  
-		DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
-  
-		/usr/bin/dpkg -i /opt/mysql-common_*.deb
-		/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
-		/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
-		/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
-		/usr/bin/dpkg -i /opt/mysql-client_*.deb
-  
-		/bin/rm /opt/*mysql*
-	fi
-
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
-        major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
-
-		if ( [ "${BUILDOS_VERSION}" = "13" ] )
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-  			#workaround until there's versions released of mysql with trixie support when there is comment this and uncomment the below
-    		/usr/bin/wget https://deb.debian.org/debian/pool/main/liba/libaio/libaio1_0.3.113-4_amd64.deb -O /opt/libaio1_0.3.113-4_amd64.deb
-			${install_command} /opt/libaio1_0.3.113-4_amd64.deb
-			#${install_command} libaio-dev libaio1t64
-   		elif ( [ "${BUILDOS_VERSION}" = "12" ] )
-	 	then
-			${install_command} libaio1
-   		fi
+			minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
+			major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 
-        /usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+			/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar		
+			/usr/bin/tar -xvf ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
+  			/bin/rm ./mysql-server_${minor_version}-1ubuntu${BUILDOS_VERSION}_amd64.deb-bundle.tar
+			${install_command} libmecab2
+  
+			DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure ./mysql-community-server_*.deb
+			/usr/bin/dpkg -i /opt/mysql-common_*.deb
+			/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
+			/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
+			/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
+			/usr/bin/dpkg -i /opt/mysql-client_*.deb
+			/bin/rm /opt/*mysql*
+		fi
 
-        if ( [ "$?" != "0" ] )
-        then
-        	if ( [ "${BUILDOS_VERSION}" = "13" ] )
-            then
-            	BUILDOS_VERSION="12"
-                /usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
-            fi
-        fi
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			minor_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MYSQL" | /usr/bin/awk -F':' '{print $NF}'`"
+        	major_version="`/bin/echo ${minor_version} | /usr/bin/cut -d '.' -f 1,2`"
 
-        /usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
-        /bin/rm ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
-	 
-        ${install_command} libmecab2 libnuma1 psmisc 
-		
-        DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure /opt/mysql-community-server_*.deb
-		
-        /usr/bin/dpkg -i /opt/mysql-common_*.deb
-        /usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
-        /usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
-        /usr/bin/dpkg -i /opt/mysql-community-client_*.deb
-        /usr/bin/dpkg -i /opt/mysql-client_*.deb
+			if ( [ "${BUILDOS_VERSION}" = "13" ] )
+			then
+  				#workaround until there's versions released of mysql with trixie support when there is comment this and uncomment the below
+    			/usr/bin/wget https://deb.debian.org/debian/pool/main/liba/libaio/libaio1_0.3.113-4_amd64.deb -O /opt/libaio1_0.3.113-4_amd64.deb
+				${install_command} /opt/libaio1_0.3.113-4_amd64.deb
+				#${install_command} libaio-dev libaio1t64
+   			elif ( [ "${BUILDOS_VERSION}" = "12" ] )
+	 		then
+				${install_command} libaio1
+   			fi
 
-		
-        /bin/rm /opt/*mysql*
-    fi
-fi
+        	/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
 
-if ( [ ! -f /usr/bin/mysql ] )
+        	if ( [ "$?" != "0" ] )
+        	then
+        		if ( [ "${BUILDOS_VERSION}" = "13" ] )
+            	then
+            		BUILDOS_VERSION="12"
+                	/usr/bin/wget https://dev.mysql.com/get/downloads/mysql-${major_version}/mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+            	fi
+        	fi
+
+        	/usr/bin/tar -xvf ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar -C /opt
+        	/bin/rm ./mysql-server_${minor_version}-1debian${BUILDOS_VERSION}_amd64.deb-bundle.tar
+	 		${install_command} libmecab2 libnuma1 psmisc 
+			DEBIAN_FRONTEND=noninteractive /usr/sbin/dpkg-preconfigure /opt/mysql-community-server_*.deb
+			/usr/bin/dpkg -i /opt/mysql-common_*.deb
+        	/usr/bin/dpkg -i /opt/mysql-community-client-plugins_*.deb
+        	/usr/bin/dpkg -i /opt/mysql-community-client-core_*.deb
+        	/usr/bin/dpkg -i /opt/mysql-community-client_*.deb
+        	/usr/bin/dpkg -i /opt/mysql-client_*.deb
+        	/bin/rm /opt/*mysql*
+    	fi
+	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
+
+if ( [ ! -f /usr/bin/mysql ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MYSQL" "I believe that mysql server hasn't installed correctly, please investigate" "ERROR"
 else
