@@ -60,7 +60,7 @@ do
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ ! -d /usr/sbin/aria2c ] )
+if ( [ ! -d /usr/sbin/aria2c ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR Aria2c" "I believe that aria2c hasn't installed correctly, please investigate" "ERROR"
 else
