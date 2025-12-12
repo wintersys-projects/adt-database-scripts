@@ -44,20 +44,25 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/sendemail ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		eval ${install_command} sendemail        
-	fi
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			eval ${install_command} sendemail        
+		fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		eval ${install_command} sendemail        
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			eval ${install_command} sendemail        
+		fi
 	fi
-fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/bin/sendemail ] )
+if ( [ ! -f /usr/bin/sendemail ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR SENDEMAIL" "I believe that sendemail hasn't installed correctly, please investigate" "ERROR"
 else
