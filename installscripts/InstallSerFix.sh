@@ -44,7 +44,7 @@ fi
 cwd="`/usr/bin/pwd`"
 
 count="0"
-while ( [ ! -f usr/local/bin/serfix ] && [ "${count}" -lt "5" ] )
+while ( [ ! -f /usr/local/bin/serfix ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
