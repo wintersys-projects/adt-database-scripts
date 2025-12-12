@@ -59,3 +59,10 @@ do
 	fi
 	count="`/usr/bin/expr ${count} + 1`"
 done
+
+if ( [ ! -d /usr/sbin/aria2c ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR Aria2c" "I believe that aria2c hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallAria2c.sh					
+fi
