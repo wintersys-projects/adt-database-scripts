@@ -72,7 +72,7 @@ do
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ ! -f /usr/local/bin/serfix ] && [ "${count}" = "5" ] )
+if ( [ ! -x /usr/local/bin/serfix ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR SERFIX" "I believe that serfix hasn't installed correctly, please investigate" "ERROR"
 else
