@@ -68,6 +68,15 @@ SERVER_TIMEZONE_CITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIM
 /bin/echo "@reboot export HOME="${HOME}" && ${HOME}/utilities/status/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOME}" && ${HOME}/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
 
+if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'VIRUSSCANNER:'`" = "1" ]  )
+then
+	periodicity="`${HOME}/utilities/config/ExtractBuildStyleValues.sh 'VIRUSSCANNER' | /usr/bin/awk -F':' '{print $NF}'`"
+
+	if ( [ "`/bin/echo hourly daily weekly monthly | /bin/grep ${periodicity}`" != "" ] )
+	then
+		/bin/echo "@${periodicity} export HOME="${HOME}" && ${HOME}/utilties/security/VirusScan.sh" >> /var/spool/cron/crontabs/root
+	fi  
+fi
 
 #Reload cron
 /usr/bin/crontab /var/spool/cron/crontabs/root
