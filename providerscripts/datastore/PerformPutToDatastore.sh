@@ -91,8 +91,6 @@ do
         count="`/usr/bin/expr ${count} + 1`"
 done
 
-file="`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'`"
-
 if ( [ "${delete}" = "yes" ] )
 then
         if ( [ -f ${file_to_put} ] )
