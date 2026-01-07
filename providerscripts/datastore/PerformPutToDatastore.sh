@@ -95,6 +95,12 @@ do
         count="`/usr/bin/expr ${count} + 1`"
 done
 
+if ( [ "${datastore_cmd1}" != "" ] )
+then
+        placed_file="`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'`"
+        ${datastore_cmd1} ${bucket_prefix}${place_to_put}${slasher}/${placed_file}
+fi
+
 if ( [ "${delete}" = "yes" ] )
 then
         if ( [ -f ${file_to_put} ] )
