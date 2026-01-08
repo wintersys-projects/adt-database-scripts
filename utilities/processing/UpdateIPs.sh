@@ -23,16 +23,22 @@
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 
-localip="`${HOME}/utilities/processing/GetIP.sh`" 
-${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${localip} databaseip "yes"
+ip="`${HOME}/utilities/processing/GetIP.sh`" 
+public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 
-publicip="`${HOME}/utilities/processing/GetPublicIP.sh`"
-${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${publicip} databasepublicip "yes"
+#Sometimes (very rarely) the ip is not set for some reason so have to hope we are alright next time instead
+if ( [ "${ip}" = "" ] || [ "${public_ip}" = "" ] )
+then
+        exit
+fi
+
+${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} databaseip "yes"
+${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} databasepublicip "yes"
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-	${HOME}/providerscripts/datastore/PutToDatastore.sh ${publicip} ${multi_region_bucket}/dbaas_ips 
+	${HOME}/providerscripts/datastore/PutToDatastore.sh ${public_ip} ${multi_region_bucket}/dbaas_ips 
 fi
 
 
