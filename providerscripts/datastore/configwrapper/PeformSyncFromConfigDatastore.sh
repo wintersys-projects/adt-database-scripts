@@ -15,3 +15,8 @@ then
   /bin/rm -r /var/lib/adt-config.old
 fi
 
+if ( [ -f /var/lib/adt-config.old ] )
+then
+  /bin/rm -r /var/lib/adt-config.old
+fi
+
