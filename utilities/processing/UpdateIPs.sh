@@ -32,8 +32,8 @@ then
         exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} databaseip "yes"
-${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} databasepublicip "yes"
+${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} databaseip "no"
+${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} databasepublicip "no"
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
