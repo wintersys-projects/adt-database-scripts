@@ -44,7 +44,7 @@ then
 	then
 		exit
 	else
-		${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh DB_BACKUP_RUNNING "" "no"
+		${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh DB_BACKUP_RUNNING "root" "no"
 	fi
 fi
 
