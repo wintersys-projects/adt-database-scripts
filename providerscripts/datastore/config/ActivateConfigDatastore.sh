@@ -1,6 +1,9 @@
 #!/bin/sh
 #set -x
 
+exec 1>/tmp/out
+exec 2>/tmp/err
+
 #if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
 #then
 #        exit
