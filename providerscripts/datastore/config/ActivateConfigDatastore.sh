@@ -1,13 +1,5 @@
 #!/bin/sh
-set -x
-
-exec 1>/tmp/out
-exec 2>/tmp/err
-
-#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
-#then
-#        exit
-#fi
+#set -x
 
 if ( [ ! -d /var/lib/adt-config ] )
 then
@@ -49,9 +41,6 @@ monitor_for_datastore_changes() {
         while ( [ 1 ] )
         do
                 /bin/sleep 5
-                /bin/echo "=============" > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-                /usr/bin/date > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-                /bin/echo "============" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                 
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/newdeletes.log ] )
                 then
