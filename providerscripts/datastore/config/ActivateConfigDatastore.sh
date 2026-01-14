@@ -1,5 +1,5 @@
 #!/bin/sh
-#set -x
+set -x
 
 exec 1>/tmp/out
 exec 2>/tmp/err
