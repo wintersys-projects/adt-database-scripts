@@ -1,5 +1,5 @@
 #!/bin/sh
-####################################################################################
+#################################################################################### 
 # Author: Peter Winter
 # Date :  24/02/2022
 # Description: This script will delete the given file from the configuration datastore.
