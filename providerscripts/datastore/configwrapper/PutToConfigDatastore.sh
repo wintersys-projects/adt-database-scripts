@@ -30,6 +30,38 @@ then
         place_to_put=""
 fi
 
+#if ( [ ! -d ${HOME}/runtime/datastore_workarea ] )
+#then
+#        /bin/mkdir -p ${HOME}/runtime/datastore_workarea
+#fi
+
+#if ( [ ! -f ${file_to_put} ] )
+#then
+        #if there is no file on the file system we can assume that we are being used as a marker like an IP address, so create out own marker file
+#        if ( [ "${place_to_put}" != "" ] && [ "`/bin/echo ${file_to_put} | /bin/grep '/'`" = "" ] )
+#        then
+#                /bin/mkdir -p ${HOME}/runtime/datastore_workarea/${place_to_put}
+#                /bin/touch ${HOME}/runtime/datastore_workarea/${place_to_put}/${file_to_put}
+#                file_to_put=${HOME}/runtime/datastore_workarea/${place_to_put}/${file_to_put}
+#        fi
+#fi
+
+#existing_file="/var/lib/adt-config/${place_to_put}/`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'`" 
+
+#if ( [ -f "${existing_file}" ] )
+#then
+ #       if ( [ "`/usr/bin/diff ${existing_file} ${file_to_put}`" = "" ] && [ -s ${existing_file} ] )
+    #    then
+  #              exit        
+   #     else
+  #              if ( [ "`/bin/echo ${existing_file} | /bin/grep '/'`" != "" ] )
+  #              then
+  #                      existing_file="`/bin/echo ${existing_file} | /bin/sed 's:/[^/]*$::'`"
+  #              fi
+  #              /bin/cp ${file_to_put} ${existing_file}
+  #      fi
+#fi
+
 HOME="`/bin/cat /home/homedir.dat`"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
