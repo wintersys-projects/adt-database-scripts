@@ -130,14 +130,15 @@ ${HOME}/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/utilities/proces
 ${HOME}/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/utilities/processing/GetIP.sh`" 
 ${HOME}/utilities/config/StoreConfigValue.sh 'MYPUBLICIP' "`${HOME}/utilities/processing/GetPublicIP.sh`" 
 
-/bin/echo "${0} Setting up firewall"
-${HOME}/security/SetupFirewall.sh
-
 cd ${HOME}
 
-
-/bin/echo "${0} Initialising Datastore"
+/bin/echo "${0} Installing Datastore tools"
 ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+/bin/echo "${0} Activating datastore configuration protocol"
+${HOME}/providerscripts/datastore/config/ActivateConfigDatastore.sh
+
+/bin/echo "${0} Setting up firewall"
+${HOME}/security/SetupFirewall.sh
 
 cd ${HOME}
 
