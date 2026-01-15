@@ -3,6 +3,7 @@ do
         case $EVENT in
                 MODIFY*)
                         file_modified "$DIRECTORY" "$FILE"
+                        providerscripts/datastore/configwrapper/SyncToDatastoreWithoutDelete.sh
                         ;;
                 CREATE*)
                         file_created "$DIRECTORY" "$FILE"
