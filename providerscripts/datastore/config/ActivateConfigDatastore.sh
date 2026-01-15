@@ -4,7 +4,7 @@
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+        ${HOME}/providerscripts/datastore/tooling/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 fi
 
 if ( [ ! -d /var/lib/adt-config1 ] )
@@ -54,7 +54,7 @@ monitor_for_datastore_changes() {
                 
                 /bin/touch ${HOME}/runtime/datastore_workarea/config/newdeletes.log
                 /bin/touch ${HOME}/runtime/datastore_workarea/config/newcreates.log
-                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config/updates.log
+                ${HOME}/providerscripts/datastore/tooling/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config/updates.log
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/updates.log ] )
                 then
                         while IFS= read -r line 
@@ -79,7 +79,7 @@ monitor_for_datastore_changes() {
                                                         fi
 
                                                         /bin/echo "Getting file ${file_to_obtain} from S3 datastore and storing at /var/lib/adt-config1/${place_to_put} ready to be made a live change by rsync" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-                                                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} /var/lib/adt-config1/${place_to_put}
+                                                        ${HOME}/providerscripts/datastore/tooling/GetFromConfigDatastore.sh ${file_to_obtain} /var/lib/adt-config1/${place_to_put}
                                                         if ( [ -f /var/lib/adt-config1/${file_to_obtain} ] )
                                                         then
                                                                 /usr/bin/rsync -u --checksum /var/lib/adt-config1/${file_to_obtain} /var/lib/adt-config/${file_to_obtain}
@@ -101,10 +101,9 @@ monitor_for_datastore_changes() {
                                                         /bin/echo "Deleting file ${file_to_delete} from local file system which will cascade to remote machines" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                                                         /bin/rm ${file_to_delete}
                                                 else 
-                                                
                                                         /bin/echo "Delete of brand new file (${file_to_delete}) triggered by its absence in the datastore. Protecting it from deletion and adding it to the datastore  " >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                                                         /bin/sed -i "\:${file_to_delete}:d" ${HOME}/runtime/datastore_workarea/config/updates.log
-                                                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file_to_delete} ${place_to_put}
+                                                        ${HOME}/providerscripts/datastore/tooling/PutToConfigDatastore.sh ${file_to_delete} ${place_to_put}
                                                 fi
                                         fi
                                 fi
@@ -146,14 +145,13 @@ file_removed() {
         fi
 
         file_to_delete="`/bin/echo ${live_dir}${deleted_file} | /bin/sed -e 's:/var/lib/adt-config/::' -e 's://:/:'`"
-        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${file_to_delete}" "no" "no"
+        ${HOME}/providerscripts/datastore/tooling/DeleteFromConfigDatastore.sh "${file_to_delete}" "no" "no"
         /bin/echo "Asynchronous DELETE completed for file ${live_dir}${deleted_file} on this server's local filesystem and removal from the datastore at ${file_to_delete}" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
 }
 
 file_modified() {
         live_dir="${1}"
         modified_file="${2}"
-
 
         place_to_put="`/bin/echo ${live_dir} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/$::g'`"
 
@@ -166,7 +164,7 @@ file_modified() {
 
                         if ( [ ! -f ${check_dir}/${modified_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${modified_file} ${check_dir}/${modified_file}`" != "" ] )
                         then
-                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
+                                ${HOME}/providerscripts/datastore/tooling/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
                                 /bin/echo "needed" >> monitor_log
                         else
                                 if ( [ -f ${check_dir}/${modified_file} ] )
@@ -190,12 +188,11 @@ file_created() {
                 if ( [ ! -d ${live_dir}${created_file} ] )
                 then
                         /bin/echo "${live_dir}${created_file}" > ${HOME}/runtime/datastore_workarea/config/newcreates.log
-                     #   /bin/sed -i "\:${live_dir}${created_file}:d" ${HOME}/runtime/datastore_workarea/config/newdeletes.log
                         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
                         if ( [ ! -f ${check_dir}/${created_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${created_file} ${check_dir}/${created_file}`" != "" ] )
                         then
-                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${created_file} ${place_to_put}
+                                ${HOME}/providerscripts/datastore/tooling/PutToConfigDatastore.sh  ${live_dir}${created_file} ${place_to_put}
                                 /bin/echo "needed" >> monitor_log
                         else
                                 if ( [ -f ${check_dir}/${created_file} ] )
