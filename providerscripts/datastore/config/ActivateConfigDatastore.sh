@@ -28,25 +28,25 @@ monitor_for_datastore_changes &
 do
         case $EVENT in
                 MODIFY*)
-                        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" = "" ] )
-                        then
+                        while ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" = "" ] )
+                        do
                                 /bin/sleep 1
-                        fi
+                        done
                         ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithoutDelete.sh "/var/lib/adt-config"
                         ;;
                 CREATE*)
-                        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" = "" ] )
-                        then
+                        while ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" = "" ] )
+                        do
                                 /bin/sleep 1
-                        fi
+                        done
                         ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithoutDelete.sh "/var/lib/adt-config"
                         ;;
                 DELETE*)
                         # file_removed "$DIRECTORY" "$FILE"
-                        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" != "" ] )
-                        then
+                        while ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" != "" ] )
+                        do
                                 /bin/sleep 1
-                        fi
+                        done
                         ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithDelete.sh "/var/lib/adt-config"  
                         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
                         ;;
