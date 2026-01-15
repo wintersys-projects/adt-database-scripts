@@ -17,6 +17,7 @@ do
         else
                 : error message
         fi
+        /bin/sleep 5
 done
 }
 
