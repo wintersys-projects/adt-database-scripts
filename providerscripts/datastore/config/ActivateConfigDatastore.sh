@@ -3,7 +3,7 @@ do
         case $EVENT in
                 MODIFY*)
                         file_modified "$DIRECTORY" "$FILE"
-                        providerscripts/datastore/configwrapper/SyncToDatastoreWithoutDelete.sh
+                        ${HOME}/providerscripts/datastore/configwrapper/SyncToDatastoreWithoutDelete.sh
 
                         ${HOME}/providerscripts/datastore/configwrapper/SyncFromDatastoreWithDelete.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config/updates.log
 
