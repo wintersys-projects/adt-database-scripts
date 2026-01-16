@@ -53,7 +53,7 @@ file_modified() {
         done
 
         original_file="${live_dir}${modified_file}" 
-        destination_file="`/bin/echo ${live_dir}${modified_file} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
+        destination_file="`/bin/echo ${original_file} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
         if ( [ "`/bin/echo ${modified_file} | /bin/grep '/'`" != "" ] )
         then
                 place_to_put="`/bin/echo ${modified_file} | /bin/sed 's:/[^/]*$::'`"
@@ -83,7 +83,7 @@ file_created() {
         done
 
         original_file="${live_dir}${created_file}" 
-        destination_file="`/bin/echo ${live_dir}${created_file} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
+        destination_file="`/bin/echo ${original_file} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
         if ( [ "`/bin/echo ${created_file} | /bin/grep '/'`" != "" ] )
         then
                 place_to_put="`/bin/echo ${created_file} | /bin/sed 's:/[^/]*$::'`"
