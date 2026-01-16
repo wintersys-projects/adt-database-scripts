@@ -22,7 +22,7 @@ monitor_for_datastore_changes() {
                 do
                         /bin/sleep 1
                 done
-                ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastoreWithoutDelete.sh "root" "/var/lib/adt-config"
+                ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
         done
 }
 
