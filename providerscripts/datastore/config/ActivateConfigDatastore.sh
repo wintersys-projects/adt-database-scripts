@@ -14,6 +14,10 @@ monitor_for_datastore_changes() {
         do
                 /bin/sleep 30
                 ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
+				if ( [ -d /var/lib/adt-config ] )
+                then
+                	/usr/bin/find /var/lib/adt-config -type d -empty -delete
+                fi
         done
 }
 
@@ -43,11 +47,8 @@ do
 				${HOME}/providerscripts/datastore/config/tooling/PutToConfigDatastore.sh ${DIRECTORY}${FILE} ${place_to_put}
                 ;;
 			DELETE*)
-				if ( [ ! -f ${FILE} ] )
-				then
-					file_to_delete="`/bin/echo ${FILE} | /bin/sed -e 's:/var/lib/adt-config/::' -e 's://:/:'`"
-					${HOME}/providerscripts/datastore/config/tooling/DeleteFromConfigDatastore.sh "${file_to_delete}" "no" "no"
-				fi
+                file_to_delete="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed -e 's:/var/lib/adt-config/::' -e 's://:/:'`"
+                ${HOME}/providerscripts/datastore/config/tooling/DeleteFromConfigDatastore.sh "${file_to_delete}" "no" "no"
 				;;
 		esac
 	fi
