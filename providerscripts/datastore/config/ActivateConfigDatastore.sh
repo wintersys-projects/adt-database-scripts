@@ -87,7 +87,7 @@ file_created() {
 
 /usr/bin/inotifywait -q -m -r -e modify,delete,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
 do
-        /bin/chmod 444 ${DIRECTORY}${FILE}
+        /usr/bin/chattr +i ${DIRECTORY}${FILE}
         case ${EVENT} in
                 MODIFY*)
                         file_modified "${DIRECTORY}" "${FILE}"
@@ -114,13 +114,6 @@ do
                         file_removed "${DIRECTORY}" "${FILE}"
                         ;;
         esac
-        if ( [ ! -f ${original_file} ] )
-        then
-                /bin/chmod 644 ${original_file}
-        fi
-        if ( [ ! -f ${original_file} ] )
-        then
-                /bin/chmod 750 ${original_file}
-        fi
+        /usr/bin/chattr -i ${DIRECTORY}${FILE}
 
 done
