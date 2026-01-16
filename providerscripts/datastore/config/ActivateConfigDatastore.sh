@@ -56,9 +56,9 @@ file_modified() {
                 if ( [ -f ${original_file} ] && [ "`/bin/echo ${modified_file} | /usr/bin/grep "^\."`" = "" ] )
                 then
                         /bin/cp ${original_file} ${destination_file}
-                elif ( [ -d ${original_file} ] )
-                then
-                        /bin/cp -r ${original_file} ${destination_file}
+           #     elif ( [ -d ${original_file} ] )
+           #     then
+           #             /bin/cp -r ${original_file} ${destination_file}
                 fi
         fi
 }
@@ -84,9 +84,9 @@ file_created() {
                 if ( [ -f ${original_file} ] && [ "`/bin/echo ${created_file} | /usr/bin/grep "^\."`" = "" ] )
                 then
                         /bin/cp ${original_file} ${destination_file}
-                elif ( [ -d ${original_file} ] )
-                then
-                        /bin/cp -r ${original_file} ${destination_file}
+          #      elif ( [ -d ${original_file} ] )
+          #      then
+          #              /bin/cp -r ${original_file} ${destination_file}
                 fi
         fi
 }
