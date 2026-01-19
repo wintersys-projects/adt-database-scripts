@@ -96,7 +96,7 @@ then
 	/bin/rm -r ${HOME}/backups/installDB/*baseline*
 elif ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
-	${HOME}/providerscripts/datastore/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
+	${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${BUILD_ARCHIVE_CHOICE}/${WEBSITE_NAME}-DB-backup.tar.gz"
 	if ( [ -f ${HOME}/backups/installDB/${WEBSITE_NAME}-DB-backup.tar.gz ] )
 	then
 		/bin/tar xvfz ${HOME}/backups/installDB/${WEBSITE_NAME}-DB-backup.tar.gz -C ${HOME}/backups/installDB
