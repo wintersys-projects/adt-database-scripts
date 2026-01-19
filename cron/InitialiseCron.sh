@@ -54,7 +54,7 @@ HOME="`/bin/cat /home/homedir.dat`"
 
 /bin/echo "30 3 * * *  export HOME="${HOME}" && ${HOME}/utilities/housekeeping/RemoveExpiredLogs.sh" >> /var/spool/cron/crontabs/root
 
-/bin/echo "@hourly export HOME="${HOME}" && ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh 'dbbackuplock.file'" >> /var/spool/cron/crontabs/root
+/bin/echo "@hourly export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh 'dbbackuplock.file'" >> /var/spool/cron/crontabs/root
 /bin/echo "@hourly export HOME="${HOME}" && ${HOME}/utilities/status/LoadMonitoring.sh" >> /var/spool/cron/crontabs/root
 
 SERVER_TIMEZONE_CONTINENT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
