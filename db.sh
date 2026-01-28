@@ -80,7 +80,6 @@ then
 	/bin/chmod 755 ${HOME}/runtime
 fi
 
-
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 /bin/mv ${HOME}/utilities/security/Super.sh ${HOME}/super
@@ -90,7 +89,6 @@ out_file="initialbuild/database-build-out-`/bin/date | /bin/sed 's/ //g'`"
 exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/database-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
-
 
 BASELINE_DB_REPOSITORY_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'BASELINEDBREPOSITORY'`"
 GIT_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed 's/#/ /g'`"
@@ -124,7 +122,6 @@ then
 	/bin/chmod 755 /usr/sbin/sync
 	/bin/chown root:root /usr/sbin/sync
 fi
-
 
 ${HOME}/utilities/config/StoreConfigValue.sh 'IPMASK' "`${HOME}/utilities/processing/GetIP.sh | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`.%.%"
 ${HOME}/utilities/config/StoreConfigValue.sh 'MYIP' "`${HOME}/utilities/processing/GetIP.sh`" 
