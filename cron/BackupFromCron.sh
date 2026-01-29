@@ -34,7 +34,7 @@ then
 	then
 		if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh DB_BACKUP_RUNNING`" -gt "300" ] )
 		then
-			${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh DB_BACKUP_RUNNING
+			${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "DB_BACKUP_RUNNING" "local"
 		fi
 	fi
 
@@ -53,5 +53,5 @@ ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	/bin/sleep 300
-	${HOME}/providerscripts/datastore/config/toolkit/DeletetFromConfigDatastore.sh DB_BACKUP_RUNNING
+	${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "DB_BACKUP_RUNNING" "local"
 fi
