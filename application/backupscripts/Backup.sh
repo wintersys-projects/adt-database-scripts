@@ -27,7 +27,7 @@ then
 	exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
 then
 	exit
 fi
@@ -82,16 +82,16 @@ fi
 
 db_backup="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}${provider_id}"
 
-${HOME}/providerscripts/datastore/operations/MountDatastore.sh "backup" "${db_backup}" "distributed" "${period}${provider_id}"
+${HOME}/providerscripts/datastore/operations/MountDatastore.sh "backup" "distributed" "${period}${provider_id}"
 
 if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "distributed" "${period}${provider_id}"
+    ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "distributed" "${period}${provider_id}"
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz"`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/operations/MoveDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
+    ${HOME}/providerscripts/datastore/operations/MoveDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "distributed" "${period}${provider_id}"
 fi
 
 /bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "backup" "${websiteDB}" "${db_backup}" "distributed" "no" "${period}${provider_id}"
