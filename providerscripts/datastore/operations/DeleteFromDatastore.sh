@@ -33,18 +33,7 @@ SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENE
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
-if ( [ "${bucket_type}" = "ssl" ] )
-then
-        if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
-        then
-                service_token="lets"
-        elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
-        then
-                service_token="zero" 
-        fi
-        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
-        active_bucket="${active_bucket}-${DNS_CHOICE}-${service_token}-ssl"
-elif ( [ "${bucket_type}" = "multi-region" ] )
+if ( [ "${bucket_type}" = "multi-region" ] )
 then
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
 elif ( [ "${bucket_type}" = "config-sync" ] )
