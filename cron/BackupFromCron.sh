@@ -32,7 +32,7 @@ if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "DB_BACKUP_RUNNING"`" != "" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh DB_BACKUP_RUNNING`" -gt "300" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfDatastoreFile.sh "config" "DB_BACKUP_RUNNING"`" -gt "300" ] )
 		then
 			${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "DB_BACKUP_RUNNING" "local"
 		fi
