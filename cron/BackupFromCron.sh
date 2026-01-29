@@ -44,7 +44,7 @@ then
 	then
 		exit
 	else
-		${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "DB_BACKUP_RUNNING" "root" "local" "yes"
+		${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "DB_BACKUP_RUNNING" "yes"
 	fi
 fi
 
