@@ -59,9 +59,9 @@ count="${5}"
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs'`" = "1" ] )
 then
         datastore_tool="/usr/bin/s3cmd"
-        if ( [ -f ${HOME}/.s3cfg-${count}-${count} ] )
+        if ( [ -f ${HOME}/.s3cfg-${count} ] )
         then
-                /bin/rm ${HOME}/.s3cfg-${count}-${count}
+                /bin/rm ${HOME}/.s3cfg-${count}
         fi
 
         /bin/cp ${HOME}/providerscripts/datastore/init-files/s3-cfg.tmpl ${HOME}/.s3cfg-${count}
@@ -164,9 +164,12 @@ then
         fi
 fi
 
-if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
+no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
+no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
+
+if ( ( [ "${no_tokens}" -gt "1" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] ) || ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] ) )
 then
-        if ( [ -f ${HOME}/.rclone.cfg-${count} ] )
+		if ( [ -f ${HOME}/.rclone.cfg-${count} ] )
         then
                 /bin/rm ${HOME}/.rclone.cfg-${count}
         fi
@@ -190,10 +193,6 @@ then
         if ( [ "${S3_LOCATION}" != "" ] )
         then
                 /bin/sed -i "s/XXXXLOCATIONXXXX/${S3_LOCATION}/" ${HOME}/.rclone.cfg-${count}
-                if ( [ "`/bin/grep '^alias rclone=' /root/.bashrc`" = "" ] )
-                then
-                        /bin/echo "alias rclone='/usr/bin/rclone --config /root/.config/rclone/rclone.conf-1 --s3-endpoint https://`/bin/echo ${S3_HOST_BASE} | /usr/bin/awk -F'|' '{print $1}'` '" >> /root/.bashrc
-                fi
         else
                 /bin/echo "${0} Couldn't find the S3_LOCATION setting" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log  
         fi
@@ -201,6 +200,10 @@ then
         if ( [ "${S3_HOST_BASE}" != "" ] )
         then
                 /bin/sed -i "s/XXXXHOSTBASEXXXX/${S3_HOST_BASE}/" ${HOME}/.rclone.cfg-${count}
+                if ( [ "`/bin/grep '^alias rclone=' /root/.bashrc`" = "" ] )
+                then
+                        /bin/echo "alias rclone='/usr/bin/rclone --config /root/.config/rclone/rclone.conf-1 --s3-endpoint https://`/bin/echo ${S3_HOST_BASE} | /usr/bin/awk -F'|' '{print $1}'` '" >> /root/.bashrc
+                fi
         else
                 /bin/echo "${0} Couldn't find the S3_HOST_BASE setting" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log  
         fi
@@ -222,6 +225,20 @@ then
         if ( [ "${count}" = "1" ] )
         then
                 /bin/cp /root/.config/rclone/rclone.conf-${count} /root/.config/rclone/rclone.conf
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+        then
+                if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
+                then
+                        if ( [ "`/bin/grep "\[s3_${count}\]" /root/.config/rclone/rclone.multi.conf`" = "" ] )
+                        then
+                                /bin/echo "" >> /root/.config/rclone/rclone.multi.conf
+                                /bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
+                        fi
+                else
+                        /bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
+                fi
         fi
 fi
 
