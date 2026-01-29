@@ -34,7 +34,7 @@ then
 	then
 		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfDatastoreFile.sh "config" "DB_BACKUP_RUNNING"`" -gt "300" ] )
 		then
-			${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "DB_BACKUP_RUNNING" "local"
+			${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "DB_BACKUP_RUNNING"
 		fi
 	fi
 
