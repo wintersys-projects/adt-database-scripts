@@ -97,7 +97,7 @@ fi
 /bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "backup" "${websiteDB}" "${db_backup}" "distributed" "no" "${period}${provider_id}"
 
 backup_name="`/bin/echo ${websiteDB} | /usr/bin/awk -F'/' '{print $NF}'`"
-${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh  "${db_backup}/${backup_name}"
+${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh  "backup" "${backup_name}" "." "${period}${provider_id}"
 
 if ( ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] ) && [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
