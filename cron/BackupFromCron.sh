@@ -53,5 +53,5 @@ ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	/bin/sleep 300
-	${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "DB_BACKUP_RUNNING" "local"
+	${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "DB_BACKUP_RUNNING"
 fi
