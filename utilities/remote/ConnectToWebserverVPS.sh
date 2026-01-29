@@ -32,7 +32,7 @@ SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 
-ips="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webserverips/*`"
+ips="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "webserverips/*"`"
 
 if ( [ "${ips}" != "" ] )
 then
