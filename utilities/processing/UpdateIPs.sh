@@ -38,7 +38,7 @@ ${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${p
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "multi-region" "${public_ip}" "dbaas_ips" "distributed" "no" 
+	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "multi-region" "${public_ip}" "dbaas_ips" "distributed" "no" 
 fi
 
 
