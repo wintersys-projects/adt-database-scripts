@@ -33,37 +33,19 @@ SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENE
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
-if ( [ "${bucket_type}" = "ssl" ] )
-then
-        if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
-        then
-                service_token="lets"
-        elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
-        then
-                service_token="zero" 
-        fi
-        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
-        active_bucket="${active_bucket}-${DNS_CHOICE}-${service_token}-ssl"
-elif ( [ "${bucket_type}" = "multi-region" ] )
+if ( [ "${bucket_type}" = "multi-region" ] )
 then
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-elif ( [ "${bucket_type}" = "webroot-sync" ] )
-then
-        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-webroot-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
 elif ( [ "${bucket_type}" = "config-sync" ] )
 then
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-config-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
 elif ( [ "${bucket_type}" = "config" ] )
 then
         active_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
-elif ( [ "${bucket_type}" = "asset" ] )
-then
-        active_bucket="`/bin/echo "${WEBSITE_URL}-assets-${additional_specifier}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
 elif ( [ "${bucket_type}" = "backup" ] )
 then
-        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${additional_specifier}"
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${additional_specifier}"
 fi
-
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
