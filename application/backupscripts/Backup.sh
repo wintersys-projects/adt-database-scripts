@@ -23,13 +23,13 @@
 
 if ( [ "$1" = "" ] )
 then
-	/bin/echo "This script requires the <Build periodicity> parameter to be set"
-	exit
+        /bin/echo "This script requires the <Build periodicity> parameter to be set"
+        exit
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
 then
-	exit
+        exit
 fi
 
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
@@ -45,13 +45,13 @@ period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 allowed_periods="hourly daily weekly monthly bimonthly shutdown"
 if ( [ "`/bin/echo ${allowed_periods} | /bin/grep ${period}`" = "" ] )
 then
-	/bin/echo "Invalid periodicity passed to backup script"
-	exit
+        /bin/echo "Invalid periodicity passed to backup script"
+        exit
 fi
 
 if ( [ ! -d ${HOME}/backups ] )
 then
-	/bin/mkdir -p ${HOME}/backups
+        /bin/mkdir -p ${HOME}/backups
 fi
 
 /bin/rm -r ${HOME}/backups/*
@@ -63,12 +63,12 @@ cd ${HOME}/backups
 
 if ( [ ! -d ${HOME}/backups/${period} ] )
 then
-	/bin/mkdir ${HOME}/backups/${period}
+        /bin/mkdir ${HOME}/backups/${period}
 fi
 
 if ( [ -f ${WEBSITE_NAME}-db* ] )
 then
-	/bin/mv *${WEBSITE_NAME}-db* ${HOME}/backups/${period}
+        /bin/mv *${WEBSITE_NAME}-db* ${HOME}/backups/${period}
 fi
 
 cd ${HOME}/backups/
@@ -84,25 +84,25 @@ db_backup="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}${provid
 
 ${HOME}/providerscripts/datastore/operations/MountDatastore.sh "backup" "distributed" "${period}${provider_id}"
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "${period}${provider_id}"`" != "" ] )
 then
-    ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "distributed" "${period}${provider_id}"
+        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "backup" "${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "distributed" "${period}${provider_id}"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${WEBSITE_NAME}-DB-backup.tar.gz" "${period}${provider_id}"`" != "" ] )
 then
-    ${HOME}/providerscripts/datastore/operations/MoveDatastore.sh "backup" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "distributed" "${period}${provider_id}"
+        ${HOME}/providerscripts/datastore/operations/MoveDatastore.sh "backup" "${WEBSITE_NAME}-DB-backup.tar.gz" "${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP" "distributed" "${period}${provider_id}"
 fi
 
-/bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "backup" "${websiteDB}" "${db_backup}" "distributed" "no" "${period}${provider_id}"
+/bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "backup" "${websiteDB}" "root" "distributed" "no" "${period}${provider_id}"
 
 backup_name="`/bin/echo ${websiteDB} | /usr/bin/awk -F'/' '{print $NF}'`"
 ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh  "backup" "${backup_name}" "." "${period}${provider_id}"
 
 if ( ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] ) && [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
-	/bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" 
-	${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
+        /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" 
+        ${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
 fi
 
 /bin/rm ./${backup_name}
