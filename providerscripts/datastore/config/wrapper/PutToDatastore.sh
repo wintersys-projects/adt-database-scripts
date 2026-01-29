@@ -24,9 +24,8 @@
 bucket_type="${1}"
 file_to_put="${2}"
 place_to_put="${3}"
-mode="${4}"
-delete="${5}"
-additional_specifier="${6}"
+delete="${4}"
+additional_specifier="${5}"
 
 if ( [ "${place_to_put}" = "root" ] )
 then
@@ -35,7 +34,7 @@ fi
 
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "tool" ] )
 then
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "${bucket_type}" "${file_to_put}" "${place_to_put}" "${mode}" "${delete}" "${additional_specifier}"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "${bucket_type}" "${file_to_put}" "${place_to_put}" "local" "${delete}" "${additional_specifier}"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] ||  [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
         if ( [ -f ${file_to_put} ] )
