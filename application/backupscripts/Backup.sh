@@ -82,22 +82,22 @@ fi
 
 db_backup="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}${provider_id}"
 
-${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "${db_backup}"
+${HOME}/providerscripts/datastore/operations/MountDatastore.sh "${db_backup}"
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh ${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
+	${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh ${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/dedicated/MoveDatastore.sh "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
+	${HOME}/providerscripts/datastore/operations/MoveDatastore.sh "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz" "${db_backup}/${WEBSITE_NAME}-DB-backup.tar.gz.BACKUP"
 fi
 
-/bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "${websiteDB}" "${db_backup}" "no"
+/bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "${websiteDB}" "${db_backup}" "no"
 
 backup_name="`/bin/echo ${websiteDB} | /usr/bin/awk -F'/' '{print $NF}'`"
-${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh  "${db_backup}/${backup_name}"
+${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh  "${db_backup}/${backup_name}"
 
 if ( ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] ) && [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
