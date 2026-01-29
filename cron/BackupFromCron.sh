@@ -30,7 +30,7 @@ MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh DB_BACKUP_RUNNING`" != "" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "DB_BACKUP_RUNNING"`" != "" ] )
 	then
 		if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh DB_BACKUP_RUNNING`" -gt "300" ] )
 		then
@@ -40,7 +40,7 @@ then
 
 	/bin/sleep "`/usr/bin/shuf -i1-60 -n1`"
 
-	if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh DB_BACKUP_RUNNING`" != "" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "DB_BACKUP_RUNNING"`" != "" ] )
 	then
 		exit
 	else
