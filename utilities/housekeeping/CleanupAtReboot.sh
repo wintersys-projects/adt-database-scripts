@@ -22,5 +22,5 @@
 ##################################################################################
 #set -x
 
-${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "databasepublicip/*"
-${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "databaseip/*"
+${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config"  "databasepublicip/*" "local" 
+${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config"  "databaseip/*" "local" 
