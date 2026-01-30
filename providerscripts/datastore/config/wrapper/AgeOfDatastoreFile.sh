@@ -23,15 +23,5 @@
 bucket_type="${1}"
 file_to_interrogate="${2}"
 
-#/usr/bin/expr `/usr/bin/date +%s` - `/usr/bin/stat -c %Y ./1`
+${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "${bucket_type}" "${file_to_interrogate}"
 
-if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "tool" ] )
-then
-    ${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "${bucket_type}" "${file_to_interrogate}"
-elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] )
-then
-:
-elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
-then
-:
-fi
