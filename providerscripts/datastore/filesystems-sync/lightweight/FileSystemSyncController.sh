@@ -180,6 +180,8 @@ do
                                                 then
                                                         /bin/mkdir -p ${active_directory}/${place_to_put}
                                                 fi
+
+                                                echo " ${active_directory}/${place_to_put}.delete_me" >> /tmp/file_to_delete
                                            #     /bin/touch ${file_for_processing}.delete_me
                                            #     /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/${bucket_type}/additions_to_perform.log
                                                 /bin/touch ${active_directory}/${place_to_put}.delete_me
