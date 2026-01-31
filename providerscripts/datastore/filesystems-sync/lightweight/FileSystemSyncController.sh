@@ -163,6 +163,7 @@ do
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/${bucket_type}/additions_to_perform.log
                                 ;;
                         DELETE*)
+                        /bin/echo ${FILE} >> /tmp/dels
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ ! -d ${file_for_processing} ]  && [ ! -f ${file_for_processing}.cleaningup ] )
                                 then
