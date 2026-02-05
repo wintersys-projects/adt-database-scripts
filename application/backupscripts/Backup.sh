@@ -96,13 +96,26 @@ fi
 
 /bin/systemd-inhibit --why="Persisting database to datastore" ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "backup" "${websiteDB}" "root" "distributed" "no" "${period}${provider_id}"
 
+if ( [ ! -d ${HOME}/backups/verify ] )
+then
+        /bin/mkdir -p ${HOME}/backups/verify
+else
+        /bin/rm -r ${HOME}/backups/verify/*
+fi
+
+cd ${HOME}/backups/verify
+
 backup_name="`/bin/echo ${websiteDB} | /usr/bin/awk -F'/' '{print $NF}'`"
 ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh  "backup" "${backup_name}" "." "${period}${provider_id}"
 
-if ( ( [ ! -f ./${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ./${backup_name}`" != "" ] ) && [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
+if ( ( [ ! -f ${HOME}/backups/verify/${backup_name} ] || [ "`/usr/bin/diff ${websiteDB} ${HOME}/backups/verify/${backup_name}`" != "" ] ) && [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
         /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" 
         ${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
+else
+        /bin/echo "Backup verfied as consistent"
 fi
 
+cd ${HOME}/backups
+/bin/rm -r ${HOME}/backups/verify
 /bin/rm ./${backup_name}
