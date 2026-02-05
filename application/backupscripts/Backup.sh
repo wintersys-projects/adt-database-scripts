@@ -113,7 +113,7 @@ then
         /bin/echo "${0} `/bin/date`: Inconsistent backup `/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-db-${period}/${backup_name}" 
         ${HOME}/providerscripts/email/SendEmail.sh "${period} database backup FAILED" "A database backup has failed (inconsistent or non existent backup)..." "ERROR"
 else
-        /bin/echo "Backup verfied as consistent"
+        /bin/echo "Backup verified as consistent"
 fi
 
 cd ${HOME}/backups
