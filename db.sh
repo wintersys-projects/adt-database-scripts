@@ -165,7 +165,7 @@ then
 	${HOME}/providerscripts/database/InitialiseDatabase.sh
 
 	#...and install the application
-	if ( [ "${BASELINE_DB_REPOSITORY_NAME}" != "VIRGIN" ] )
+	if ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 	then    
 		/bin/echo "${0} Installing bespoke application"
 		count="0"
