@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if ( [ "`${HOME}/utilities/remote/ConnectToPostgresDB.sh "\dt" "raw" | /bin/grep "^zzzz$"`" != "" ] )
+if ( [ "`${HOME}/utilities/remote/ConnectToPostgresDB.sh "\dt" "raw" | /bin/grep "zzzz.*table"`" != "" ] )
 then
         /bin/echo "1" 
 else
