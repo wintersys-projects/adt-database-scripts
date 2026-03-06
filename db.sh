@@ -169,7 +169,7 @@ then
 	then    
 		/bin/echo "${0} Installing bespoke application"
 		count="0"
-		while ( [ "`${HOME}/application/db/mysql/VerifyApplicationDBInstallation.sh`" = "0" ] && [ "${count}" -lt "5" ] )
+		while ( [ "`${HOME}/application/db/VerifyApplicationDBInstallation.sh`" = "0" ] && [ "${count}" -lt "5" ] )
 		do
 			${HOME}/application/db/InstallApplicationDB.sh
 			count="`/usr/bin/expr ${count} + 1`"
