@@ -196,7 +196,7 @@ ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUI
 
 ${HOME}/utilities/security/EnforcePermissions.sh
 
-/usr/sbin/shutdown -r now
+#/usr/sbin/shutdown -r now
 
 #/bin/echo "${0} Updating Software"
 #${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
