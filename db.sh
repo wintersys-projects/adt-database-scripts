@@ -194,10 +194,10 @@ ${HOME}/providerscripts/email/SendEmail.sh "A DATABASE HAS BEEN SUCCESSFULLY BUI
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/DATABASE_READY
 
-#${HOME}/utilities/security/EnforcePermissions.sh
+${HOME}/utilities/security/EnforcePermissions.sh
 
 #/usr/sbin/shutdown -r now
 
 #/bin/echo "${0} Updating Software"
-${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
